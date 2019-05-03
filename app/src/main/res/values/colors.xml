@@ -9,5 +9,6 @@
     <!-- PROFILE  -->
     <color name="backGroundRed">#EC0808</color>
     <color name="backgroundRed2">#B61818</color>
+    <color name="colorGrey">#333333</color>
 
 </resources>
