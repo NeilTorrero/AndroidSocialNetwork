@@ -7,37 +7,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/back_button"
-                android:src="@drawable/arrow_back_24"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_weight="1" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/profilePic"
-                android:src=""
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_weight="2"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/userName"
-                android:text="User"
-                android:layout_marginStart="10dp"
-                android:layout_weight="20"/>
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/arrow_back_24" />
+
             <ImageView
+                android:id="@+id/profilePic"
+                android:layout_height="match_parent"
+                android:layout_width="10dp"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/defprofimage"
+                 />
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/userName"
+                android:text="User"
+                android:gravity="bottom"
+                android:layout_marginStart="10dp"
+                android:layout_weight="20"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/info_button"
                 android:src="@drawable/info_24"
                 android:clickable="true"
@@ -45,13 +52,44 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/settings_button"
+                android:src="@drawable/settings_24"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/settings"
                 android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="50">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/emoticon"
+                android:layout_weight="2" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="50" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/send_24"
+                android:layout_weight="2" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
