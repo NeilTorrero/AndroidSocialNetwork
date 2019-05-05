@@ -26,6 +26,7 @@ public class ChatListFragment extends ListFragment {
         chats.add(new Chat("Hula","LoOp"));
         chats.add(new Chat("Jijiji","Loop"));
         chats.add(new Chat("jajaja","loop"));
+        chats.add (new Chat ("Hoala","Loop"));
         ArrayAdapter <Chat> chatArrayAdapter = new ChatAdapter(getActivity(),this.getContext(),chats);
         setListAdapter(chatArrayAdapter);
     }
