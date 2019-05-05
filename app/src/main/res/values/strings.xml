@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">AndroidSocialNetwork</string>
+
+    <!-- Welcome Strings -->
+    <string name="welcome_msg">Welcome To 5%</string>
+
+    <!-- Login Strings & Register Strings-->
+    <string name="login_title_lg">Login</string>
+    <string name="email_title_lg">Email</string>
+    <string name="password_title_lg">Password</string>
+    <string name="remember_me_title_lg">Remember Me</string>
+    <string name="sign_in_button_lg">Sign In</string>
+    <string name="forget_password_lg">Forget your password?</string>
+    <string name="new_account_lg">You don\'t an account yet?</string>
+    <string name="register_title_lg">Register</string>
+    <string name="repeat_password_title_lg">Type your password again</string>
+    <string name="register_button_rg">Create Account</string>
+
+    <!-- You can not charge while using the application! Strings -->
+    <string name="can_not_charge_msg">You can\'t charge your phone while you are using the app!</string>
+
+    <!-- You can't enter to the application yet Strings -->
+    <string name="not5prct_msg">You don\'t have 5% or less battery yet!</string>
+
 </resources>
