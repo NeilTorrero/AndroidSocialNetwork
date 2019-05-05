@@ -16,7 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="125dp"
             android:layout_gravity="center"
-            android:src="@drawable/img5prc"/>
+            android:src="@drawable/img5prc"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="40dp"/>
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
@@ -27,7 +29,7 @@
             android:textSize="20sp"
             android:textColor="#fafafa"
             android:text="@string/welcome_msg"
-            android:layout_marginBottom="60dp"/>
+            android:layout_marginBottom="40dp" />
 
         <Button
             android:id="@+id/sign_in_button_wlc"
@@ -40,7 +42,8 @@
             android:layout_marginLeft="100dp"
             android:gravity="center"
             android:text="@string/sign_in_button_lg"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="2
+            10dp"/>
 
         <Button
             android:id="@+id/register_button_wlc"
