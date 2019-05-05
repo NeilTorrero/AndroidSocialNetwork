@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="30dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:orientation="vertical"
+        android:background="#2E2C2C">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img5prc"/>
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:textSize="20sp"
+            android:textColor="#fafafa"
+            android:text="@string/welcome_msg"
+            android:layout_marginBottom="60dp"/>
+
+        <Button
+            android:id="@+id/sign_in_button_wlc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#F44336"
+            android:textColor="#fafafa"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="100dp"
+            android:gravity="center"
+            android:text="@string/sign_in_button_lg"
+            android:layout_marginBottom="50dp"/>
+
+        <Button
+            android:id="@+id/register_button_wlc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#F44336"
+            android:textColor="#fafafa"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="100dp"
+            android:gravity="center"
+            android:text="@string/register_title_lg"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
