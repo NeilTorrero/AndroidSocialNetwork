@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Model.Chat;
 
@@ -21,11 +22,13 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
     @Override
     public View getView (int position, View converterView, ViewGroup parent) {
         if (converterView == null) {
-            converterView = activity.getLayoutInflater().inflate(R.layout.chat_layout,parent);
+            converterView = activity.getLayoutInflater().inflate(R.layout.chat_layout,null);
         }
         Chat chat = getItem(position);
-        converterView.findViewById(R.id.chatName);
-        converterView.findViewById(R.id.lastMessage);
+        TextView tv = converterView.findViewById(R.id.chatName);
+        tv.setText(chat.getGroupName());
+        TextView tv2 = converterView.findViewById(R.id.lastMessage);
+        tv2.setText(chat.getLastMessage());
         return converterView;
     }
 
