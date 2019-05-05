@@ -77,6 +77,7 @@
             android:orientation="horizontal"
             android:layout_weight="1">
             <ImageView
+                android:id="@+id/emoji_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/emoticon"
@@ -84,10 +85,13 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/text_chat"
+                android:textColor="@color/colorWhite"
                 android:layout_weight="50" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/send_button"
                 android:src="@drawable/send_24"
                 android:layout_weight="2" />
         </LinearLayout>
