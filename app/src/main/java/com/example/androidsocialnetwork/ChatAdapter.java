@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Model.Chat;
@@ -22,7 +21,7 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
     @Override
     public View getView (int position, View converterView, ViewGroup parent) {
         if (converterView == null) {
-            converterView = activity.getLayoutInflater().inflate(R.layout.chat_layout,null);
+            converterView = activity.getLayoutInflater().inflate(R.layout.chatlist_layout,null);
         }
         Chat chat = getItem(position);
         TextView tv = converterView.findViewById(R.id.chatName);
