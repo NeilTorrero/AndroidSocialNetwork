@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@color/colorGrey"
+    android:gravity="center">
+    <ImageView
+        android:paddingLeft="5dp"
+        android:id="@+id/chatRandomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chat" />
+    <ImageView
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:id="@+id/chatsListsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chats_list" />
+    <ImageView
+        android:paddingRight="5dp"
+        android:id="@+id/profileMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/profile" />
+    
+    
+</LinearLayout>
