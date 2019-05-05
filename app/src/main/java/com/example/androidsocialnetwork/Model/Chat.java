@@ -4,6 +4,11 @@ public class Chat {
     private String groupName;
     private String lastMessage;
 
+    public Chat (String groupName, String lastMessage) {
+        this.groupName = groupName;
+        this.lastMessage = lastMessage;
+    }
+
     public String getGroupName() {
         return groupName;
     }

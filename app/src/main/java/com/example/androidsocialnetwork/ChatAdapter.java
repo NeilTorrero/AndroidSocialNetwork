@@ -1,7 +1,8 @@
 package com.example.androidsocialnetwork;
 
-import android.app.Activity;
+
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,8 +13,8 @@ import com.example.androidsocialnetwork.Model.Chat;
 import java.util.ArrayList;
 
 public class ChatAdapter extends ArrayAdapter<Chat> {
-    private Activity activity;
-    public ChatAdapter (Activity activity, Context context, ArrayList <Chat> chats) {
+    private FragmentActivity activity;
+    public ChatAdapter (FragmentActivity activity, Context context, ArrayList <Chat> chats) {
         super (context,0,chats);
         this.activity = activity;
     }
