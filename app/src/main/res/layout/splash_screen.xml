@@ -13,11 +13,12 @@
         android:background="#2E2C2C">
 
         <ImageView
+            android:layout_marginTop="100dp"
             android:layout_width="wrap_content"
             android:layout_height="125dp"
             android:layout_gravity="center"
-            android:src="@drawable/img5prc"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="80dp"
+            android:src="@drawable/img5prc" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
