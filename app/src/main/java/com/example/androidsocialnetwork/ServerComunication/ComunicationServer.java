@@ -2,7 +2,9 @@ package com.example.androidsocialnetwork.ServerComunication;
 
 import android.widget.Toast;
 
+import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
+import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
@@ -137,6 +139,11 @@ public class ComunicationServer {
     }
 
     public void getAllChatRooms() {
+    }
+
+    // No se segur si es el chatFragment qui l'utilitzara o no
+    public void sendMessage(String messageIn, String receiver, String sender, final ChatFragment fragment) {
+        Chatroom message = new Chatroom();
     }
 
 
