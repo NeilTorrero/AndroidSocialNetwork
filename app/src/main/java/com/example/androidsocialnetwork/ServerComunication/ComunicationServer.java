@@ -2,6 +2,7 @@ package com.example.androidsocialnetwork.ServerComunication;
 
 import android.widget.Toast;
 
+import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
@@ -34,37 +35,37 @@ public class ComunicationServer {
         service = retrofit.create(SocialNetworkService.class);
     }
 
-    public void registerUser(User user, final RegisterActivity registerActivity) {
+    public void registerUser(User user, final RegisterFragment registerFragment) {
         Call<ResponseBody> user_result = service.registerUser(user);
         user_result.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
-                    registerActivity.returnLogin();
+                    Toast.makeText(registerFragment.getContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                    registerFragment.returnLogin();
                 } else {
-                    Toast.makeText(registerActivity.getBaseContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(registerFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(registerActivity.getBaseContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(registerFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void loginUser(String introducedUsername, String introducedPassword, final LoginActivity loginActivity) {
+    public void loginUser(String introducedUsername, String introducedPassword, final LoginFragment loginFragment) {
         final Call<TokenUser> tokenUser = service.loginUser(new User(introducedUsername, introducedPassword));
         tokenUser.enqueue(new Callback<TokenUser>() {
             @Override
             public void onResponse(Call<TokenUser> call, Response<TokenUser> response) {
                 if (response.isSuccessful()) {
                     ComunicationServer.getInstance().setTokenUser(response.body());
-                    loginActivity.loginCorrect();
+                    loginFragment.loginCorrect();
                 } else {
-                    loginActivity.loginIncorrect();
+                    loginFragment.loginIncorrect();
                 }
             }
 
@@ -93,25 +94,27 @@ public class ComunicationServer {
         });
     }
 
-    public void getMyProfile() {
+    public void getMyProfile(final ProfileFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
 
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
-
+                    profileFragment.setProfile(response.body());
                 } else {
+                    Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
+                Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void updateMyProfile (String birthDate, String gender, int height, String description) {
+    public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
         Profile auxP = new Profile(description,birthDate, height, gender );
         Call<ResponseBody> updateMyProfile = service.updateMyProfile(auxP, "Bearer " + tokenUser.getIdToken());
         updateMyProfile.enqueue(new Callback<ResponseBody>() {
@@ -119,13 +122,14 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-
+                    Toast.makeText(profileFragment.getContext(), "Correct update!!!", Toast.LENGTH_LONG).show();
                 } else {
+                    Toast.makeText(profileFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
 
