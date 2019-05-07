@@ -37,6 +37,11 @@ public interface SocialNetworkService {
     @GET("chatrooms")
     Call<Chatroom> getAllChatRooms(@Header("Authorization") String authToken);
 
+    @POST("messages")
+    Call<ResponseBody> sendMessage(@Body Chatroom message, @Header("Authorization") String authToken);
+
+
+
 
 
 
