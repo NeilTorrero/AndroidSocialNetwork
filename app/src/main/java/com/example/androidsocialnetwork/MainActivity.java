@@ -33,21 +33,24 @@ public class MainActivity extends FragmentActivity {
     public void cambiarMenu (int option) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        Fragment oldFragment = fm.findFragmentById(R.id.fragmentContainer);
+        Fragment newFragment = null;
         switch (option){
             case 1:
-                Fragment oldFragment = fm.findFragmentById(R.id.fragmentContainer);
-                Fragment newFragment = new ChatFragment();
-                if (oldFragment != null) {
-                    ft.remove(oldFragment);
-                }
-                ft.add(R.id.fragmentContainer,newFragment);
-                ft.commit();
+                newFragment = new ChatFragment();
                 break;
             case 2:
+
                 break;
             case 3:
                 break;
+
         }
+        if (oldFragment != null) {
+            ft.remove(oldFragment);
+        }
+        ft.add(R.id.fragmentContainer,newFragment);
+        ft.commit();
     }
 
 }
