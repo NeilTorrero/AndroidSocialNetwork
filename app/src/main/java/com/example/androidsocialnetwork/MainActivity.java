@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
+import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -43,6 +44,7 @@ public class MainActivity extends FragmentActivity {
                 newFragment = new ChatListFragment();
                 break;
             case 3:
+                newFragment = new ProfileFragment();
                 break;
 
         }
