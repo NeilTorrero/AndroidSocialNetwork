@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.androidsocialnetwork.R;
 
@@ -41,10 +42,11 @@ public class MenuBarFragment extends Fragment  {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.fragment_menus_bar,container,false);
+        ImageView image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
+        ImageView image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
+        ImageView image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
         return v;
     }
-
-
 
 
 }
