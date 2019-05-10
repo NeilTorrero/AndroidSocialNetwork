@@ -12,7 +12,7 @@ import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements MenuBarFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void cambiarMenu (int option) {
+    public void changeOption (int option) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment oldFragment = fm.findFragmentById(R.id.fragmentContainer);
