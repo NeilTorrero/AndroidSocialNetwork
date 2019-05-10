@@ -50,18 +50,19 @@ public class MenuBarFragment extends Fragment  {
         image0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //image0.setBackgroundResource(R.drawable.chat_selected);
-                //image1.setBackgroundResource(R.drawable.chats_list);
-                //image2.setBackgroundResource(R.drawable.profile);
+                image0.setImageResource(R.drawable.chat_selected);
+                image1.setImageResource(R.drawable.chats_list);
+                image2.setImageResource(R.drawable.profile);
                 mCallbacks.changeOption(0);
             }
         });
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //image0.setBackgroundResource(R.drawable.chat);
-                //image1.setBackgroundResource(R.drawable.chats_list_selected);
-                //image2.setBackgroundResource(R.drawable.profile);
+                image0.setImageResource(R.drawable.chat);
+                image1.setImageResource(R.drawable.chats_list_selected);
+                image2.setImageResource(R.drawable.profile);
+
                 mCallbacks.changeOption(1);
             }
         });
@@ -69,9 +70,9 @@ public class MenuBarFragment extends Fragment  {
         image2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //image0.setBackgroundResource(R.drawable.chat);
-                //image1.setBackgroundResource(R.drawable.chats_list);
-                //image2.setBackgroundResource(R.drawable.profile_selected);
+                image0.setImageResource(R.drawable.chat);
+                image1.setImageResource(R.drawable.chats_list);
+                image2.setImageResource(R.drawable.profile_selected);
                 mCallbacks.changeOption(2);
             }
         });
