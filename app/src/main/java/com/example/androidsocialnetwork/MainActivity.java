@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity {
                 newFragment = new ChatFragment();
                 break;
             case 2:
-
+                newFragment = new ChatListFragment();
                 break;
             case 3:
                 break;
