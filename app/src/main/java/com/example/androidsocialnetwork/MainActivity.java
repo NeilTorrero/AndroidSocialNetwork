@@ -37,13 +37,13 @@ public class MainActivity extends FragmentActivity implements MenuBarFragment.Ca
         Fragment oldFragment = fm.findFragmentById(R.id.fragmentContainer);
         Fragment newFragment = null;
         switch (option){
-            case 1:
+            case 0:
                 newFragment = new ChatFragment();
                 break;
-            case 2:
+            case 1:
                 newFragment = new ChatListFragment();
                 break;
-            case 3:
+            case 2:
                 newFragment = new ProfileFragment();
                 break;
 

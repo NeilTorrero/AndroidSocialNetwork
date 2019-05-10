@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.androidsocialnetwork.R;
@@ -17,7 +18,7 @@ import javax.security.auth.callback.Callback;
 
 
 public class MenuBarFragment extends Fragment  {
-    public Callbacks mCallbakcs;
+    public Callbacks mCallbacks;
 
     public interface  Callbacks {
         void changeOption (int option);
@@ -26,14 +27,14 @@ public class MenuBarFragment extends Fragment  {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbakcs = (Callbacks) context;
+        mCallbacks = (Callbacks) context;
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbakcs = null;
+        mCallbacks = null;
     }
 
     public void onCreate (Bundle savedInstance) {
@@ -42,9 +43,38 @@ public class MenuBarFragment extends Fragment  {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.fragment_menus_bar,container,false);
-        ImageView image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
-        ImageView image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
-        ImageView image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
+        final ImageView image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
+        final ImageView image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
+        final ImageView image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
+
+        image0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //image0.setBackgroundResource(R.drawable.chat_selected);
+                //image1.setBackgroundResource(R.drawable.chats_list);
+                //image2.setBackgroundResource(R.drawable.profile);
+                mCallbacks.changeOption(0);
+            }
+        });
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //image0.setBackgroundResource(R.drawable.chat);
+                //image1.setBackgroundResource(R.drawable.chats_list_selected);
+                //image2.setBackgroundResource(R.drawable.profile);
+                mCallbacks.changeOption(1);
+            }
+        });
+
+        image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //image0.setBackgroundResource(R.drawable.chat);
+                //image1.setBackgroundResource(R.drawable.chats_list);
+                //image2.setBackgroundResource(R.drawable.profile_selected);
+                mCallbacks.changeOption(2);
+            }
+        });
         return v;
     }
 
