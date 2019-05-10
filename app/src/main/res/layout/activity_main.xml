@@ -13,17 +13,19 @@
         android:textColor="@color/colorWhite"
         android:fontFamily="sans-serif"
         android:textAlignment="center"
-        android:background="#240000"/>
+        android:background="#240000" />
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/fragmentMenuBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
     </FrameLayout>
 
 </LinearLayout>
