@@ -54,5 +54,11 @@ public class MainActivity extends FragmentActivity implements MenuBarFragment.Ca
         ft.add(R.id.fragmentContainer,newFragment);
         ft.commit();
     }
+    public void returnToMainMenu() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment f = fragmentManager.findFragmentById(R.id.fragmentMenuBar);
+        MenuBarFragment menuBarFragment = (MenuBarFragment) f;
+        menuBarFragment.returnToMainMenu();
+    }
 
 }

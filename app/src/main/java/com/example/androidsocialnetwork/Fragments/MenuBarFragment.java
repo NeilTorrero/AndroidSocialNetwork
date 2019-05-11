@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.androidsocialnetwork.MenusBar;
 import com.example.androidsocialnetwork.R;
 
 import javax.security.auth.callback.Callback;
@@ -17,11 +18,17 @@ import javax.security.auth.callback.Callback;
 
 
 
-public class MenuBarFragment extends Fragment  {
-    public Callbacks mCallbacks;
+public class MenuBarFragment extends Fragment {
+    private Callbacks mCallbacks;
+    private ImageView image0;
+    private ImageView image1;
+    private ImageView image2;
+
+
 
     public interface  Callbacks {
         void changeOption (int option);
+        void returnToMainMenu();
     }
 
     @Override
@@ -43,9 +50,9 @@ public class MenuBarFragment extends Fragment  {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.fragment_menus_bar,container,false);
-        final ImageView image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
-        final ImageView image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
-        final ImageView image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
+        image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
+        image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
+        image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
 
         image0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +85,14 @@ public class MenuBarFragment extends Fragment  {
         });
         return v;
     }
+    public void returnToMainMenu() {
+        image0.setImageResource(R.drawable.chat);
+        image1.setImageResource(R.drawable.chats_list_selected);
+        image2.setImageResource(R.drawable.profile);
+
+        mCallbacks.changeOption(1);
+    }
+
 
 
 }
