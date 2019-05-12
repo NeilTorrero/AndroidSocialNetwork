@@ -147,10 +147,6 @@ public class ComunicationServer {
     }
 
 
-
-
-
-
     public TokenUser getTokenUser() {
         return tokenUser;
     }

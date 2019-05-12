@@ -1,12 +1,14 @@
 package com.example.androidsocialnetwork.ServerComunication;
 
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.CallAdapter;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -40,11 +42,20 @@ public interface SocialNetworkService {
     @POST("messages")
     Call<ResponseBody> sendMessage(@Body Chatroom message, @Header("Authorization") String authToken);
 
+    @POST("invite/{userId}")
+    Call<ResponseBody> inviteUser(@Path("userId") int id, @Header("Authorization") String authToken);
 
+    @GET("pending-invites")
+    Call<Invitation[]> getPendingInvites(@Header("Authorization") String authToken);
 
+    @POST("invite/{id}/state{state}")
+    Call<ResponseBody> changeInvitationState(@Path("id") int id, @Path("state") boolean state ,@Header("Authorization") String authToken);
 
+    @GET("accepted-invites")
+    Call<Invitation[]> getAcceptedInvites(@Header("Authorization") String authToken);
 
-
+    @GET("profiles")
+    Call<Profile[]> getAllProfiles(@Header("Authorization") String authToken);
 
 
 
