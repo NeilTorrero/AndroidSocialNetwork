@@ -24,7 +24,7 @@ public class ControlActivity extends Activity {
             int nivelMaximo = intentBateria.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
             float bateriaActual = (nivelBateria/(nivelMaximo*((float)1.0)))*100;
             if (bateriaActual <= 5) {
-                intent = new Intent (getBaseContext(), MainActivity.class);
+                intent = new Intent (getBaseContext(), WelcomeActivity.class);
             }
             else{
                 intent = new Intent (getBaseContext(), Not5Activity.class);
