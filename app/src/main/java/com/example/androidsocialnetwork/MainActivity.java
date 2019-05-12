@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.FriendFragment;
@@ -16,7 +17,7 @@ import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
-public class MainActivity extends FragmentActivity implements MenuBarFragment.Callbacks {
+public class MainActivity extends FragmentActivity implements Callbacks {
 
 
     @Override

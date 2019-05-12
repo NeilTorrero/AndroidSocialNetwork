@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.R;
 
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
@@ -26,14 +27,14 @@ public class ChatFragment extends Fragment {
     private ImageView emojiButton;
     private EditText chatText;
     private ImageView sendButton;
-    private MenuBarFragment.Callbacks mCallbacks;
+    private Callbacks mCallbacks;
 
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (MenuBarFragment.Callbacks) context;
+        mCallbacks = (Callbacks) context;
     }
 
     @Override

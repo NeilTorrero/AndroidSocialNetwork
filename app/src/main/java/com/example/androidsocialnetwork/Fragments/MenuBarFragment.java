@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.R;
 
 
@@ -18,13 +19,6 @@ public class MenuBarFragment extends Fragment {
     private ImageView image2;
 
 
-
-    public interface  Callbacks {
-        void changeOption (int option);
-        void returnToMainMenu();
-        void obtainFriendInformation ();
-        void returnToChat();
-    }
 
     @Override
     public void onAttach(Context context) {

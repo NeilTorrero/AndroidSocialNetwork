@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.R;
 
 public class FriendFragment extends Fragment {
@@ -23,13 +24,13 @@ public class FriendFragment extends Fragment {
     private ImageView friendPhoto;
     private TextView usernameFriend;
     private ImageView backButtonFriend;
-    private MenuBarFragment.Callbacks mCallbacks;
+    private Callbacks mCallbacks;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (MenuBarFragment.Callbacks) context;
+        mCallbacks = (Callbacks) context;
     }
 
     @Override
