@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.androidsocialnetwork.R;
 
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+
 
 public class ChatFragment extends Fragment {
     private ImageView backButton;
@@ -76,23 +79,13 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        emojiButton = v.findViewById(R.id.emoji_button);
-        emojiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ImageView emoticono = (ImageView) v.findViewById(R.id.emoji_btn);
+        EmojiconEditText emojiconEditText = (EmojiconEditText) v.findViewById(R.id.emojicon_edit_text);
+        ImageView send = (ImageView) v.findViewById(R.id.submit_btn);
+        View root = (View) v.findViewById(R.id.root_view);
+        EmojIconActions emojIconActions = new EmojIconActions(getContext(),root,emojiconEditText,emoticono,"#F44336","#e8e8e8","#f4f4f4");
+        emojIconActions.ShowEmojIcon();
 
-            }
-        });
-
-        chatText = v.findViewById(R.id.text_chat);
-
-        sendButton = v.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         return v;
     }
