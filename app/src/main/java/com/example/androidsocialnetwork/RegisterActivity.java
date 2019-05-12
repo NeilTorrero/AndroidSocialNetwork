@@ -22,7 +22,7 @@ public class RegisterActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (password.equals(password2)) {
+                if (password.getText().toString().equals(password2.getText().toString())) {
                     registerUser (email.getText().toString(),password.getText().toString());
                     Intent i = new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);

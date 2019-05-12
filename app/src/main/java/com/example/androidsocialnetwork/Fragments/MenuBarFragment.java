@@ -22,6 +22,8 @@ public class MenuBarFragment extends Fragment {
     public interface  Callbacks {
         void changeOption (int option);
         void returnToMainMenu();
+        void obtainFriendInformation ();
+        void returnToChat();
     }
 
     @Override

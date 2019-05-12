@@ -10,6 +10,7 @@ import android.view.Menu;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ChatListFragment;
+import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 
@@ -65,7 +66,29 @@ public class MainActivity extends FragmentActivity implements MenuBarFragment.Ca
         menuBarFragment.returnToMainMenu();
     }
 
+    @Override
+    public void obtainFriendInformation() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        if (f != null) {
+            ft.remove(f);
+        }
+        Fragment newFragment = new FriendFragment();
+        ft.add(R.id.fragmentContainer,newFragment).commit();
+    }
 
+    @Override
+    public void returnToChat() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        if (f != null) {
+            ft.remove(f);
+        }
+        Fragment newFragment = new ChatFragment();
+        ft.add(R.id.fragmentContainer,newFragment).commit();
+    }
 
 
 }

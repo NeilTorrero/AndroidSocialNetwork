@@ -67,7 +67,7 @@ public class ChatFragment extends Fragment {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mCallbacks.obtainFriendInformation();
             }
         });
 
