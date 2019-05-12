@@ -72,13 +72,7 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        settingsButton = v.findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         ImageView emoticono = (ImageView) v.findViewById(R.id.emoji_btn);
         EmojiconEditText emojiconEditText = (EmojiconEditText) v.findViewById(R.id.emojicon_edit_text);

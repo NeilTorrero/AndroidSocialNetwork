@@ -25,7 +25,7 @@ public class FriendFragment extends Fragment {
     private TextView usernameFriend;
     private ImageView backButtonFriend;
     private Callbacks mCallbacks;
-
+    private ImageView blockButton;
 
     @Override
     public void onAttach(Context context) {
@@ -77,7 +77,14 @@ public class FriendFragment extends Fragment {
                 mCallbacks.returnToChat();
             }
         });
-
+        blockButton = v.findViewById(R.id.blockButton);
+        blockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Cuando el usuario pulse al boton de bloquear se tiene que bloquear tambien mediante retrofit al usuario
+                mCallbacks.returnToMainMenu();
+            }
+        });
         return v;
     }
 }
