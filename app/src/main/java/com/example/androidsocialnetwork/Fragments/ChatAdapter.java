@@ -1,4 +1,4 @@
-package com.example.androidsocialnetwork;
+package com.example.androidsocialnetwork.Fragments;
 
 
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Model.Chat;
+import com.example.androidsocialnetwork.R;
 
 import java.util.ArrayList;
 
