@@ -68,6 +68,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         ft.commit();
     }
     public void returnToMainMenu() {
+        mainText.setText("Chats");
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment f = fragmentManager.findFragmentById(R.id.fragmentMenuBar);
         MenuBarFragment menuBarFragment = (MenuBarFragment) f;
@@ -102,7 +103,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
 
     @Override
     public void gotoUserSolicitudes() {
-        mainText.setText("Click to aggregate friend");
+        mainText.setText("Click to the user to manage the petition");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);

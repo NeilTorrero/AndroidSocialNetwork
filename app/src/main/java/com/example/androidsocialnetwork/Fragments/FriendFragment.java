@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
+
+import org.w3c.dom.Text;
 
 public class FriendFragment extends Fragment {
 
@@ -26,6 +29,8 @@ public class FriendFragment extends Fragment {
     private ImageView backButtonFriend;
     private Callbacks mCallbacks;
     private ImageView blockButton;
+    private TextView userWeight;
+    private TextView userAge;
 
     @Override
     public void onAttach(Context context) {
@@ -51,23 +56,8 @@ public class FriendFragment extends Fragment {
         friendPhoto = (ImageView) v.findViewById(R.id.profilePictureFriend);
         userBirthDate = (TextView) v.findViewById(R.id.birthDateFriend);
         userHeight = (TextView) v.findViewById(R.id.heightValueFriend);
-
-        userHeight.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        userWeight = (TextView) v.findViewById(R.id.weightValueFriend);
+        userAge = (TextView) v.findViewById(R.id.ageValueFriend);
         userGender = (TextView) v.findViewById(R.id.genderValueFriend);
         userDescription = (TextView) v.findViewById(R.id.descriptionFriend);
         backButtonFriend = (ImageView) v.findViewById(R.id.back_buttonFriend);
@@ -86,5 +76,35 @@ public class FriendFragment extends Fragment {
             }
         });
         return v;
+    }
+
+    public void obtainFriendInformation () {
+        //TODO: Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
+        User user = new User ("nada","nada");
+        if (user.getHeight() == 0) {
+            userHeight.setVisibility(View.GONE);
+        }
+        else {
+            userHeight.setText("Height:" + user.getHeight());
+        }
+        if (user.getWeight() == 0) {
+            userWeight.setVisibility(View.GONE);
+        }
+        else {
+            userWeight.setText("Weight:" + user.getWeight());
+        }
+        if (!user.isShowAge()) {
+            userAge.setVisibility(View.GONE);
+        }
+        else {
+            userAge.setText("Age:" + user.getAge());
+        }
+        if (user.getGender().equals("DO NOT SHOW")) {
+            userGender.setVisibility(View.GONE);
+        }
+        else {
+            userGender.setText("Gender:" + user.getGender());
+        }
+
     }
 }
