@@ -46,8 +46,10 @@
                     android:layout_marginTop="5dp"
                     android:text="UserName"
                     android:textColor="@color/colorWhite"
+                    android:focusable="false"
                     android:textSize="30dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:editable="false"/>
             </LinearLayout>
 
             <LinearLayout
@@ -94,9 +96,11 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/birthDate"
+                    android:id="@+id/birthDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -105,9 +109,23 @@
                     android:text="BirthDate: "
                     android:textSize="20dp"
                     android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/birthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/colorWhite"
 
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/genderValue"
+                    android:id="@+id/genderValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
@@ -117,8 +135,23 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
+                <EditText
+                    android:id="@+id/genderValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/heightValue"
+                    android:id="@+id/heightValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
@@ -127,6 +160,16 @@
                     android:text="Height: "
                     android:textSize="20dp"
                     android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/heightValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,7 +181,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <TextView
+                <EditText
                     android:id="@+id/description"
                     android:textColor="@color/colorWhite"
                     android:layout_width="wrap_content"

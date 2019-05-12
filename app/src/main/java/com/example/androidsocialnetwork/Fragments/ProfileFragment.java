@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.R;
@@ -16,11 +17,14 @@ import com.example.androidsocialnetwork.R;
 import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
-
-    private TextView userDescription;
-    private TextView userHeight;
-    private TextView userBirthDate;
-    private TextView userGender;
+    private TextView userHeightText;
+    private TextView userBirthDateText;
+    private TextView userGenderText;
+    private EditText userDescription;
+    private EditText userHeight;
+    private EditText userBirthDate;
+    private EditText userGender;
+    private TextView username;
     private Button btnEdit;
 
     @Override
@@ -32,7 +36,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
-        userBirthDate = (TextView) v.findViewById(R.id.birthDate);
+        username =  v.findViewById(R.id.userName);
+        userBirthDate = v.findViewById(R.id.birthDate);
         userBirthDate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -49,7 +54,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userHeight = (TextView) v.findViewById(R.id.heightValue);
+        userBirthDateText = v.findViewById(R.id.birthDateText);
+        userHeight =  v.findViewById(R.id.heightValue);
         userHeight.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,7 +72,10 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userGender = (TextView) v.findViewById(R.id.genderValue);
+        userHeightText = v.findViewById(R.id.heightValueText);
+
+
+        userGender =  v.findViewById(R.id.genderValue);
         userGender.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -83,7 +92,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userDescription = (TextView) v.findViewById(R.id.description);
+        userDescription = v.findViewById(R.id.description);
         userDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,13 +116,41 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                if (btnEdit.getText().equals("Edit")) {
+                   //TODO: Si cambia el nombre del usuario cambiar tambien en la plataforma
                    btnEdit.setText("Done");
                } else {
                    btnEdit.setText("Edit");
+
                }
             }
         });
 
+
         return v;
+    }
+
+    //TODO: Este metodo será llamado cuando no se quiera mostrar un campo en concreto, por ejemplo cuando haya 0kg (leer condiciones)
+    /*
+         Opcion:
+         -0:BirthDate
+         -1:Gender
+         -2:Height
+
+     */
+    public void hideValue (int option) {
+        switch (option) {
+            case 0:
+                userBirthDate.setVisibility(View.GONE);
+                userBirthDateText.setVisibility(View.GONE);
+                break;
+            case 1:
+                userGender.setVisibility(View.GONE);
+                userGenderText.setVisibility(View.GONE);
+                break;
+            case 2:
+                userHeight.setVisibility(View.GONE);
+                userHeightText.setVisibility(View.GONE);
+                break;
+        }
     }
 }
