@@ -22,17 +22,17 @@ public class LoginActivity extends Activity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkUserExistence(emailUser.getText().toString(),passwordUser.getText().toString())) {
-                    //We go to main activity
-                    Intent i = new Intent (getBaseContext(),MainActivity.class);
-                    startActivity(i);
-                }
+                startUserSession(emailUser.getText().toString(),passwordUser.getText().toString());
+                //We go to main activity
+                Intent i = new Intent (getBaseContext(),MainActivity.class);
+                startActivity(i);
                 //If the user no exists we stay in the same activity
             }
         });
     }
 
-    public boolean checkUserExistence (String email, String password) {
+    //Return true if everything is OK, but if there is an error return false
+    public boolean startUserSession (String email, String password) {
         //TODO: Retrofit have to tell me if the user exists in the platform
         return true;
     }
