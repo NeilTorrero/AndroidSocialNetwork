@@ -6,5 +6,6 @@ public interface  Callbacks {
     void returnToMainMenu();
     void obtainFriendInformation ();
     void returnToChat();
+    void gotoUserSolicitudes();
 }
 

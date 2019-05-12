@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
@@ -14,11 +15,12 @@ import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
+import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 public class MainActivity extends FragmentActivity implements Callbacks {
-
+    private TextView mainText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             fragmentMenuBar = new MenuBarFragment();
             fm.beginTransaction().add(R.id.fragmentMenuBar,fragmentMenuBar).commit();
         }
+        mainText = findViewById(R.id.mainText);
+        mainText.setText("Chats");
     }
 
     public void changeOption (int option) {
@@ -45,12 +49,15 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         switch (option){
             case 0:
                 newFragment = new ChatFragment();
+                mainText.setText("Random Chat");
                 break;
             case 1:
                 newFragment = new ChatListFragment();
+                mainText.setText("Chats");
                 break;
             case 2:
                 newFragment = new ProfileFragment();
+                mainText.setText("My Profile");
                 break;
 
         }
@@ -69,6 +76,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
 
     @Override
     public void obtainFriendInformation() {
+        mainText.setText("Friend Info");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
@@ -81,6 +89,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
 
     @Override
     public void returnToChat() {
+        mainText.setText("Random Chat");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
@@ -88,6 +97,19 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             ft.remove(f);
         }
         Fragment newFragment = new ChatFragment();
+        ft.add(R.id.fragmentContainer,newFragment).commit();
+    }
+
+    @Override
+    public void gotoUserSolicitudes() {
+        mainText.setText("Click to aggregate friend");
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        if (f != null) {
+            ft.remove(f);
+        }
+        Fragment newFragment = new UserSolicitudes();
         ft.add(R.id.fragmentContainer,newFragment).commit();
     }
 

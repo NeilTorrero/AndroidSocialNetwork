@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent" >
     <LinearLayout
@@ -16,10 +17,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/bellNotifications"
+                android:layout_width="65dp"
+                android:layout_height="54dp"
+                android:src="@drawable/bell"
+                tools:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
