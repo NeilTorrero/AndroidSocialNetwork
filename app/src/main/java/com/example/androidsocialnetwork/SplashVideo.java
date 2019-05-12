@@ -21,7 +21,7 @@ public class SplashVideo extends Activity {
         startVideoApp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                Intent intent = new Intent(SplashVideo.this,MainActivity.class);
+                Intent intent = new Intent(SplashVideo.this,ControlActivity.class);
                 startActivity(intent);
             }
         });

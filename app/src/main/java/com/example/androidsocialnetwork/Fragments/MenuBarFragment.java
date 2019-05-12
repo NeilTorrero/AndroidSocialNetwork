@@ -1,21 +1,14 @@
 package com.example.androidsocialnetwork.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.androidsocialnetwork.MenusBar;
 import com.example.androidsocialnetwork.R;
-
-import javax.security.auth.callback.Callback;
-
-
 
 
 public class MenuBarFragment extends Fragment {
