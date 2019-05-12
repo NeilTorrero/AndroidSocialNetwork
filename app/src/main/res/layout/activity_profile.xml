@@ -73,7 +73,7 @@
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-    <ScrollView
+        <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:background="@drawable/corners_background"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorGrey"
 
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
                     android:id="@+id/genderValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorGrey"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
 
@@ -164,7 +164,7 @@
                     android:id="@+id/heightValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorGrey"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:textSize="20dp"
@@ -183,7 +183,7 @@
 
                 <EditText
                     android:id="@+id/description"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum dolor sit amet consectetur adipiscing elit nisl nunc, porttitor taciti montes commodo ultricies orci volutpat facilisi semper, turpis tincidunt phasellus mus quis per sapien donec. Etiam arcu penatibus sagittis est duis maecenas montes id interdum, tellus lectus feugiat velit hendrerit libero sociis eleifend, lobortis vivamus sapien odio praesent vestibulum semper luctus. Vel litora suscipit dapibus id vivamus himenaeos mollis, ultricies porttitor volutpat dui tortor primis turpis, suspendisse orci aptent laoreet hac nulla." />
@@ -191,7 +191,7 @@
             </LinearLayout>
         </LinearLayout>
 
-    </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
 

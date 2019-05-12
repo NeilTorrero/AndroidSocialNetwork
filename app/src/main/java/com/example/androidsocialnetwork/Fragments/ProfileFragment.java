@@ -116,15 +116,26 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                if (btnEdit.getText().equals("Edit")) {
-                   //TODO: Si cambia el nombre del usuario cambiar tambien en la plataforma
+                   //TODO: Si cambia el bith date y todo eso, cambiar tambien en la plataforma
+                   userDescription.setFocusableInTouchMode(true);
+                   userBirthDate.setFocusableInTouchMode(true);
+                   userGender.setFocusableInTouchMode(true);
+                   userHeight.setFocusableInTouchMode(true);
                    btnEdit.setText("Done");
                } else {
+                   userDescription.setFocusable(false);
+                   userBirthDate.setFocusable(false);
+                   userGender.setFocusable(false);
+                   userHeight.setFocusable(false);
                    btnEdit.setText("Edit");
 
                }
             }
         });
-
+        userDescription.setFocusable(false);
+        userBirthDate.setFocusable(false);
+        userGender.setFocusable(false);
+        userHeight.setFocusable(false);
 
         return v;
     }
