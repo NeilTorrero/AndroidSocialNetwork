@@ -20,6 +20,9 @@
         <activity android:name=".ChargingErrorActivity"></activity>
         <activity android:name=".Not5Activity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
     </application>
 
 </manifest>
