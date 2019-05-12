@@ -15,8 +15,8 @@ public class ControlActivity extends Activity {
         int estado = intentBateria.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
         Intent intent;
         //Primero comprovamos si el usuario esta cargando el movil
-        if (estado == BatteryManager.BATTERY_STATUS_CHARGING || estado ==  BatteryManager.BATTERY_STATUS_FULL) {
-            intent = new Intent (ControlActivity.this, chargingActivity.class);
+        if (estado == BatteryManager.BATTERY_PLUGGED_AC || estado == BatteryManager.BATTERY_PLUGGED_USB) {
+            intent = new Intent (getBaseContext(), ChargingErrorActivity.class);
         }
         else {
             //Luego comprobamos su estado de la bateria
@@ -24,10 +24,10 @@ public class ControlActivity extends Activity {
             int nivelMaximo = intentBateria.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
             float bateriaActual = (nivelBateria/(nivelMaximo*((float)1.0)))*100;
             if (bateriaActual <= 5) {
-                intent = new Intent (ControlActivity.this, MainActivity.class);
+                intent = new Intent (getBaseContext(), MainActivity.class);
             }
             else{
-                intent = new Intent (ControlActivity.this, not5Activity.class);
+                intent = new Intent (getBaseContext(), Not5Activity.class);
             }
         }
         startActivity(intent);

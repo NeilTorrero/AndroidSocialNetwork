@@ -1,13 +1,14 @@
 package com.example.androidsocialnetwork;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class chargingActivity extends AppCompatActivity {
+public class Not5Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.can_not_charge_screen);
+        setContentView(R.layout.not5btry_screen);
     }
 }
