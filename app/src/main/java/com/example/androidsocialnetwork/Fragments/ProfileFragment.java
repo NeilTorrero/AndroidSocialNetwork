@@ -157,7 +157,7 @@ public class ProfileFragment extends Fragment {
         return v;
     }
 
-    //TODO: Este metodo será llamado cuando no se quiera mostrar un campo en concreto, por ejemplo cuando haya 0kg (leer condiciones)
+
     /*
          Opcion:
          -  0: Age
@@ -189,7 +189,7 @@ public class ProfileFragment extends Fragment {
 
     public void obtainUserInformation () {
         //TODO: Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
-
+        //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion
         User user = new User ("nada","nada");
         if (user.getHeight() == 0) {
             hideValue(2);
@@ -215,5 +215,7 @@ public class ProfileFragment extends Fragment {
         else {
             userGender.setText(user.getGender());
         }
+
+        //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO
     }
 }
