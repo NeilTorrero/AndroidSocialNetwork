@@ -15,22 +15,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
 
 import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
     private TextView userHeightText;
-    private TextView userBirthDateText;
+    private TextView userAgeText;
     private TextView userGenderText;
     private EditText userDescription;
     private EditText userHeight;
-    private EditText userBirthDate;
+    private EditText userAge;
     private EditText userGender;
     private TextView username;
     private Button btnEdit;
     private ImageView bellButton;
     private Callbacks mCallbacks;
+    private TextView userWeightText;
+    private EditText userWeight;
 
     @Override
     public void onAttach(Context context) {
@@ -55,8 +58,8 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
         username =  v.findViewById(R.id.userName);
-        userBirthDate = v.findViewById(R.id.birthDate);
-        userBirthDate.addTextChangedListener(new TextWatcher() {
+        userAge = v.findViewById(R.id.birthDate);
+        userAge.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -72,26 +75,14 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userBirthDateText = v.findViewById(R.id.birthDateText);
+        userAgeText = v.findViewById(R.id.birthDateText);
         userHeight =  v.findViewById(R.id.heightValue);
-        userHeight.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         userHeightText = v.findViewById(R.id.heightValueText);
 
+        userWeight = v.findViewById(R.id.weightValueText);
+
+        userWeightText = v.findViewById(R.id.weightValue);
 
         userGender =  v.findViewById(R.id.genderValue);
         userGender.addTextChangedListener(new TextWatcher() {
@@ -144,13 +135,13 @@ public class ProfileFragment extends Fragment {
                if (btnEdit.getText().equals("Edit")) {
                    //TODO: Si cambia el bith date y todo eso, cambiar tambien en la plataforma
                    userDescription.setFocusableInTouchMode(true);
-                   userBirthDate.setFocusableInTouchMode(true);
+                   userAge.setFocusableInTouchMode(true);
                    userGender.setFocusableInTouchMode(true);
                    userHeight.setFocusableInTouchMode(true);
                    btnEdit.setText("Done");
                } else {
                    userDescription.setFocusable(false);
-                   userBirthDate.setFocusable(false);
+                   userAge.setFocusable(false);
                    userGender.setFocusable(false);
                    userHeight.setFocusable(false);
                    btnEdit.setText("Edit");
@@ -159,7 +150,7 @@ public class ProfileFragment extends Fragment {
             }
         });
         userDescription.setFocusable(false);
-        userBirthDate.setFocusable(false);
+        userAge.setFocusable(false);
         userGender.setFocusable(false);
         userHeight.setFocusable(false);
 
@@ -169,16 +160,17 @@ public class ProfileFragment extends Fragment {
     //TODO: Este metodo será llamado cuando no se quiera mostrar un campo en concreto, por ejemplo cuando haya 0kg (leer condiciones)
     /*
          Opcion:
-         -0:BirthDate
-         -1:Gender
-         -2:Height
+         -  0: Age
+         -  1:Gender
+         -  2:Height
+         -  3:Weight
 
      */
     public void hideValue (int option) {
         switch (option) {
             case 0:
-                userBirthDate.setVisibility(View.GONE);
-                userBirthDateText.setVisibility(View.GONE);
+                userAge.setVisibility(View.GONE);
+                userAgeText.setVisibility(View.GONE);
                 break;
             case 1:
                 userGender.setVisibility(View.GONE);
@@ -188,6 +180,40 @@ public class ProfileFragment extends Fragment {
                 userHeight.setVisibility(View.GONE);
                 userHeightText.setVisibility(View.GONE);
                 break;
+            case 3:
+                userWeight.setVisibility(View.GONE);
+                userWeightText.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    public void obtainUserInformation () {
+        //TODO: Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
+
+        User user = new User ("nada","nada");
+        if (user.getHeight() == 0) {
+            hideValue(2);
+        }
+        else {
+            userHeight.setText(""+user.getHeight());
+        }
+        if (user.getWeight() == 0) {
+            hideValue(3);
+        }
+        else {
+            userWeight.setText("" + user.getWeight());
+        }
+        if (!user.isShowAge()) {
+            hideValue(0);
+        }
+        else {
+            userAge.setText(user.getAge());
+        }
+        if (user.getGender().equals("DO NOT SHOW")) {
+            hideValue(1);
+        }
+        else {
+            userGender.setText(user.getGender());
         }
     }
 }
