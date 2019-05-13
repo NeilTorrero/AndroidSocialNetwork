@@ -4,10 +4,12 @@ import android.widget.Toast;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
+import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.RegisterActivity;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -37,37 +39,37 @@ public class ComunicationServer {
         service = retrofit.create(SocialNetworkService.class);
     }
 
-    public void registerUser(User user, final RegisterFragment registerFragment) {
+    public void registerUser(User user, final RegisterActivity registerActivity) {
         Call<ResponseBody> user_result = service.registerUser(user);
         user_result.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(registerFragment.getContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
-                    registerFragment.returnLogin();
+                    Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                    registerActivity.returnLogin();
                 } else {
-                    Toast.makeText(registerFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(registerActivity.getBaseContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(registerFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(registerActivity.getBaseContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void loginUser(String introducedUsername, String introducedPassword, final LoginFragment loginFragment) {
+    public boolean loginUser(String introducedUsername, String introducedPassword, final LoginActivity loginActivity) {
         final Call<TokenUser> tokenUser = service.loginUser(new User(introducedUsername, introducedPassword));
         tokenUser.enqueue(new Callback<TokenUser>() {
             @Override
             public void onResponse(Call<TokenUser> call, Response<TokenUser> response) {
                 if (response.isSuccessful()) {
                     ComunicationServer.getInstance().setTokenUser(response.body());
-                    loginFragment.loginCorrect();
+                    loginActivity.loginCorrect();
                 } else {
-                    loginFragment.loginIncorrect();
+                    loginActivity.loginIncorrect();
                 }
             }
 
