@@ -133,7 +133,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                if (btnEdit.getText().equals("Edit")) {
-                   //TODO: Si cambia el bith date y todo eso, cambiar tambien en la plataforma
+                   //TODO: Si cambia el age y todo eso, cambiar tambien en la plataforma
                    userDescription.setFocusableInTouchMode(true);
                    userAge.setFocusableInTouchMode(true);
                    userGender.setFocusableInTouchMode(true);
