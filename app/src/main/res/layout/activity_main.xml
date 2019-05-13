@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-</FrameLayout>
+    android:layout_width="match_parent"
+    android:background ="#000000"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/mainText"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Chats"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="sans-serif"
+        android:textAlignment="center"
+        android:background="#240000" />
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentMenuBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+
+</LinearLayout>

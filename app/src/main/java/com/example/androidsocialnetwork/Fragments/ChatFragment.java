@@ -1,5 +1,6 @@
 package com.example.androidsocialnetwork.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.R;
+
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 
 public class ChatFragment extends Fragment {
@@ -22,6 +27,21 @@ public class ChatFragment extends Fragment {
     private ImageView emojiButton;
     private EditText chatText;
     private ImageView sendButton;
+    private Callbacks mCallbacks;
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +56,7 @@ public class ChatFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mCallbacks.returnToMainMenu();
             }
         });
 
@@ -48,35 +68,19 @@ public class ChatFragment extends Fragment {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mCallbacks.obtainFriendInformation();
             }
         });
 
-        settingsButton = v.findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
-        emojiButton = v.findViewById(R.id.emoji_button);
-        emojiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ImageView emoticono = (ImageView) v.findViewById(R.id.emoji_btn);
+        EmojiconEditText emojiconEditText = (EmojiconEditText) v.findViewById(R.id.emojicon_edit_text);
+        ImageView send = (ImageView) v.findViewById(R.id.submit_btn);
+        View root = (View) v.findViewById(R.id.root_view);
+        EmojIconActions emojIconActions = new EmojIconActions(getContext(),root,emojiconEditText,emoticono,"#F44336","#e8e8e8","#f4f4f4");
+        emojIconActions.ShowEmojIcon();
 
-            }
-        });
-
-        chatText = v.findViewById(R.id.text_chat);
-
-        sendButton = v.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         return v;
     }

@@ -37,7 +37,7 @@
             android:textColor="#fafafa"
             android:text="@string/email_title_lg"/>
         <EditText
-            android:id="@+id/username_text_lg"
+            android:id="@+id/username_text_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -49,7 +49,7 @@
             android:textColor="#fafafa"
             android:text="@string/password_title_lg"/>
         <EditText
-            android:id="@+id/password_text_lg"
+            android:id="@+id/password_text_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -61,7 +61,7 @@
             android:textColor="#fafafa"
             android:text="@string/repeat_password_title_lg"/>
         <EditText
-            android:id="@+id/repeate_password_text_lg"
+            android:id="@+id/repeate_password_text_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -69,7 +69,7 @@
         <!-- If the Passwords doesn't match, the Register Button must be disabled
         Also it can be showed to user with a message that doesn't correlate both passwords-->
         <Button
-            android:id="@+id/sign_in_button"
+            android:id="@+id/regis_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

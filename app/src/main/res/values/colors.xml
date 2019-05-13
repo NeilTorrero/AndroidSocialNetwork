@@ -6,7 +6,7 @@
     <color name="colorWhite">#fff</color>
     <color name="colorBlack">#000</color>
     <color name="colorNormal">#CB000000</color>
-    <color name="background">"#2E2C2C"</color>
+    <color name="background">#2E2C2C</color>
     <!-- PROFILE  -->
     <color name="backGroundRed">#EC0808</color>
     <color name="backgroundRed2">#B61818</color>

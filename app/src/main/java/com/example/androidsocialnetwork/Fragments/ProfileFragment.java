@@ -1,5 +1,6 @@
 package com.example.androidsocialnetwork.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -9,19 +10,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
 
 import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
-
-    private TextView userDescription;
-    private TextView userHeight;
-    private TextView userBirthDate;
-    private TextView userGender;
+    private TextView userHeightText;
+    private TextView userAgeText;
+    private TextView userGenderText;
+    private EditText userDescription;
+    private EditText userHeight;
+    private EditText userAge;
+    private EditText userGender;
+    private TextView username;
     private Button btnEdit;
+    private ImageView bellButton;
+    private Callbacks mCallbacks;
+    private TextView userWeightText;
+    private EditText userWeight;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +57,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
-        userBirthDate = (TextView) v.findViewById(R.id.birthDate);
-        userBirthDate.addTextChangedListener(new TextWatcher() {
+        username =  v.findViewById(R.id.userName);
+        userAge = v.findViewById(R.id.birthDate);
+        userAge.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -49,24 +75,16 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userHeight = (TextView) v.findViewById(R.id.heightValue);
-        userHeight.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        userAgeText = v.findViewById(R.id.birthDateText);
+        userHeight =  v.findViewById(R.id.heightValue);
 
-            }
+        userHeightText = v.findViewById(R.id.heightValueText);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+        userWeight = v.findViewById(R.id.weightValueText);
 
-            }
+        userWeightText = v.findViewById(R.id.weightValue);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        userGender = (TextView) v.findViewById(R.id.genderValue);
+        userGender =  v.findViewById(R.id.genderValue);
         userGender.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -83,7 +101,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userDescription = (TextView) v.findViewById(R.id.description);
+        userDescription = v.findViewById(R.id.description);
         userDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -101,19 +119,103 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        bellButton = v.findViewById(R.id.bellNotifications);
+        bellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallbacks.gotoUserSolicitudes();
+            }
+        });
+
         btnEdit = (Button) v.findViewById(R.id.btn_edit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                if (btnEdit.getText().equals("Edit")) {
+                   //TODO: Si cambia el age y todo eso, cambiar tambien en la plataforma
+                   userDescription.setFocusableInTouchMode(true);
+                   userAge.setFocusableInTouchMode(true);
+                   userGender.setFocusableInTouchMode(true);
+                   userHeight.setFocusableInTouchMode(true);
                    btnEdit.setText("Done");
                } else {
+                   userDescription.setFocusable(false);
+                   userAge.setFocusable(false);
+                   userGender.setFocusable(false);
+                   userHeight.setFocusable(false);
                    btnEdit.setText("Edit");
+
                }
             }
         });
+        userDescription.setFocusable(false);
+        userAge.setFocusable(false);
+        userGender.setFocusable(false);
+        userHeight.setFocusable(false);
 
         return v;
+    }
+
+
+    /*
+         Opcion:
+         -  0: Age
+         -  1:Gender
+         -  2:Height
+         -  3:Weight
+
+     */
+    public void hideValue (int option) {
+        switch (option) {
+            case 0:
+                userAge.setVisibility(View.GONE);
+                userAgeText.setVisibility(View.GONE);
+                break;
+            case 1:
+                userGender.setVisibility(View.GONE);
+                userGenderText.setVisibility(View.GONE);
+                break;
+            case 2:
+                userHeight.setVisibility(View.GONE);
+                userHeightText.setVisibility(View.GONE);
+                break;
+            case 3:
+                userWeight.setVisibility(View.GONE);
+                userWeightText.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    public void obtainUserInformation () {
+        //TODO: Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
+        //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion
+        User user = new User ("nada","nada");
+        if (user.getHeight() == 0) {
+            hideValue(2);
+        }
+        else {
+            userHeight.setText(""+user.getHeight());
+        }
+        if (user.getWeight() == 0) {
+            hideValue(3);
+        }
+        else {
+            userWeight.setText("" + user.getWeight());
+        }
+        if (!user.isShowAge()) {
+            hideValue(0);
+        }
+        else {
+            userAge.setText(user.getAge());
+        }
+        if (user.getGender().equals("DO NOT SHOW")) {
+            hideValue(1);
+        }
+        else {
+            userGender.setText(user.getGender());
+        }
+
+        //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO
     }
 }
