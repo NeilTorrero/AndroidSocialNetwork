@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class LoginActivity extends Activity {
     @Override
@@ -34,7 +37,20 @@ public class LoginActivity extends Activity {
 
     //Return true if everything is OK, but if there is an error return false
     public boolean startUserSession (String email, String password) {
-        //TODO: Retrofit have to tell me if the user exists in the platform
+        ComunicationServer cs = new ComunicationServer();
+        cs.loginUser(email, password,this);
         return true;
+    }
+
+    public void loginCorrect() {
+        Toast.makeText(this,"Correct Login!!",Toast.LENGTH_LONG).show();
+    }
+
+    public void loginIncorrect() {
+        Toast.makeText(this,"Incorrect login!!",Toast.LENGTH_LONG).show();
+    }
+
+    public void connectionFailed() {
+        Toast.makeText(this,"Connection failed!!",Toast.LENGTH_LONG).show();
     }
 }
