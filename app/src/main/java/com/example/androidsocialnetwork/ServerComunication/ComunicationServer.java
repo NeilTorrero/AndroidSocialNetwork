@@ -1,6 +1,5 @@
 package com.example.androidsocialnetwork.ServerComunication;
 
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
@@ -202,7 +201,7 @@ public class ComunicationServer {
     }
 
     public User getUserById(String userName) {
-        Call<User> getUserId = service.getUserById(userName,"Bearer " + tokenUser.getIdToken());
+        Call<User> getUserId = service.getUserById(userName, "Bearer " + tokenUser.getIdToken());
         getUserId.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -214,33 +213,33 @@ public class ComunicationServer {
                     //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-      }
+    }
 
-            public void getAllUsers(final UserSolicitudes userSolicitudes) {
-                Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
-                getAllUsers.enqueue(new Callback<User[]>() {
-                    @Override
-                    public void onResponse(Call<User[]> call, Response<User[]> response) {
-                        if (response.isSuccessful()) {
-                            ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
-                            userSolicitudes.setUsers(users);
-                        } else {
-                            Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
-                    }
-                });
-                return null;
+    public void getAllUsers(final UserSolicitudes userSolicitudes) {
+        Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
+        getAllUsers.enqueue(new Callback<User[]>() {
+            @Override
+            public void onResponse(Call<User[]> call, Response<User[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
+                    userSolicitudes.setUsers(users);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
+                }
             }
+
+            @Override
+            public void onFailure(Call<User[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
           public void inviteUser(String userName, final UserSolicitudes userFragment) {
               User auxUser = getUserById(userName);
