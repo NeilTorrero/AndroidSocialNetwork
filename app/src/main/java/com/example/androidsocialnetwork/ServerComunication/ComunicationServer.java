@@ -60,7 +60,7 @@ public class ComunicationServer {
         });
     }
 
-    public boolean loginUser(String introducedUsername, String introducedPassword, final LoginActivity loginActivity) {
+    public void loginUser(String introducedUsername, String introducedPassword, final LoginActivity loginActivity) {
         final Call<TokenUser> tokenUser = service.loginUser(new User(introducedUsername, introducedPassword));
         tokenUser.enqueue(new Callback<TokenUser>() {
             @Override

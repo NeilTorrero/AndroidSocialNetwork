@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
+
 public class RegisterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,8 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (password.getText().toString().equals(password2.getText().toString())) {
-                    registerUser (email.getText().toString(),password.getText().toString());
+                    ComunicationServer cs = new ComunicationServer();
+                    cs.registerUser(new User(email.getText().toString(),password.getText().toString()), this);
                     Intent i = new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 }
@@ -34,7 +38,6 @@ public class RegisterActivity extends Activity {
         });
     }
 
-    public void registerUser (String email, String password) {
-        //TODO: Retrofit have to register the user
+    public void returnLogin() {
     }
 }
