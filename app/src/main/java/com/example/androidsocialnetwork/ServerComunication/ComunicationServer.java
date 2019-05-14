@@ -3,6 +3,7 @@ package com.example.androidsocialnetwork.ServerComunication;
 import android.widget.Toast;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
+import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.Model.Chatroom;
@@ -10,6 +11,10 @@ import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.RegisterActivity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -143,7 +148,25 @@ public class ComunicationServer {
 
     }
 
-    public void getAllChatRooms() {
+    public void getAllChatRooms(final ChatListFragment chatListFragment) {
+        final ArrayList<Chatroom> chats = new ArrayList<>();
+        Call<Chatroom[]> getAllChatRooms = service.getAllChatRooms("Bearer " + tokenUser.getIdToken());
+        getAllChatRooms.enqueue(new Callback<Chatroom[]>() {
+            @Override
+            public void onResponse(Call<Chatroom[]> call, Response<Chatroom[]> response) {
+                if (response.isSuccessful()) {
+                    chats.addAll(Arrays.asList(response.body()));
+                    chatListFragment.setAllChatRooms(chats);
+                } else {
+                    Toast.makeText(chatListFragment.getContext(), "Couldn't get the ChatRooms!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chatroom[]> call, Throwable t) {
+                Toast.makeText(chatListFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // No se segur si es el chatFragment qui l'utilitzara o no

@@ -37,7 +37,7 @@ public interface SocialNetworkService {
     Call<ResponseBody> updateMyProfile(@Body Profile profile,@Header("Authorization") String authToken);
 
     @GET("chatrooms")
-    Call<Chatroom> getAllChatRooms(@Header("Authorization") String authToken);
+    Call<Chatroom[]> getAllChatRooms(@Header("Authorization") String authToken);
 
     @POST("messages")
     Call<ResponseBody> sendMessage(@Body Chatroom message, @Header("Authorization") String authToken);
