@@ -1,10 +1,15 @@
 package com.example.androidsocialnetwork;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
@@ -108,6 +113,22 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         }
         Fragment newFragment = new UserSolicitudes();
         ft.add(R.id.fragment_container,newFragment).commit();
+    }
+
+    @Override
+    public void showNotification() {
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getBaseContext())
+                        .setSmallIcon(R.drawable.add_friend_icon)
+                        .setContentTitle("Notification Title")
+                        .setContentText("Notification ")
+                        .setContentIntent(pendingIntent );
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, mBuilder.build());
     }
 
 
