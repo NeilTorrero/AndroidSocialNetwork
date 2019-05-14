@@ -114,7 +114,7 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
-                    profileFragment.setProfile(response.body());
+                    profileFragment.updateProfile(response.body());
                 } else {
                     Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
@@ -127,8 +127,11 @@ public class ComunicationServer {
         });
     }
 
-    public void updateMyProfile(String birthDate, String gender, int height, String description, final ProfileFragment profileFragment) {
-        Profile auxP = new Profile(description, birthDate, height, gender);
+    public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
+        Profile auxP = profileFragment.getMyProfile();
+        auxP.setBirthDate(birthDate);
+        auxP.setHeight(height);
+        auxP.setAboutMe(description);
         Call<ResponseBody> updateMyProfile = service.updateMyProfile(auxP, "Bearer " + tokenUser.getIdToken());
         updateMyProfile.enqueue(new Callback<ResponseBody>() {
 

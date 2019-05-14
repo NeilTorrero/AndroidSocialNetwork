@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
 
 public class SplashVideo extends Activity {
@@ -21,6 +20,8 @@ public class SplashVideo extends Activity {
         startVideoApp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                MediaPlayer mpl = MediaPlayer.create(getBaseContext(),R.raw.sound_flash);
+                mpl.start();
                 Intent intent = new Intent(getBaseContext(),ControlActivity.class);
                 startActivity(intent);
             }
