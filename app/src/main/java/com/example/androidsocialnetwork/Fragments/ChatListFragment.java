@@ -17,8 +17,8 @@ public class ChatListFragment extends ListFragment {
         super.onCreate(savedInstance);
         chats = new ArrayList<>();
         ComunicationServer cs = new ComunicationServer();
+        //Aqui se llamaria a una funcion de retrofit que adquiriria todos los chats que un usuario tiene abiertos
         cs.getAllChatRooms(ChatListFragment.this);
-        //TODO: Aqui se llamaria a una funcion de retrofit que adquiriria todos los chats que un usuario tiene abiertos
 
         ArrayAdapter <Chat> chatArrayAdapter = new ChatAdapter(getActivity(),this.getContext(),chats);
         setListAdapter(chatArrayAdapter);

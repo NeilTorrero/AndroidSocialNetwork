@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class UserSolicitudes extends ListFragment {
     private ArrayList <Invitation> invitations;
-    private Invitation lasInvitationClicked;
+    private Invitation lastInvitationClicked;
 
     public void onCreate (Bundle savedInstance) {
         super.onCreate(savedInstance);
         invitations = new ArrayList<>();
 
-        //TODO: Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
+        //Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
         ComunicationServer cs = new ComunicationServer();
         cs.getPendingInvites(this);
 
@@ -35,7 +35,7 @@ public class UserSolicitudes extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        lasInvitationClicked = (Invitation) (getListAdapter()).getItem(position);
+        lastInvitationClicked = (Invitation) (getListAdapter()).getItem(position);
         FragmentManager fragmentManager = getFragmentManager();
 
         DialogFragment dialogFrag = OptionMessage.newInstance(123);
@@ -43,7 +43,7 @@ public class UserSolicitudes extends ListFragment {
         dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
 
         //Refrescamos los usuarios
-        invitations.remove(lasInvitationClicked);
+        invitations.remove(lastInvitationClicked);
         insertarLista();
 
     }
@@ -61,12 +61,7 @@ public class UserSolicitudes extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ComunicationServer cs = new ComunicationServer();
-        if (resultCode == Activity.RESULT_OK) {
-
-            //TODO: Codigo en retrofit donde agregamos el usuario que tenemos en el atributo lastClickedUser
-        } else if (resultCode == Activity.RESULT_CANCELED){
-            //TODO: Codigo en retrofit donde rechazamos el usuario que tenemos en el atributo lastClickedUser
-        }
+        cs.changeInvitationState(lastInvitationClicked.getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
     }
 
     public void setInvitations(ArrayList<Invitation> invitations) {

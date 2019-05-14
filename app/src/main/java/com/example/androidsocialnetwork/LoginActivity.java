@@ -26,11 +26,11 @@ public class LoginActivity extends Activity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (startUserSession(emailUser.getText().toString(),passwordUser.getText().toString())) {
+                //if (startUserSession(emailUser.getText().toString(),passwordUser.getText().toString())) {
                     //We go to main activity
                     Intent i = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(i);
-                }
+                //}
                 //If the start session have problems we stay in the same session.
             }
         });

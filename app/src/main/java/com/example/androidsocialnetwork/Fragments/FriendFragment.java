@@ -79,7 +79,7 @@ public class FriendFragment extends Fragment {
     }
 
     public void obtainFriendInformation () {
-        //TODO: Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
+        //Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
         ComunicationServer conn = new ComunicationServer();
         conn.getMyProfile(FriendFragment.this);
 

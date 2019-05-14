@@ -19,6 +19,8 @@ import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
+import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
 public class MainActivity extends FragmentActivity implements Callbacks {
     private TextView mainText;
@@ -27,6 +29,8 @@ public class MainActivity extends FragmentActivity implements Callbacks {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Thread thread = new ThreadNotification(this);
+        thread.start();
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
@@ -51,6 +55,8 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             case 0:
                 newFragment = new ChatFragment();
                 mainText.setText("Random Chat");
+                ComunicationServer cs = new ComunicationServer();
+                cs.inviteUser(this);
                 break;
             case 1:
                 newFragment = new ChatListFragment();
@@ -115,20 +121,25 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         ft.add(R.id.fragment_container,newFragment).commit();
     }
 
-    @Override
-    public void showNotification() {
+
+    public void showNotification(int j) {
         Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(),0,intent,0);
+
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getBaseContext())
-                        .setSmallIcon(R.drawable.add_friend_icon)
-                        .setContentTitle("Notification Title")
-                        .setContentText("Notification ")
-                        .setContentIntent(pendingIntent );
+                new NotificationCompat.Builder(this)
+                        .setContentTitle("New mail from " + "test@gmail.com")
+                        .setContentText("Subject")
+                        .setContentIntent(pendingIntent).setAutoCancel(true)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setStyle(bigText);
+
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(j, mBuilder.build());
+
     }
 
 
