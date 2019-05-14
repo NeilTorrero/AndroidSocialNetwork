@@ -57,6 +57,9 @@ public interface SocialNetworkService {
     @GET("profiles")
     Call<Profile[]> getAllProfiles(@Header("Authorization") String authToken);
 
+    @GET("users")
+    Call<User[]> getAllUsers(@Header("Authorization") String authToken);
+
 
 
 

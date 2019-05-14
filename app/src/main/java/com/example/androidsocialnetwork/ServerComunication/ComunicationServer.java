@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
 import com.example.androidsocialnetwork.Fragments.ChatListFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
+import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -174,6 +175,25 @@ public class ComunicationServer {
         Chatroom message = new Chatroom();
     }
 
+    public void getAllUsers(final UserSolicitudes userSolicitudes) {
+        Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
+        getAllUsers.enqueue(new Callback<User[]>() {
+            @Override
+            public void onResponse(Call<User[]> call, Response<User[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
+                    userSolicitudes.setUsers(users);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User[]> call, Throwable t) {
+                Toast.makeText(userSolicitudes.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     public TokenUser getTokenUser() {
         return tokenUser;
