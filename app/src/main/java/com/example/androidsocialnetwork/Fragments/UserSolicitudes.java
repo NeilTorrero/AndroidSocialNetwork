@@ -61,7 +61,7 @@ public class UserSolicitudes extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ComunicationServer cs = new ComunicationServer();
-        cs.changeInvitationState(lastInvitationClicked.getSent().getUser().getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
+        cs.changeInvitationState(lastInvitationClicked.getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
     }
 
     public void setInvitations(ArrayList<Invitation> invitations) {
