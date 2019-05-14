@@ -184,13 +184,16 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
                 if (response.isSuccessful()) {
-
+                    ArrayList<Invitation> invitations = new ArrayList<>(Arrays.asList(response.body()));
+                    userSolicitudes.setInvitations(invitations);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the invitations!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Invitation[]> call, Throwable t) {
-
+                Toast.makeText(userSolicitudes.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
