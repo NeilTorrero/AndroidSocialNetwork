@@ -1,9 +1,12 @@
 package com.example.androidsocialnetwork;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -122,19 +125,22 @@ public class MainActivity extends FragmentActivity implements Callbacks {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void showNotification(int j) {
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(),0,intent,0);
 
         NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
 
+        NotificationChannel mChannel = new NotificationChannel("my_channel_01", "notification", NotificationManager.IMPORTANCE_HIGH);
+
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this.getBaseContext())
                         .setContentTitle("New mail from " + "test@gmail.com")
                         .setContentText("Subject")
                         .setContentIntent(pendingIntent).setAutoCancel(true)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setStyle(bigText);
+                        .setStyle(bigText).setChannelId("my_channel_01");
 
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

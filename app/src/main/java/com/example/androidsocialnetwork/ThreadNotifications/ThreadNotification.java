@@ -2,6 +2,8 @@ package com.example.androidsocialnetwork.ThreadNotifications;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.MainActivity;
@@ -17,6 +19,7 @@ public class ThreadNotification extends Thread{
         j= 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void run () {
         while (true) {
             checkNotifications();
@@ -35,12 +38,13 @@ public class ThreadNotification extends Thread{
     }
     public void checkNotifications () {
         //Pedir a retrofit que mire si hay invitaciones pendientes
-        ComunicationServer cs = new ComunicationServer();
+        //ComunicationServer cs = new ComunicationServer();
         //Hay invitaciones pendientes
-        if (cs.arePendingInvites()) {
+        /*if (cs.arePendingInvites()) {
             sendNotification(j);
-        }
+        }*/
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sendNotification (int j){
         activity.showNotification(j);
     }
