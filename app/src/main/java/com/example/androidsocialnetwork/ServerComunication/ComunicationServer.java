@@ -83,6 +83,7 @@ public class ComunicationServer {
                     ComunicationServer.getInstance().setTokenUser(response.body());
                     loginActivity.loginCorrect();
                     loginActivity.setExistsUser(true);
+                    getMyProfile();
                 } else {
                     loginActivity.loginIncorrect();
                     loginActivity.setExistsUser(false);
@@ -96,6 +97,27 @@ public class ComunicationServer {
             }
         });
     }
+
+    public void getMyProfile() {
+        Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
+        getMyProfile.enqueue(new Callback<Profile>() {
+
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.isSuccessful()) {
+                    userProfile = response.body();
+                } else {
+                    System.out.println(response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 
     public void getMyProfile(final ProfileFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
@@ -126,6 +148,7 @@ public class ComunicationServer {
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
                     profileFragment.updateProfile(response.body());
+                    userProfile = response.body();
                 } else {
                     Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
