@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class UserSolicitudes extends ListFragment {
     private ArrayList <Invitation> invitations;
-    private Invitation lasInvitationClicked;
+    private Invitation lastInvitationClicked;
 
     public void onCreate (Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -35,7 +35,7 @@ public class UserSolicitudes extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        lasInvitationClicked = (Invitation) (getListAdapter()).getItem(position);
+        lastInvitationClicked = (Invitation) (getListAdapter()).getItem(position);
         FragmentManager fragmentManager = getFragmentManager();
 
         DialogFragment dialogFrag = OptionMessage.newInstance(123);
@@ -43,7 +43,7 @@ public class UserSolicitudes extends ListFragment {
         dialogFrag.show(getFragmentManager().beginTransaction(), "dialog");
 
         //Refrescamos los usuarios
-        invitations.remove(lasInvitationClicked);
+        invitations.remove(lastInvitationClicked);
         insertarLista();
 
     }
