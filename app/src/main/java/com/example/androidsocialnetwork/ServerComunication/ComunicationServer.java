@@ -68,14 +68,17 @@ public class ComunicationServer {
                 if (response.isSuccessful()) {
                     ComunicationServer.getInstance().setTokenUser(response.body());
                     loginActivity.loginCorrect();
+                    loginActivity.setExistsUser(true);
                 } else {
                     loginActivity.loginIncorrect();
+                    loginActivity.setExistsUser(false);
                 }
             }
 
             @Override
             public void onFailure(Call<TokenUser> call, Throwable t) {
                 loginActivity.connectionFailed();
+                loginActivity.setExistsUser(false);
             }
         });
     }
