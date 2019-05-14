@@ -14,6 +14,7 @@ import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.RegisterActivity;
+import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -291,5 +292,28 @@ public class ComunicationServer {
 
     public void setTokenUser(TokenUser tokenUser) {
         this.tokenUser = tokenUser;
+    }
+
+    public boolean arePendingInvites() {
+        final boolean[] pending = {false};
+        Call<Invitation[]> getPendingInvites = service.getPendingInvites("Bearer " + tokenUser.getIdToken());
+        getPendingInvites.enqueue(new Callback<Invitation[]>() {
+            @Override
+            public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Invitation> invitations = new ArrayList<>(Arrays.asList(response.body()));
+                    if (!invitations.isEmpty()) {
+                        pending[0] = true;
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Invitation[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+        return pending[0];
     }
 }
