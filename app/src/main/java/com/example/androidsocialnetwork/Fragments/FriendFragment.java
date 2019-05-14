@@ -105,6 +105,5 @@ public class FriendFragment extends Fragment {
         else {
             userGender.setText("Gender:" + user.getGender());
         }
-
     }
 }
