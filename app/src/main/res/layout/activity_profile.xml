@@ -82,14 +82,7 @@
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="About me:"
-            android:textSize="20dp"
-            android:textColor="@color/colorWhite"/>
+
         <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"

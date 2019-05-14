@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 import org.w3c.dom.Text;
 
@@ -34,6 +36,13 @@ public class ProfileFragment extends Fragment {
     private Callbacks mCallbacks;
     private TextView userWeightText;
     private EditText userWeight;
+
+    private boolean textChanged;
+
+    private Profile myProfile;
+
+    public ProfileFragment() {
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -57,6 +66,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
+        textChanged = false;
         username =  v.findViewById(R.id.userName);
         userAge = v.findViewById(R.id.birthDate);
         userAge.addTextChangedListener(new TextWatcher() {
@@ -67,7 +77,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                textChanged = true;
             }
 
             @Override
@@ -93,7 +103,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                textChanged = true;
             }
 
             @Override
@@ -110,7 +120,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                textChanged = true;
             }
 
             @Override
@@ -133,7 +143,12 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                if (btnEdit.getText().equals("Edit")) {
-                   //TODO: Si cambia el age y todo eso, cambiar tambien en la plataforma
+
+                   if (textChanged) {
+                       textChanged = false;
+                       ComunicationServer conn = new ComunicationServer();
+                       conn.updateMyProfile(userAge.toString(), userGender.toString(), userHeight.getHeight(), userDescription.toString(), ProfileFragment.this);
+                   }
                    userDescription.setFocusableInTouchMode(true);
                    userAge.setFocusableInTouchMode(true);
                    userGender.setFocusableInTouchMode(true);
@@ -189,33 +204,43 @@ public class ProfileFragment extends Fragment {
 
     public void obtainUserInformation () {
         //TODO: Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
+        ComunicationServer conn = new ComunicationServer();
+        conn.getMyProfile(this); // Aquesta funcio al obtenir el profile cridara a updateProfile d'aquest mateix fragment
         //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion
-        User user = new User ("nada","nada");
-        if (user.getHeight() == 0) {
+
+        if (myProfile.getHeight() == 0) {
             hideValue(2);
         }
         else {
-            userHeight.setText(""+user.getHeight());
+            userHeight.setText(""+myProfile.getHeight());
         }
-        if (user.getWeight() == 0) {
+        if (myProfile.getWeight() == 0) {
             hideValue(3);
         }
         else {
-            userWeight.setText("" + user.getWeight());
+            userWeight.setText("" + myProfile.getWeight());
         }
-        if (!user.isShowAge()) {
+        if (!myProfile.getShowAge()) {
             hideValue(0);
         }
         else {
-            userAge.setText(user.getAge());
+            userAge.setText(myProfile.getBirthDate());
         }
-        if (user.getGender().equals("DO NOT SHOW")) {
+        if (myProfile.getGender().equals("DO NOT SHOW")) {
             hideValue(1);
         }
         else {
-            userGender.setText(user.getGender());
+            userGender.setText(myProfile.getGender().getType());
         }
 
         //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO
+    }
+
+    public void updateProfile(Profile newProfile) {
+        myProfile = newProfile;
+    }
+
+    public Profile getMyProfile() {
+        return myProfile;
     }
 }
