@@ -134,7 +134,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
                 <TextView
-                    android:id="@+id/weightValueFriend"
+                    android:id="@+id/weight_value_friend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
