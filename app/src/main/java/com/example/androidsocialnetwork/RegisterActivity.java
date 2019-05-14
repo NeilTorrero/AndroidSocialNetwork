@@ -31,9 +31,6 @@ public class RegisterActivity extends Activity {
                     Intent i = new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 }
-                else {
-
-                }
             }
         });
     }
