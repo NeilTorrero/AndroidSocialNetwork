@@ -262,27 +262,24 @@ public class ComunicationServer {
         });
     }
 
-          public void inviteUser(String userName, final UserSolicitudes userFragment) {
-              User auxUser = getUserById(userName);
-              Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
-              sendInvitation.enqueue(new Callback<ResponseBody>() {
-                  @Override
-                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                      if (response.isSuccessful()) {
-                          Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
-                          // profileFragment.updateProfile(response.body());
-                      } else {
-                          //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
-                      }
+    public void inviteUser(String userName, final UserSolicitudes userFragment) {
+          User auxUser = getUserById(userName);
+          Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
+          sendInvitation.enqueue(new Callback<ResponseBody>() {
+              @Override
+              public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                  if (response.isSuccessful()) {
+                      Toast.makeText(userFragment.getContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                      // profileFragment.updateProfile(response.body());
+                  } else {
+                      //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                   }
               }
-
               @Override
               public void onFailure(Call<ResponseBody> call, Throwable t) {
-                  //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
               }
           });
-      }
+    }
 
     public TokenUser getTokenUser() {
         return tokenUser;
