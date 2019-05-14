@@ -61,12 +61,7 @@ public class UserSolicitudes extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ComunicationServer cs = new ComunicationServer();
-        if (resultCode == Activity.RESULT_OK) {
-
-            //TODO: Codigo en retrofit donde agregamos el usuario que tenemos en el atributo lastClickedUser
-        } else if (resultCode == Activity.RESULT_CANCELED){
-            //TODO: Codigo en retrofit donde rechazamos el usuario que tenemos en el atributo lastClickedUser
-        }
+        cs.changeInvitationState(lastInvitationClicked.getSent().getUser().getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
     }
 
     public void setInvitations(ArrayList<Invitation> invitations) {
