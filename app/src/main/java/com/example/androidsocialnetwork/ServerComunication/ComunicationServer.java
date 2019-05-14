@@ -89,8 +89,8 @@ public class ComunicationServer {
         });
     }
 
-    public void activateAccount () {
-        Call<ResponseBody> activateAccount = service.activateAccount(key,"Bearer " + tokenUser.getIdToken());
+    public void activateAccount() {
+        Call<ResponseBody> activateAccount = service.activateAccount(key, "Bearer " + tokenUser.getIdToken());
         activateAccount.enqueue(new Callback<ResponseBody>() {
 
             @Override
@@ -127,8 +127,8 @@ public class ComunicationServer {
         });
     }
 
-    public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
-        Profile auxP = new Profile(description,birthDate, height, gender );
+    public void updateMyProfile(String birthDate, String gender, int height, String description, final ProfileFragment profileFragment) {
+        Profile auxP = new Profile(description, birthDate, height, gender);
         Call<ResponseBody> updateMyProfile = service.updateMyProfile(auxP, "Bearer " + tokenUser.getIdToken());
         updateMyProfile.enqueue(new Callback<ResponseBody>() {
 
@@ -140,6 +140,7 @@ public class ComunicationServer {
                     Toast.makeText(profileFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
