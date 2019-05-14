@@ -205,7 +205,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void obtainUserInformation () {
-        //TODO: Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
+        //Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
         ComunicationServer conn = new ComunicationServer();
         conn.getMyProfile(this); // Aquesta funcio al obtenir el profile cridara a updateProfile d'aquest mateix fragment
         //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion

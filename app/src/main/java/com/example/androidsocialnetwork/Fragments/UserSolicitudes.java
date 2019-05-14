@@ -25,7 +25,7 @@ public class UserSolicitudes extends ListFragment {
         super.onCreate(savedInstance);
         invitations = new ArrayList<>();
 
-        //TODO: Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
+        //Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
         ComunicationServer cs = new ComunicationServer();
         cs.getPendingInvites(this);
 
