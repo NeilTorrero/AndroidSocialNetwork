@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.MainActivity;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class ThreadNotification extends Thread{
     private MainActivity activity;
@@ -36,11 +38,10 @@ public class ThreadNotification extends Thread{
         ComunicationServer cs = new ComunicationServer();
         //Hay invitaciones pendientes
         if (cs.arePendingInvites()) {
-            sendNotification();
+            sendNotification(j);
         }
     }
     public void sendNotification (int j){
-        //TODO: Metodo al que vamos cuando hay peticiones pendientes i enviamos notificacion
         activity.showNotification(j);
     }
 }
