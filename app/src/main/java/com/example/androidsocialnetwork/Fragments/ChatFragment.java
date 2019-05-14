@@ -60,7 +60,7 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        profilePic = v.findViewById(R.id.profilePic);
+        profilePic = v.findViewById(R.id.profile_pic);
 
         userName = v.findViewById(R.id.userName);
 

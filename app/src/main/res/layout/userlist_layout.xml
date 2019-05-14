@@ -27,7 +27,7 @@
         android:id="@+id/description_user_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/chatName"
+        android:layout_below="@id/chat_name"
         android:layout_toRightOf="@id/user_email"
         android:fontFamily="sans-serif"
         android:textSize="20sp"

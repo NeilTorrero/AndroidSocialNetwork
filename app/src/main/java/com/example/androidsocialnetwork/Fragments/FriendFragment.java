@@ -3,20 +3,15 @@ package com.example.androidsocialnetwork.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
-
-import org.w3c.dom.Text;
 
 public class FriendFragment extends Fragment {
 
@@ -52,22 +47,22 @@ public class FriendFragment extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.friend_profile,container,false);
-        usernameFriend = (TextView) v.findViewById(R.id.friendName);
-        friendPhoto = (ImageView) v.findViewById(R.id.profilePictureFriend);
-        userBirthDate = (TextView) v.findViewById(R.id.birthDateFriend);
-        userHeight = (TextView) v.findViewById(R.id.heightValueFriend);
-        userWeight = (TextView) v.findViewById(R.id.weightValueFriend);
-        userAge = (TextView) v.findViewById(R.id.ageValueFriend);
-        userGender = (TextView) v.findViewById(R.id.genderValueFriend);
-        userDescription = (TextView) v.findViewById(R.id.descriptionFriend);
-        backButtonFriend = (ImageView) v.findViewById(R.id.back_buttonFriend);
+        usernameFriend = (TextView) v.findViewById(R.id.friend_name);
+        friendPhoto = (ImageView) v.findViewById(R.id.profile_picture_friend);
+        userBirthDate = (TextView) v.findViewById(R.id.birth_date_friend);
+        userHeight = (TextView) v.findViewById(R.id.height_value_friend);
+        userWeight = (TextView) v.findViewById(R.id.weight_value_prof);
+        userAge = (TextView) v.findViewById(R.id.age_value_friend);
+        userGender = (TextView) v.findViewById(R.id.gender_value_friend);
+        userDescription = (TextView) v.findViewById(R.id.description_friend);
+        backButtonFriend = (ImageView) v.findViewById(R.id.back_button_friend);
         backButtonFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCallbacks.returnToChat();
             }
         });
-        blockButton = v.findViewById(R.id.blockButton);
+        blockButton = v.findViewById(R.id.block_button);
         blockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

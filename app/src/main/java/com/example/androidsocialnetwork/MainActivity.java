@@ -4,9 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
@@ -17,8 +15,6 @@ import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 
-import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
-
 public class MainActivity extends FragmentActivity implements Callbacks {
     private TextView mainText;
 
@@ -27,15 +23,15 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = new ChatListFragment();
-            fm.beginTransaction().add(R.id.fragmentContainer,fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
-        Fragment fragmentMenuBar = fm.findFragmentById(R.id.fragmentMenuBar);
+        Fragment fragmentMenuBar = fm.findFragmentById(R.id.fragment_menu_bar);
         if (fragmentMenuBar == null) {
             fragmentMenuBar = new MenuBarFragment();
-            fm.beginTransaction().add(R.id.fragmentMenuBar,fragmentMenuBar).commit();
+            fm.beginTransaction().add(R.id.fragment_menu_bar,fragmentMenuBar).commit();
         }
         mainText = findViewById(R.id.main_text);
         mainText.setText("Chats");
@@ -44,7 +40,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
     public void changeOption (int option) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment oldFragment = fm.findFragmentById(R.id.fragmentContainer);
+        Fragment oldFragment = fm.findFragmentById(R.id.fragment_container);
         Fragment newFragment = null;
         switch (option){
             case 0:
@@ -64,13 +60,13 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         if (oldFragment != null) {
             ft.remove(oldFragment);
         }
-        ft.add(R.id.fragmentContainer,newFragment);
+        ft.add(R.id.fragment_container,newFragment);
         ft.commit();
     }
     public void returnToMainMenu() {
         mainText.setText("Chats");
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment f = fragmentManager.findFragmentById(R.id.fragmentMenuBar);
+        Fragment f = fragmentManager.findFragmentById(R.id.fragment_menu_bar);
         MenuBarFragment menuBarFragment = (MenuBarFragment) f;
         menuBarFragment.returnToMainMenu();
     }
@@ -80,12 +76,12 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         mainText.setText("Friend Info");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragment_container);
         if (f != null) {
             ft.remove(f);
         }
         Fragment newFragment = new FriendFragment();
-        ft.add(R.id.fragmentContainer,newFragment).commit();
+        ft.add(R.id.fragment_container,newFragment).commit();
     }
 
     @Override
@@ -93,12 +89,12 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         mainText.setText("Random Chat");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragment_container);
         if (f != null) {
             ft.remove(f);
         }
         Fragment newFragment = new ChatFragment();
-        ft.add(R.id.fragmentContainer,newFragment).commit();
+        ft.add(R.id.fragment_container,newFragment).commit();
     }
 
     @Override
@@ -106,12 +102,12 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         mainText.setText("Click to the user to manage the petition");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = (Fragment) fm.findFragmentById(R.id.fragmentContainer);
+        Fragment f = (Fragment) fm.findFragmentById(R.id.fragment_container);
         if (f != null) {
             ft.remove(f);
         }
         Fragment newFragment = new UserSolicitudes();
-        ft.add(R.id.fragmentContainer,newFragment).commit();
+        ft.add(R.id.fragment_container,newFragment).commit();
     }
 
 
