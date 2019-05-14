@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class FriendFragment extends Fragment {
 
@@ -26,6 +28,8 @@ public class FriendFragment extends Fragment {
     private ImageView blockButton;
     private TextView userWeight;
     private TextView userAge;
+
+    private Profile userProfile;
 
     @Override
     public void onAttach(Context context) {
@@ -75,30 +79,36 @@ public class FriendFragment extends Fragment {
 
     public void obtainFriendInformation () {
         //TODO: Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
-        User user = new User ("nada","nada");
-        if (user.getHeight() == 0) {
+        ComunicationServer conn = new ComunicationServer();
+        conn.getMyProfile(FriendFragment.this);
+
+        if (userProfile.getHeight() == 0) {
             userHeight.setVisibility(View.GONE);
         }
         else {
-            userHeight.setText("Height:" + user.getHeight());
+            userHeight.setText("Height:" + userProfile.getHeight());
         }
-        if (user.getWeight() == 0) {
+        if (userProfile.getWeight() == 0) {
             userWeight.setVisibility(View.GONE);
         }
         else {
-            userWeight.setText("Weight:" + user.getWeight());
+            userWeight.setText("Weight:" + userProfile.getWeight());
         }
-        if (!user.isShowAge()) {
+        if (!userProfile.getShowAge()) {
             userAge.setVisibility(View.GONE);
         }
         else {
-            userAge.setText("Age:" + user.getAge());
+            userAge.setText("Age:" + userProfile.getBirthDate());
         }
-        if (user.getGender().equals("DO NOT SHOW")) {
+        if (userProfile.getGender().equals("DO NOT SHOW")) {
             userGender.setVisibility(View.GONE);
         }
         else {
-            userGender.setText("Gender:" + user.getGender());
+            userGender.setText("Gender:" + userProfile.getGender());
         }
+    }
+
+    public void updateProfile(Profile newProfile) {
+        userProfile = newProfile;
     }
 }

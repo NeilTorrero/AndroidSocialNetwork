@@ -42,6 +42,9 @@ public interface SocialNetworkService {
     @POST("invite/{userId}")
     Call<ResponseBody> inviteUser(@Path("userId") int id, @Header("Authorization") String authToken);
 
+    @GET("users/{login}")
+    Call<User> getUserById(@Path("login") String userName, @Header("Authorization") String authToken);
+
     @GET("pending-invites")
     Call<Invitation[]> getPendingInvites(@Header("Authorization") String authToken);
 
