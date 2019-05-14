@@ -313,7 +313,7 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(friendFragment.getContext(), "Correct block!!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(friendFragment.getContext(), "User Blocked!!!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(friendFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
@@ -384,6 +384,5 @@ public class ComunicationServer {
         return pending[0];
     }
 
-
-    }
+}
 
