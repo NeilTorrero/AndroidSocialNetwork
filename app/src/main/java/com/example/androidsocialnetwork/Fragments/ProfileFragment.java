@@ -68,7 +68,9 @@ public class ProfileFragment extends Fragment {
 
         textChanged = false;
         username =  v.findViewById(R.id.userName);
-        userAge = v.findViewById(R.id.birthDate);
+        userAge = v.findViewById(R.id.birth_date);
+        username =  v.findViewById(R.id.user_name);
+        userAge = v.findViewById(R.id.birth_date);
         userAge.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,16 +87,16 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        userAgeText = v.findViewById(R.id.birthDateText);
-        userHeight =  v.findViewById(R.id.heightValue);
+        userAgeText = v.findViewById(R.id.birth_date_text);
+        userHeight =  v.findViewById(R.id.height_value);
 
-        userHeightText = v.findViewById(R.id.heightValueText);
+        userHeightText = v.findViewById(R.id.height_value_text);
 
-        userWeight = v.findViewById(R.id.weightValueText);
+        userWeight = v.findViewById(R.id.weight_value_friend);
 
-        userWeightText = v.findViewById(R.id.weightValue);
+        userWeightText = v.findViewById(R.id.weight_value_prof);
 
-        userGender =  v.findViewById(R.id.genderValue);
+        userGender =  v.findViewById(R.id.gender_value);
         userGender.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,7 +131,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        bellButton = v.findViewById(R.id.bellNotifications);
+        bellButton = v.findViewById(R.id.bell_notifications);
         bellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,28 +7,28 @@
     <ImageView
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:id="@+id/groupImage"
+        android:id="@+id/group_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src ="@drawable/group"/>
     <TextView
         android:paddingLeft="10dp"
-        android:id="@+id/chatName"
+        android:id="@+id/chat_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:textSize="30sp"
-        android:layout_toRightOf="@id/groupImage"
+        android:layout_toRightOf="@id/group_image"
         android:textColor="#ff0000"
         />
 
     <TextView
         android:paddingLeft="10dp"
-        android:id="@+id/lastMessage"
+        android:id="@+id/last_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/chatName"
-        android:layout_toRightOf="@id/groupImage"
+        android:layout_below="@id/chat_name"
+        android:layout_toRightOf="@id/group_image"
         android:fontFamily="sans-serif"
         android:textSize="20sp"
         android:textColor="#ff0000"/>

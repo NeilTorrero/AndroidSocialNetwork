@@ -25,9 +25,9 @@ public class ChatAdapter extends ArrayAdapter<Chat> {
             converterView = activity.getLayoutInflater().inflate(R.layout.chatlist_layout,null);
         }
         Chat chat = getItem(position);
-        TextView tv = converterView.findViewById(R.id.chatName);
+        TextView tv = converterView.findViewById(R.id.chat_name);
         tv.setText(chat.getGroupName());
-        TextView tv2 = converterView.findViewById(R.id.lastMessage);
+        TextView tv2 = converterView.findViewById(R.id.last_message);
         tv2.setText(chat.getLastMessage());
         return converterView;
     }

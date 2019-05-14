@@ -149,6 +149,7 @@ public class ComunicationServer {
                     Toast.makeText(profileFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
@@ -194,35 +195,54 @@ public class ComunicationServer {
                     //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-        return null;
-    }
+      }
 
-    public void inviteUser(String userName, final UserSolicitudes userFragment) {
-        User auxUser = getUserById(userName);
-        Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
-        sendInvitation.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
-                    // profileFragment.updateProfile(response.body());
-                } else {
-                    //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
-                }
+            public void getAllUsers(final UserSolicitudes userSolicitudes) {
+                Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
+                getAllUsers.enqueue(new Callback<User[]>() {
+                    @Override
+                    public void onResponse(Call<User[]> call, Response<User[]> response) {
+                        if (response.isSuccessful()) {
+                            ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
+                            userSolicitudes.setUsers(users);
+                        } else {
+                            Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                return null;
             }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+          public void inviteUser(String userName, final UserSolicitudes userFragment) {
+              User auxUser = getUserById(userName);
+              Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
+              sendInvitation.enqueue(new Callback<ResponseBody>() {
+                  @Override
+                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                      if (response.isSuccessful()) {
+                          Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                          // profileFragment.updateProfile(response.body());
+                      } else {
+                          //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                      }
+                  }
+
+                  @Override
+                  public void onFailure(Call<ResponseBody> call, Throwable t) {
+                      //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                  }
+              });
+          }
 
     public TokenUser getTokenUser() {
         return tokenUser;

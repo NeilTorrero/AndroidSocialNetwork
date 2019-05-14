@@ -18,8 +18,7 @@ public class MenuBarFragment extends Fragment {
     private ImageView image1;
     private ImageView image2;
 
-
-
+    
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -39,9 +38,9 @@ public class MenuBarFragment extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.fragment_menus_bar,container,false);
-        image0 = (ImageView) v.findViewById(R.id.chatRandomButton);
-        image1 = (ImageView) v.findViewById(R.id.chatsListsButton);
-        image2 = (ImageView) v.findViewById(R.id.profileMenuButton);
+        image0 = (ImageView) v.findViewById(R.id.chat_random_button);
+        image1 = (ImageView) v.findViewById(R.id.chats_lists_button);
+        image2 = (ImageView) v.findViewById(R.id.profile_menu_button);
 
         image0.setOnClickListener(new View.OnClickListener() {
             @Override

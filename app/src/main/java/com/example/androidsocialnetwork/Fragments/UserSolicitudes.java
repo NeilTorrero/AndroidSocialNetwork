@@ -15,6 +15,7 @@ import com.example.androidsocialnetwork.Callbacks.CallbackDialog;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.Chat;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 import java.util.ArrayList;
 
@@ -30,10 +31,8 @@ public class UserSolicitudes extends ListFragment {
         users = new ArrayList<>();
 
         //TODO: Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
-
-        users.add(new User("pepe","hola"));
-        users.add(new User("pepe2","holi"));
-
+        ComunicationServer cs = new ComunicationServer();
+        cs.getAllUsers(this);
 
         //Mostramos los usuarios
         insertarLista();
@@ -71,6 +70,10 @@ public class UserSolicitudes extends ListFragment {
         } else if (resultCode == Activity.RESULT_CANCELED){
             //TODO: Codigo en retrofit donde rechazamos el usuario que tenemos en el atributo lastClickedUser
         }
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 }
 
