@@ -19,6 +19,7 @@ import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
+import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class MainActivity extends FragmentActivity implements Callbacks {
     private TextView mainText;
@@ -51,6 +52,8 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             case 0:
                 newFragment = new ChatFragment();
                 mainText.setText("Random Chat");
+                ComunicationServer cs = new ComunicationServer();
+                cs.inviteUser(this);
                 break;
             case 1:
                 newFragment = new ChatListFragment();
