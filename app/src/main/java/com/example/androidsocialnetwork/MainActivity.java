@@ -37,7 +37,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             fragmentMenuBar = new MenuBarFragment();
             fm.beginTransaction().add(R.id.fragmentMenuBar,fragmentMenuBar).commit();
         }
-        mainText = findViewById(R.id.mainText);
+        mainText = findViewById(R.id.main_text);
         mainText.setText("Chats");
     }
 

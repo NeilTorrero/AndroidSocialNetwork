@@ -26,9 +26,9 @@ public class UserAdapter extends ArrayAdapter<User> {
             converterView = activity.getLayoutInflater().inflate(R.layout.userlist_layout,null);
         }
         User user = getItem(position);
-        TextView tv = converterView.findViewById(R.id.userEmail);
+        TextView tv = converterView.findViewById(R.id.user_email);
         tv.setText(user.getEmail());
-        TextView tv2 = converterView.findViewById(R.id.descriptionUserList);
+        TextView tv2 = converterView.findViewById(R.id.description_user_list);
         tv2.setText(user.getDescription());
         return converterView;
     }

@@ -18,8 +18,7 @@ public class MenuBarFragment extends Fragment {
     private ImageView image1;
     private ImageView image2;
 
-
-
+    
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
