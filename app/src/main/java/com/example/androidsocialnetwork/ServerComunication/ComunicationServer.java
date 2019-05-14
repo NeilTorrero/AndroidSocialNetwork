@@ -1,6 +1,5 @@
 package com.example.androidsocialnetwork.ServerComunication;
 
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
@@ -18,7 +17,6 @@ import com.example.androidsocialnetwork.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -180,6 +178,27 @@ public class ComunicationServer {
         });
     }
 
+    public void getPendingInvites(final UserSolicitudes userSolicitudes) {
+        Call<Invitation[]> getPendingInvites = service.getPendingInvites("Bearer " + tokenUser.getIdToken());
+        getPendingInvites.enqueue(new Callback<Invitation[]>() {
+            @Override
+            public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Invitation> invitations = new ArrayList<>(Arrays.asList(response.body()));
+                    userSolicitudes.setInvitations(invitations);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the invitations!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Invitation[]> call, Throwable t) {
+                Toast.makeText(userSolicitudes.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    // No se segur si es el chatFragment qui l'utilitzara o no
     public void sendMessage(String messageIn, String receiver, String sender, final ChatFragment fragment) {
         Chatroom message = new Chatroom();
     }
@@ -195,6 +214,7 @@ public class ComunicationServer {
                 } else {
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
             }
@@ -220,20 +240,40 @@ public class ComunicationServer {
                 //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-        return null;
     }
 
-    public void inviteUser(String userName, final UserSolicitudes userFragment) {
-          User auxUser = getUserById(userName);
-          Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
-          sendInvitation.enqueue(new Callback<ResponseBody>() {
-              @Override
-              public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                  if (response.isSuccessful()) {
-                      Toast.makeText(userFragment.getContext(), "Invitation send properly!!", Toast.LENGTH_LONG).show();
-                      // profileFragment.updateProfile(response.body());
-                  } else {
-                      //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+    public void getAllUsers(final UserSolicitudes userSolicitudes) {
+        Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
+        getAllUsers.enqueue(new Callback<User[]>() {
+            @Override
+            public void onResponse(Call<User[]> call, Response<User[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
+                    userSolicitudes.setUsers(users);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+          public void inviteUser(String userName, final UserSolicitudes userFragment) {
+              User auxUser = getUserById(userName);
+              Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
+              sendInvitation.enqueue(new Callback<ResponseBody>() {
+                  @Override
+                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                      if (response.isSuccessful()) {
+                          Toast.makeText(registerActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                          // profileFragment.updateProfile(response.body());
+                      } else {
+                          //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                      }
                   }
               }
 
