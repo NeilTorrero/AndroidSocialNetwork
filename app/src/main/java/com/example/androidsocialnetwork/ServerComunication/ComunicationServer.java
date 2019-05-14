@@ -8,6 +8,7 @@ import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
@@ -15,7 +16,6 @@ import com.example.androidsocialnetwork.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -152,6 +152,23 @@ public class ComunicationServer {
             @Override
             public void onFailure(Call<Chatroom[]> call, Throwable t) {
                 Toast.makeText(chatListFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getPendingInvites(final UserSolicitudes userSolicitudes) {
+        Call<Invitation[]> getPendingInvites = service.getPendingInvites("Bearer " + tokenUser.getIdToken());
+        getPendingInvites.enqueue(new Callback<Invitation[]>() {
+            @Override
+            public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
+                if (response.isSuccessful()) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Invitation[]> call, Throwable t) {
+
             }
         });
     }
