@@ -198,6 +198,30 @@ public class ComunicationServer {
         });
     }
 
+    public void changeInvitationState(int userId, final boolean state, final UserSolicitudes userSolicitudes) {
+        Call<ResponseBody> changeInvitationState = service.changeInvitationState(userId, state,"Bearer " + tokenUser.getIdToken());
+        changeInvitationState.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (state) {
+                        Toast.makeText(userSolicitudes.getContext(), "Invitation accepted!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(userSolicitudes.getContext(), "Invitation declined!", Toast.LENGTH_LONG).show();
+                    }
+                    getPendingInvites(userSolicitudes);
+                } else {
+                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the invitations!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(userSolicitudes.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     // No se segur si es el chatFragment qui l'utilitzara o no
     public void sendMessage(String messageIn, String receiver, String sender, final ChatFragment fragment) {
         Chatroom message = new Chatroom();
