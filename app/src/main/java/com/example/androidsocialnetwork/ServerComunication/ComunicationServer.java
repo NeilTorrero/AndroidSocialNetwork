@@ -9,6 +9,7 @@ import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.MainActivity;
+import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -19,6 +20,7 @@ import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
@@ -384,4 +386,4 @@ public class ComunicationServer {
 
 
     }
-}
+
