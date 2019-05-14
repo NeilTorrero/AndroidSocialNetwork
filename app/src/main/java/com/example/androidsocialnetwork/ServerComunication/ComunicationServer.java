@@ -89,24 +89,6 @@ public class ComunicationServer {
         });
     }
 
-    public void activateAccount() {
-        Call<ResponseBody> activateAccount = service.activateAccount(key, "Bearer " + tokenUser.getIdToken());
-        activateAccount.enqueue(new Callback<ResponseBody>() {
-
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-
-                } else {
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-        });
-    }
-
     public void getMyProfile(final ProfileFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
