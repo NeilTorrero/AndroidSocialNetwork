@@ -23,10 +23,7 @@ public interface SocialNetworkService {
 
     @POST("register")
     Call<ResponseBody> registerUser(@Body User login);
-
-    @GET("activate")
-    Call<ResponseBody> activateAccount(@Body long key, @Header("Authorization") String authToken);
-
+    
     @GET("account")
     Call<User> getAccount(@Header("Authorization") String authToken);
 
