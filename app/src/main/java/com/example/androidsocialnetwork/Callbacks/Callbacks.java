@@ -7,6 +7,5 @@ public interface  Callbacks {
     void obtainFriendInformation ();
     void returnToChat();
     void gotoUserSolicitudes();
-    void showNotification();
 }
 

@@ -1,16 +1,34 @@
 package com.example.androidsocialnetwork.ThreadNotifications;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
-import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class ThreadNotification extends Thread{
-    private Callbacks mCallbacks;
+    private MainActivity activity;
+    private int i;
+    private int j;
+    public ThreadNotification (MainActivity activity) {
+        this.activity = activity;
+        i = 0;
+        j= 0;
+    }
+
     public void run () {
-        checkNotifications ();
-        try {
-            Thread.sleep(60000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true) {
+            checkNotifications();
+            if (i == 1) {
+                sendNotification(j);
+                i = 0;
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            i++;
+            j++;
         }
     }
     public void checkNotifications () {
@@ -21,8 +39,8 @@ public class ThreadNotification extends Thread{
             sendNotification();
         }
     }
-    public void sendNotification (){
+    public void sendNotification (int j){
         //TODO: Metodo al que vamos cuando hay peticiones pendientes i enviamos notificacion
-        mCallbacks.showNotification();
+        activity.showNotification(j);
     }
 }
