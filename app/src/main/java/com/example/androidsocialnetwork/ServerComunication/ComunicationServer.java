@@ -168,7 +168,7 @@ public class ComunicationServer {
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
                     ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
-                    userSolicitudes.setUsers(users);
+                    userSolicitudes.setInvitations(users);
                 } else {
                     Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
                 }
