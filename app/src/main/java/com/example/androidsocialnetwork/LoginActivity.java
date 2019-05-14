@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class LoginActivity extends Activity {
+    private boolean existsUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class LoginActivity extends Activity {
     public boolean startUserSession (String email, String password) {
         ComunicationServer cs = new ComunicationServer();
         cs.loginUser(email, password,this);
-        return true;
+        return existsUser;
     }
 
     public void loginCorrect() {
@@ -52,5 +53,9 @@ public class LoginActivity extends Activity {
 
     public void connectionFailed() {
         Toast.makeText(this,"Connection failed!!",Toast.LENGTH_LONG).show();
+    }
+
+    public void setExistsUser(boolean existsUser) {
+        this.existsUser = existsUser;
     }
 }
