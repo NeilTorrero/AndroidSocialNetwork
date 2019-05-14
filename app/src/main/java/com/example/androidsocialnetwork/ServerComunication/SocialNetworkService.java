@@ -1,5 +1,6 @@
 package com.example.androidsocialnetwork.ServerComunication;
 
+import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -57,8 +58,17 @@ public interface SocialNetworkService {
     @GET("profiles")
     Call<Profile[]> getAllProfiles(@Header("Authorization") String authToken);
 
+    @GET("profiles/{id}")
+    Call<Profile> getUserProfileById(@Path("id") Integer id,@Header("Authorization") String authToken);
+
     @GET("users")
     Call<User[]> getAllUsers(@Header("Authorization") String authToken);
+
+    @POST("blocks")
+    Call<ResponseBody> blockUser(Block block, @Header("Authorization") String authToken);
+
+    @GET("blocks/count")
+    Call<Integer> getBlocks(@Header("Authorization") String authToken);
 
 
 

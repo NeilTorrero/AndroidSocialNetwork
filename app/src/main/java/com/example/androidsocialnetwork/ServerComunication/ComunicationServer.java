@@ -8,6 +8,7 @@ import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.LoginActivity;
+import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -17,6 +18,7 @@ import com.example.androidsocialnetwork.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -29,6 +31,8 @@ public class ComunicationServer {
     private Retrofit retrofit;
     private SocialNetworkService service;
     private TokenUser tokenUser;
+    private Profile userProfile;
+
     private static ComunicationServer comunicationServer;
 
     public static ComunicationServer getInstance() {
@@ -98,6 +102,7 @@ public class ComunicationServer {
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
                     profileFragment.updateProfile(response.body());
+                    userProfile = response.body();
                 } else {
                     Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
@@ -129,7 +134,6 @@ public class ComunicationServer {
             }
         });
     }
-
 
     public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
         Profile auxP = profileFragment.getMyProfile();
@@ -287,5 +291,66 @@ public class ComunicationServer {
 
     public void setTokenUser(TokenUser tokenUser) {
         this.tokenUser = tokenUser;
+    }
+
+    public void blockUser(String blockUserName, final FriendFragment friendFragment) {
+        Block block = new Block();
+        Date data = new Date();
+        block.setId(getBlocks()+1);
+        block.setCreatedDate(data.toString());
+        block.setSent(userProfile);
+        block.setReceived(getProfileById(blockUserName));
+
+        Call<ResponseBody> blockUser = service.blockUser(block,"Bearer " + tokenUser.getIdToken());
+        blockUser.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(friendFragment.getContext(), "Correct block!!!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(friendFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
+
+    public int getBlocks() {
+        final Integer[] ret = new Integer[1];
+        Call<Integer> blocksCount = service.getBlocks("Bearer " + tokenUser.getIdToken());
+        blocksCount.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()) {
+                    ret[0] = response.body();
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+            }
+        });
+        return ret[0];
+    }
+
+    public Profile getProfileById(String userName) {
+        final Profile[] retProfile = new Profile[1];
+        User auxU = getUserById(userName);
+        Call<Profile> getUserById = service.getUserProfileById(auxU.getId(),"Bearer " + tokenUser.getIdToken());
+        getUserById.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.isSuccessful()) {
+                    retProfile[0] = response.body();
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+            }
+        });
+        return retProfile[0];
     }
 }

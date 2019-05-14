@@ -71,6 +71,7 @@ public class FriendFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO: Cuando el usuario pulse al boton de bloquear se tiene que bloquear tambien mediante retrofit al usuario
+
                 mCallbacks.returnToMainMenu();
             }
         });
