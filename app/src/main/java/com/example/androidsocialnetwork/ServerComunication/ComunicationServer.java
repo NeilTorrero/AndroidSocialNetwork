@@ -253,27 +253,7 @@ public class ComunicationServer {
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
                     ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
-                    userSolicitudes.setUsers(users);
-                } else {
-                    Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void getAllUsers(final UserSolicitudes userSolicitudes) {
-        Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
-        getAllUsers.enqueue(new Callback<User[]>() {
-            @Override
-            public void onResponse(Call<User[]> call, Response<User[]> response) {
-                if (response.isSuccessful()) {
-                    ArrayList<User> users = new ArrayList<>(Arrays.asList(response.body()));
-                    userSolicitudes.setUsers(users);
+                    //userSolicitudes.setUsers(users);
                 } else {
                     Toast.makeText(userSolicitudes.getContext(), "Couldn't get the Users!", Toast.LENGTH_LONG).show();
                 }
