@@ -11,6 +11,7 @@ import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.MainActivity;
 import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
@@ -35,6 +36,7 @@ public class ComunicationServer {
     private SocialNetworkService service;
     private TokenUser tokenUser;
     private Profile userProfile;
+    private ArrayList<Gender> genders;
 
     private static ComunicationServer comunicationServer;
 
@@ -118,7 +120,6 @@ public class ComunicationServer {
         });
     }
 
-
     public void getMyProfile(final ProfileFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
@@ -162,6 +163,7 @@ public class ComunicationServer {
     }
 
     public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
+
         Profile auxP = profileFragment.getMyProfile();
         auxP.setBirthDate(birthDate);
         auxP.setHeight(height);
@@ -184,7 +186,7 @@ public class ComunicationServer {
             }
         });
 
-
+        updateGender(gender, profileFragment); // Actualitzem el genere
     }
 
     public void getAllChatRooms(final ChatListFragment chatListFragment) {
@@ -405,6 +407,96 @@ public class ComunicationServer {
             }
         });
         return pending[0];
+    }
+
+    public void getAllGenders(final ProfileFragment profileFragment) {
+        Call<Gender[]> getAllGenders = service.getAllGenders("Bearer " + tokenUser.getIdToken());
+        getAllGenders.enqueue(new Callback<Gender[]>() {
+            @Override
+            public void onResponse(Call<Gender[]> call, Response<Gender[]> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Gender> genders = new ArrayList<>(Arrays.asList(response.body()));
+                    profileFragment.getAllGenders(genders);
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Gender[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getAllGendersHere() {
+        Call<Gender[]> getAllGenders = service.getAllGenders("Bearer " + tokenUser.getIdToken());
+        getAllGenders.enqueue(new Callback<Gender[]>() {
+            @Override
+            public void onResponse(Call<Gender[]> call, Response<Gender[]> response) {
+                if (response.isSuccessful()) {
+                    genders = new ArrayList<>(Arrays.asList(response.body()));
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Gender[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void updateGender(String gender, final ProfileFragment profileFragment) {
+
+        boolean doUptade = true;
+        Gender newGender = null;
+        Gender oldGenderToUpdate = null;
+        for (Gender g: genders) {
+            if (g.getUsers().contains(userProfile)) {
+                if (g.getType().equals(gender)) {
+                    doUptade = false;
+                } else {
+                    g.getUsers().remove(userProfile);
+                    oldGenderToUpdate = g;
+                }
+            }
+            if (g.getType().equals(gender)) {
+                newGender = g;
+            }
+        }
+
+        if (doUptade) { // Nomes actualitzarem si s'ha canviat el genere
+            Call<ResponseBody> updateOldGender = service.updateGender(oldGenderToUpdate, "Bearer " + tokenUser.getIdToken());
+            updateOldGender.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                    } else {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            Call<ResponseBody> updateNewGender = service.updateGender(newGender, "Bearer " + tokenUser.getIdToken());
+            updateNewGender.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(profileFragment.getContext(), "Successful Gender Update!!", Toast.LENGTH_LONG).show();
+                    } else {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            getAllGendersHere(); // Actualitzem els generes que tenim guardats
+        }
     }
 
 }

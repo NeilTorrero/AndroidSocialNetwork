@@ -5,11 +5,11 @@ import java.util.List;
 public class Gender {
     private Integer id;
     private String type;
-    private List<User> users = null;
+    private List<Profile> users = null;
 
     public Gender() {}
 
-    public Gender(Integer id, String type, List<User> users) {
+    public Gender(Integer id, String type, List<Profile> users) {
         this.id = id;
         this.type = type;
         this.users = users;
@@ -31,11 +31,11 @@ public class Gender {
         this.type = type;
     }
 
-    public List<User> getUsers() {
+    public List<Profile> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<Profile> users) {
         this.users = users;
     }
 }

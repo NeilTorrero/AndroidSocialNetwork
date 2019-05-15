@@ -2,6 +2,7 @@ package com.example.androidsocialnetwork.ServerComunication;
 
 import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
@@ -15,6 +16,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface SocialNetworkService {
@@ -69,6 +71,12 @@ public interface SocialNetworkService {
 
     @GET("blocks/count")
     Call<Integer> getBlocks(@Header("Authorization") String authToken);
+
+    @GET("genders")
+    Call<Gender[]> getAllGenders(@Header("Authorization") String authToken);
+
+    @PUT("genders")
+    Call<ResponseBody> updateGender( @Body Gender gender ,@Header("Authorization") String authToken);
 
 
 

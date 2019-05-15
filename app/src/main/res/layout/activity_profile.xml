@@ -144,16 +144,16 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/gender_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorGrey"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    <Spinner
+                        android:id="@+id/gender_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGrey"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="10dp">
+                    </Spinner>
                 </LinearLayout>
 
                 <LinearLayout
