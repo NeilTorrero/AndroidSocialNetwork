@@ -13,15 +13,19 @@ import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 public class LoginActivity extends Activity {
     private boolean existsUser;
+    private EditText emailUser;
+    private EditText passwordUser;
+    private CheckBox checkBox;
+    private Button signInButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
 
-        final EditText emailUser = (EditText) findViewById(R.id.username_text_lg);
-        final EditText passwordUser = (EditText) findViewById(R.id.password_text_lg);
-        CheckBox checkBox = (CheckBox) findViewById(R.id.remember_me);
-        Button signInButton = (Button) findViewById(R.id.sign_in_button);
+        emailUser = (EditText) findViewById(R.id.username_text_lg);
+        passwordUser = (EditText) findViewById(R.id.password_text_lg);
+        checkBox = (CheckBox) findViewById(R.id.remember_me);
+        signInButton = (Button) findViewById(R.id.sign_in_button);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
