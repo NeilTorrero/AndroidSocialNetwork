@@ -85,6 +85,7 @@ public class ComunicationServer {
                     ComunicationServer.getInstance().setTokenUser(response.body());
                     loginActivity.loginCorrect();
                     loginActivity.setExistsUser(true);
+                    //comment
                     getMyProfile();
                 } else {
                     loginActivity.loginIncorrect();
