@@ -1,8 +1,9 @@
 package com.example.androidsocialnetwork.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
 
     private Boolean activated;
     private List<String> authorities = null;

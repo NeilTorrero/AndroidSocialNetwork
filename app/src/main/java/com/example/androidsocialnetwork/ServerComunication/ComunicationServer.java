@@ -16,6 +16,7 @@ import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserLogin;
 import com.example.androidsocialnetwork.RegisterActivity;
 import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
@@ -77,12 +78,13 @@ public class ComunicationServer {
     }
 
     public void loginUser(String introducedUsername, String introducedPassword, final LoginActivity loginActivity) {
-        final Call<TokenUser> tokenUser = service.loginUser(new User(introducedUsername, introducedPassword));
+        final Call<TokenUser> tokenUser = service.loginUser(new UserLogin(introducedUsername, true,introducedPassword));
         tokenUser.enqueue(new Callback<TokenUser>() {
             @Override
             public void onResponse(Call<TokenUser> call, Response<TokenUser> response) {
                 if (response.isSuccessful()) {
-                    ComunicationServer.getInstance().setTokenUser(response.body());
+                    TokenUser idToken = response.body();
+                    ComunicationServer.getInstance().setTokenUser(idToken);
                     loginActivity.loginCorrect();
                     loginActivity.setExistsUser(true);
                     //comment

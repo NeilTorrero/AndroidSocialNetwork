@@ -7,6 +7,7 @@ import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserLogin;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,7 +23,7 @@ import retrofit2.http.Path;
 public interface SocialNetworkService {
 
     @POST("authenticate")
-    Call<TokenUser> loginUser (@Body User login);
+    Call<TokenUser> loginUser (@Body UserLogin login);
 
     @POST("register")
     Call<ResponseBody> registerUser(@Body User login);
