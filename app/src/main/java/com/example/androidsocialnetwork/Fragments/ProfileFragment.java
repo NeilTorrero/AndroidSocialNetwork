@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +36,7 @@ public class ProfileFragment extends Fragment {
     private EditText userDescription;
     private EditText userHeight;
     private EditText userAge;
-    private EditText userGenderText;
+    private TextView userGenderText;
     private TextView username;
     private Button btnEdit;
     private ImageView bellButton;
@@ -74,6 +75,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
+        genderStrings = new ArrayList<>();
+        ComunicationServer.getInstance().getAllGenders(this); // Demanem la info del Genders
+
+
         textChanged = false;
         username =  v.findViewById(R.id.userName);
         userAge = v.findViewById(R.id.birth_date);
@@ -99,20 +104,21 @@ public class ProfileFragment extends Fragment {
         userAgeText = v.findViewById(R.id.birth_date_text);
         userHeight =  v.findViewById(R.id.height_value);
         userHeightText = v.findViewById(R.id.height_value_text);
-        userWeight = v.findViewById(R.id.weight_value_friend);
-        userWeightText = v.findViewById(R.id.weight_value_prof);
+        userWeight = v.findViewById(R.id.weight_value_prof);
+        userWeightText = v.findViewById(R.id.weight_value_text_prof);
 
-        genderStrings = new ArrayList<>();
-        ComunicationServer.getInstance().getAllGenders(this); // Demanem la info del Genders
         userGender =  (Spinner)v.findViewById(R.id.gender_value);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
-                android.R.layout.simple_spinner_item, genderStrings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        userGender.setAdapter(adapter);
-        userGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        userGender.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 textChanged = true;
+                userGender.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -156,14 +162,20 @@ public class ProfileFragment extends Fragment {
                    }
                    userDescription.setFocusableInTouchMode(true);
                    userAge.setFocusableInTouchMode(true);
-                   userGender.setFocusableInTouchMode(true);
+                   userGender.setFocusable(true);
+                   userGender.setClickable(true);
                    userHeight.setFocusableInTouchMode(true);
+                   userWeight.setFocusableInTouchMode(true);
+                   userWeight.setFocusable(true);
+                   userGender.setEnabled(true);
                    btnEdit.setText("Done");
                } else {
                    userDescription.setFocusable(false);
                    userAge.setFocusable(false);
-                   userGender.setFocusable(false);
+                   userGender.setClickable(false);
                    userHeight.setFocusable(false);
+                   userWeight.setFocusable(false);
+                   userWeight.setFocusableInTouchMode(false);
                    btnEdit.setText("Edit");
 
                }
@@ -172,7 +184,12 @@ public class ProfileFragment extends Fragment {
         userDescription.setFocusable(false);
         userAge.setFocusable(false);
         userGender.setFocusable(false);
+        userGender.setClickable(false);
+        userGender.setEnabled(false);
         userHeight.setFocusable(false);
+        userWeight.setFocusable(false);
+        userWeight.setFocusableInTouchMode(false);
+        userGender.setClickable(false);
 
         return v;
     }
@@ -209,8 +226,7 @@ public class ProfileFragment extends Fragment {
 
     public void obtainUserInformation () {
         //Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
-        ComunicationServer conn = new ComunicationServer();
-        conn.getMyProfile(this); // Aquesta funcio al obtenir el profile cridara a updateProfile d'aquest mateix fragment
+        ComunicationServer.getInstance().getMyProfile(this); // Aquesta funcio al obtenir el profile cridara a updateProfile d'aquest mateix fragment
         //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion
 
         if (myProfile.getHeight() == 0) {
@@ -248,6 +264,18 @@ public class ProfileFragment extends Fragment {
     public void getAllGenders(ArrayList<Gender> genders) {
         for (Gender g: genders) {
             genderStrings.add(g.getType());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_spinner_item, genderStrings);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.notifyDataSetChanged();
+        userGender.setAdapter(adapter);
+        if (genderStrings.size() > 0) {
+            userGender.setSelection(0);
+            userGender.setFocusable(false);
+            userGender.setClickable(false);
+            userGender.setEnabled(false);
         }
     }
 

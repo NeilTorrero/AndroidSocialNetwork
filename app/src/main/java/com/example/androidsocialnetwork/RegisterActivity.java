@@ -26,8 +26,7 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (password.getText().toString().equals(password2.getText().toString())) {
-                    ComunicationServer cs = new ComunicationServer();
-                    cs.registerUser(new User(email.getText().toString(),password.getText().toString()), RegisterActivity.this);
+                    ComunicationServer.getInstance().registerUser(new User(email.getText().toString(),password.getText().toString()), RegisterActivity.this);
                     Intent i = new Intent(getBaseContext(),MainActivity.class);
                     startActivity(i);
                 }

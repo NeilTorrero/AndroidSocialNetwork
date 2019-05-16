@@ -83,22 +83,17 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<TokenUser> call, Response<TokenUser> response) {
                 if (response.isSuccessful()) {
-                    TokenUser idToken = response.body();
-                    ComunicationServer.getInstance().setTokenUser(idToken);
+                    ComunicationServer.getInstance().setTokenUser(response.body());
                     loginActivity.loginCorrect();
-                    loginActivity.setExistsUser(true);
-                    //comment
                     getMyProfile();
                 } else {
                     loginActivity.loginIncorrect();
-                    loginActivity.setExistsUser(false);
                 }
             }
 
             @Override
             public void onFailure(Call<TokenUser> call, Throwable t) {
                 loginActivity.connectionFailed();
-                loginActivity.setExistsUser(false);
             }
         });
     }

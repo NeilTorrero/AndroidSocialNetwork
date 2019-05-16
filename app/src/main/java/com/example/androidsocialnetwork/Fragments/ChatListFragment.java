@@ -16,17 +16,20 @@ public class ChatListFragment extends ListFragment {
     public void onCreate (Bundle savedInstance) {
         super.onCreate(savedInstance);
         chats = new ArrayList<>();
-        ComunicationServer cs = new ComunicationServer();
         //Aqui se llamaria a una funcion de retrofit que adquiriria todos los chats que un usuario tiene abiertos
-        cs.getAllChatRooms(ChatListFragment.this);
+        ComunicationServer.getInstance().getAllChatRooms(ChatListFragment.this);
 
         ArrayAdapter <Chat> chatArrayAdapter = new ChatAdapter(getActivity(),this.getContext(),chats);
         setListAdapter(chatArrayAdapter);
     }
 
     public void setAllChatRooms(ArrayList<Chatroom> chatrooms) {
-        for (int i = 0; i < chatrooms.size(); i++) {
-            chats.add(new Chat(chatrooms.get(i).getTopic(), chatrooms.get(i).getMessages().get(chatrooms.get(i).getMessages().size()).getMessage()));
+        if (chatrooms == null) {
+            for (int i = 0; i < chatrooms.size(); i++) {
+                chats.add(new Chat(chatrooms.get(i).getTopic(), chatrooms.get(i).getMessages().get(chatrooms.get(i).getMessages().size()).getMessage()));
+            }
+        } else {
+            chatrooms = new ArrayList<>();
         }
     }
 }

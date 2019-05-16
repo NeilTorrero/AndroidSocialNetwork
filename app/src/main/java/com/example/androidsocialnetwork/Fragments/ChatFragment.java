@@ -72,8 +72,6 @@ public class ChatFragment extends Fragment {
             }
         });
 
-
-
         ImageView emoticono = (ImageView) v.findViewById(R.id.emoji_btn);
         EmojiconEditText emojiconEditText = (EmojiconEditText) v.findViewById(R.id.emojicon_edit_text);
         ImageView send = (ImageView) v.findViewById(R.id.submit_btn);

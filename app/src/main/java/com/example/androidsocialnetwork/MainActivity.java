@@ -58,8 +58,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             case 0:
                 newFragment = new ChatFragment();
                 mainText.setText("Random Chat");
-                ComunicationServer cs = new ComunicationServer();
-                cs.inviteUser(this);
+                ComunicationServer.getInstance().inviteUser(this);
                 break;
             case 1:
                 newFragment = new ChatListFragment();

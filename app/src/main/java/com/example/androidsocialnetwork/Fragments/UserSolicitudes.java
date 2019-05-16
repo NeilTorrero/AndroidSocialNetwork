@@ -26,8 +26,7 @@ public class UserSolicitudes extends ListFragment {
         invitations = new ArrayList<>();
 
         //Aqui se llamaria a una funcion de retrofit que adquiriria todos los usuarios disponibles, una vez hecho esto, se borran los dos adds
-        ComunicationServer cs = new ComunicationServer();
-        cs.getPendingInvites(this);
+        ComunicationServer.getInstance().getPendingInvites(this);
 
         //Mostramos los usuarios
         insertarLista();
@@ -60,8 +59,7 @@ public class UserSolicitudes extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ComunicationServer cs = new ComunicationServer();
-        cs.changeInvitationState(lastInvitationClicked.getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
+        ComunicationServer.getInstance().changeInvitationState(lastInvitationClicked.getId(),resultCode == Activity.RESULT_OK, UserSolicitudes.this);
     }
 
     public void setInvitations(ArrayList<Invitation> invitations) {
