@@ -9,12 +9,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
+import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.R;
@@ -22,22 +26,26 @@ import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileFragment extends Fragment {
     private TextView userHeightText;
     private TextView userAgeText;
-    private TextView userGenderText;
     private EditText userDescription;
     private EditText userHeight;
     private EditText userAge;
-    private EditText userGender;
+    private EditText userGenderText;
     private TextView username;
     private Button btnEdit;
     private ImageView bellButton;
     private Callbacks mCallbacks;
     private TextView userWeightText;
     private EditText userWeight;
+    private Spinner userGender;
 
     private boolean textChanged;
+    private List<String> genderStrings;
 
     private Profile myProfile;
 
@@ -87,32 +95,27 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+        userGenderText = v.findViewById(R.id.gender_value_text);
         userAgeText = v.findViewById(R.id.birth_date_text);
         userHeight =  v.findViewById(R.id.height_value);
-
         userHeightText = v.findViewById(R.id.height_value_text);
-
         userWeight = v.findViewById(R.id.weight_value_friend);
-
         userWeightText = v.findViewById(R.id.weight_value_prof);
 
-        userGender =  v.findViewById(R.id.gender_value);
-        userGender.addTextChangedListener(new TextWatcher() {
+        genderStrings = new ArrayList<>();
+        ComunicationServer.getInstance().getAllGenders(this); // Demanem la info del Genders
+        userGender =  (Spinner)v.findViewById(R.id.gender_value);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_spinner_item, genderStrings);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userGender.setAdapter(adapter);
+        userGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textChanged = true;
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
+
         userDescription = v.findViewById(R.id.description);
         userDescription.addTextChangedListener(new TextWatcher() {
             @Override
@@ -149,7 +152,7 @@ public class ProfileFragment extends Fragment {
                    if (textChanged) {
                        textChanged = false;
                        ComunicationServer conn = new ComunicationServer();
-                       conn.updateMyProfile(userAge.toString(), userGender.toString(), userHeight.getHeight(), userDescription.toString(), ProfileFragment.this);
+                       conn.updateMyProfile(userAge.toString(), userGender.getSelectedItem().toString(), userHeight.getHeight(), userDescription.toString(), ProfileFragment.this);
                    }
                    userDescription.setFocusableInTouchMode(true);
                    userAge.setFocusableInTouchMode(true);
@@ -232,7 +235,7 @@ public class ProfileFragment extends Fragment {
             hideValue(1);
         }
         else {
-            userGender.setText(myProfile.getGender().getType());
+            userGender.setSelection(myProfile.getGender().getId());
         }
 
         //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO
@@ -240,6 +243,12 @@ public class ProfileFragment extends Fragment {
 
     public void updateProfile(Profile newProfile) {
         myProfile = newProfile;
+    }
+
+    public void getAllGenders(ArrayList<Gender> genders) {
+        for (Gender g: genders) {
+            genderStrings.add(g.getType());
+        }
     }
 
     public Profile getMyProfile() {
