@@ -2,6 +2,7 @@ package com.example.androidsocialnetwork.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -184,6 +187,7 @@ public class ProfileFragment extends Fragment {
                    userWeight.setFocusable(true);
                    userGender.setEnabled(true);
                    btnEdit.setText("Done");
+                   profilePhoto.setEnabled(true);
                } else {
                    userDescription.setFocusable(false);
                    userAge.setFocusable(false);
@@ -196,6 +200,7 @@ public class ProfileFragment extends Fragment {
                }
             }
         });
+        profilePhoto.setEnabled(false);
         userDescription.setFocusable(false);
         userAge.setFocusable(false);
         userGender.setFocusable(false);
@@ -303,6 +308,8 @@ public class ProfileFragment extends Fragment {
         if(resultCode == RESULT_OK && requestCode == 69){
             Uri imageUri = data.getData();
             profilePhoto.setImageURI(imageUri);
+            //extraemos el drawable en un bitmap
+            Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
         }
     }
 
