@@ -1,7 +1,10 @@
 package com.example.androidsocialnetwork.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -30,6 +33,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ProfileFragment extends Fragment {
     private TextView userHeightText;
     private TextView userAgeText;
@@ -44,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private TextView userWeightText;
     private EditText userWeight;
     private Spinner userGender;
+    private ImageView profilePhoto;
 
     private boolean textChanged;
     private List<String> genderStrings;
@@ -98,6 +104,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        profilePhoto = v.findViewById(R.id.profile_pic);
+        profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, 69);
             }
         });
         userGenderText = v.findViewById(R.id.gender_value_text);
@@ -282,4 +297,13 @@ public class ProfileFragment extends Fragment {
     public Profile getMyProfile() {
         return myProfile;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == 69){
+            Uri imageUri = data.getData();
+            profilePhoto.setImageURI(imageUri);
+        }
+    }
+
 }
