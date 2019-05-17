@@ -1,8 +1,11 @@
 package com.example.androidsocialnetwork.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.R;
 
@@ -81,5 +86,15 @@ public class ChatFragment extends Fragment {
 
 
         return v;
+    }
+
+    public void changeInformation(String nameUser, String photo) {
+        if (photo != null ) {
+            byte[] imageBytes;
+            imageBytes = Base64.decode(photo, Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            Glide.with(getContext()).asBitmap().load(decodedImage).apply(RequestOptions.circleCropTransform()).into(profilePic);
+        }
+        userName.setText(nameUser);
     }
 }

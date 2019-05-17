@@ -63,6 +63,8 @@ public class ProfileFragment extends Fragment {
     private DatePickerDialog dataPicker;
     private String date;
     private String lastUri;
+    private TextView unitHeight;
+    private TextView unitWeight;
 
     private boolean textChanged;
     private List<String> genderStrings;
@@ -103,6 +105,8 @@ public class ProfileFragment extends Fragment {
 
 
         textChanged = false;
+        unitHeight = v.findViewById(R.id.unitHeights);
+        unitWeight = v.findViewById(R.id.unitWeights);
         username =  v.findViewById(R.id.userName);
         userAge = v.findViewById(R.id.birth_date);
         username =  v.findViewById(R.id.user_name);
@@ -205,13 +209,13 @@ public class ProfileFragment extends Fragment {
                    userWeight.setFocusable(true);
                    userGender.setEnabled(true);
                    btnEdit.setText("Done");
-                   profilePhoto.setEnabled(true);
+                   profilePhoto.setClickable(true);
                } else {
                    if (userGender.getSelectedItem() == null) {
-                       ComunicationServer.getInstance().updateMyProfile(date, "", userHeight.getHeight(), userDescription.getText().toString(), lastUri,ProfileFragment.this);
+                       ComunicationServer.getInstance().updateMyProfile(date, "", Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(), lastUri,ProfileFragment.this);
                    }
                    else {
-                       ComunicationServer.getInstance().updateMyProfile(date, userGender.getSelectedItem().toString(), userHeight.getHeight(), userDescription.getText().toString(),lastUri, ProfileFragment.this);
+                       ComunicationServer.getInstance().updateMyProfile(date, userGender.getSelectedItem().toString(), Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(),lastUri, ProfileFragment.this);
                    }
                        userDescription.setFocusable(false);
                        userAge.setFocusable(false);
@@ -220,11 +224,12 @@ public class ProfileFragment extends Fragment {
                        userWeight.setFocusable(false);
                        userWeight.setFocusableInTouchMode(false);
                        btnEdit.setText("Edit");
+                       profilePhoto.setClickable(false);
 
                }
             }
         });
-        profilePhoto.setEnabled(false);
+        profilePhoto.setClickable(false);
         userDescription.setFocusable(false);
         userAge.setFocusable(false);
         userGender.setFocusable(false);
@@ -287,6 +292,16 @@ public class ProfileFragment extends Fragment {
             Glide.with(getContext()).asBitmap().load(decodedImage).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
         }
 
+        username.setText(myProfile.getDisplayName());
+
+        if (myProfile.getUnitSystem().equals("METRIC")) {
+            unitHeight.setText("cm");
+            unitWeight.setText("kg");
+        }
+        else {
+            unitHeight.setText("ft");
+            unitWeight.setText("lb");
+        }
         if (myProfile.getHeight() == 0) {
             hideValue(2);
         }
@@ -313,6 +328,7 @@ public class ProfileFragment extends Fragment {
                 userGender.setSelection(myProfile.getGender().getId()-1);
             }
         }
+        userDescription.setText(myProfile.getAboutMe());
 
 
         //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO

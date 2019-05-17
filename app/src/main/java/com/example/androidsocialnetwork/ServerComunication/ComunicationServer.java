@@ -160,14 +160,15 @@ public class ComunicationServer {
         });
     }
 
-    public void updateMyProfile (String birthDate, String gender, int height, String description,String imageUser, final ProfileFragment profileFragment ) {
+    public void updateMyProfile (String birthDate, String gender, int height,int weight, String description,String imageUser, final ProfileFragment profileFragment ) {
 
         Profile auxP = profileFragment.getMyProfile();
         auxP.setBirthDate(birthDate);
         auxP.setHeight(height);
         auxP.setAboutMe(description);
         auxP.setPicture(imageUser);
-       updateGender(gender, profileFragment); // Actualitzem el genere
+        auxP.setWeight(weight);
+        //updateGender(gender, profileFragment); // Actualitzem el genere
 
         getAllGenders(profileFragment);
 
@@ -287,41 +288,47 @@ public class ComunicationServer {
         return aux[0];
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> inviteRandomUser(final MainActivity mainActivity) {
         final ArrayList<User>[] users = new ArrayList[]{new ArrayList<>()};
-        Call<User[]> getAllUsers = service.getAllUsers("Bearer" + tokenUser.getIdToken());
+        Call<User[]> getAllUsers = service.getAllUsers("Bearer " + tokenUser.getIdToken());
         getAllUsers.enqueue(new Callback<User[]>() {
             @Override
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
                     users[0] = new ArrayList<>(Arrays.asList(response.body()));
+                    inviteUser(mainActivity,users[0]);
                 }
+
             }
 
             @Override
             public void onFailure(Call<User[]> call, Throwable t) {
+                Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
             }
         });
         return users[0];
     }
 
-    public void inviteUser(final MainActivity mainActivity) {
-        ArrayList<User> users = new ArrayList<>(getAllUsers());
-        User auxUser = users.get(new Random().nextInt(users.size()));
+    public void inviteUser(final MainActivity mainActivity, final ArrayList <User> users) {
+        //ArrayList<User> users = getAllUsers();
+        final int randomNumber = Math.abs(new Random().nextInt(users.size()-1));
+        User auxUser = users.get(randomNumber);
         Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(), "Bearer " + tokenUser.getIdToken());
         sendInvitation.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(mainActivity.getBaseContext(), "Correct register!!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity.getBaseContext(), "Send to the random user the invitation to connect!!", Toast.LENGTH_LONG).show();
+                    mainActivity.changeChatInformation(users.get(randomNumber));
                     // profileFragment.updateProfile(response.body());
                 } else {
-                    //Toast.makeText(profileFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
             }
         });
     }
