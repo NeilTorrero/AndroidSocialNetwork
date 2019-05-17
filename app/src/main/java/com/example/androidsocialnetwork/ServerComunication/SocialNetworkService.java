@@ -34,7 +34,7 @@ public interface SocialNetworkService {
     @GET("my-profile")
     Call<Profile> getMyProfile(@Header("Authorization") String authToken);
 
-    @POST("my-profile")
+    @PUT("my-profile")
     Call<ResponseBody> updateMyProfile(@Body Profile profile,@Header("Authorization") String authToken);
 
     @GET("chatrooms")

@@ -7,7 +7,7 @@ public class UserLogin implements Serializable {
     private boolean rememberMe;
     private String username;
 
-    public UserLogin(String password, boolean rememberMe, String username) {
+    public UserLogin(String username, boolean rememberMe, String password) {
         this.password = password;
         this.rememberMe = rememberMe;
         this.username = username;

@@ -85,7 +85,7 @@
 
         <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:background="@drawable/corners_background"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
@@ -99,7 +99,7 @@
             android:paddingTop="5dp"
             android:weightSum="1">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -120,10 +120,11 @@
                     android:textStyle="bold" />
                 <EditText
                     android:id="@+id/birth_date"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:inputType="date"
                     android:textColor="@color/colorGrey"
 
                     android:textSize="20dp"
@@ -157,11 +158,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <TextView
                     android:id="@+id/height_value_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -171,21 +173,23 @@
                     android:textStyle="bold" />
                 <EditText
                     android:id="@+id/height_value"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorGrey"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:inputType="number"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/weight_value_text_prof"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorWhite"
                         android:layout_marginTop="10dp"
@@ -195,13 +199,14 @@
                         android:textStyle="bold" />
                     <EditText
                         android:id="@+id/weight_value_prof"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:inputType="number"/>
                 </LinearLayout>
 
                 <TextView
@@ -217,9 +222,9 @@
                 <EditText
                     android:id="@+id/description"
                     android:textColor="@color/colorGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lorem ipsum dolor sit amet consectetur adipiscing elit nisl nunc, porttitor taciti montes commodo ultricies orci volutpat facilisi semper, turpis tincidunt phasellus mus quis per sapien donec. Etiam arcu penatibus sagittis est duis maecenas montes id interdum, tellus lectus feugiat velit hendrerit libero sociis eleifend, lobortis vivamus sapien odio praesent vestibulum semper luctus. Vel litora suscipit dapibus id vivamus himenaeos mollis, ultricies porttitor volutpat dui tortor primis turpis, suspendisse orci aptent laoreet hac nulla." />
+                    android:text="Lorem ipsum " />
 
             </LinearLayout>
         </LinearLayout>

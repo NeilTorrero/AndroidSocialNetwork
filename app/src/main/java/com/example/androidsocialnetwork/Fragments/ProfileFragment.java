@@ -3,6 +3,8 @@ package com.example.androidsocialnetwork.Fragments;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,7 @@ import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -55,7 +59,8 @@ public class ProfileFragment extends Fragment {
     private Spinner userGender;
     private ImageView profilePhoto;
     private DatePickerDialog dataPicker;
-
+    private String date;
+    private String lastUri;
 
     private boolean textChanged;
     private List<String> genderStrings;
@@ -88,6 +93,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
+        registerController(new ControllerDataPicker(this));
         View v = inflater.inflate(R.layout.activity_profile,container,false);
 
         genderStrings = new ArrayList<>();
@@ -187,8 +193,6 @@ public class ProfileFragment extends Fragment {
 
                    if (textChanged) {
                        textChanged = false;
-                       ComunicationServer conn = new ComunicationServer();
-                       conn.updateMyProfile(userAge.toString(), userGender.getSelectedItem().toString(), userHeight.getHeight(), userDescription.toString(), ProfileFragment.this);
                    }
                    userDescription.setFocusableInTouchMode(true);
                    userAge.setFocusableInTouchMode(true);
@@ -201,13 +205,19 @@ public class ProfileFragment extends Fragment {
                    btnEdit.setText("Done");
                    profilePhoto.setEnabled(true);
                } else {
-                   userDescription.setFocusable(false);
-                   userAge.setFocusable(false);
-                   userGender.setClickable(false);
-                   userHeight.setFocusable(false);
-                   userWeight.setFocusable(false);
-                   userWeight.setFocusableInTouchMode(false);
-                   btnEdit.setText("Edit");
+                   if (userGender.getSelectedItem() == null) {
+                       ComunicationServer.getInstance().updateMyProfile(date, "", userHeight.getHeight(), userDescription.getText().toString(), lastUri,ProfileFragment.this);
+                   }
+                   else {
+                       ComunicationServer.getInstance().updateMyProfile(date, userGender.getSelectedItem().toString(), userHeight.getHeight(), userDescription.getText().toString(),lastUri, ProfileFragment.this);
+                   }
+                       userDescription.setFocusable(false);
+                       userAge.setFocusable(false);
+                       userGender.setClickable(false);
+                       userHeight.setFocusable(false);
+                       userWeight.setFocusable(false);
+                       userWeight.setFocusableInTouchMode(false);
+                       btnEdit.setText("Edit");
 
                }
             }
@@ -222,6 +232,7 @@ public class ProfileFragment extends Fragment {
         userWeight.setFocusable(false);
         userWeight.setFocusableInTouchMode(false);
         userGender.setClickable(false);
+        obtainUserInformation();
 
         return v;
     }
@@ -260,6 +271,19 @@ public class ProfileFragment extends Fragment {
         //Metodo que se encaragara de llamar a la funcion de retrofit para adquirir los datos del usuario que estamos ahora mismo y printar la informacion por pantalla
         ComunicationServer.getInstance().getMyProfile(this); // Aquesta funcio al obtenir el profile cridara a updateProfile d'aquest mateix fragment
         //TODO: La informacion adquirida la pones en la variable inferior llamada user, yo ya me encaragare de gestionar la informacion
+        //yProfile = ComunicationServer.getInstance().getUserProfile();
+
+    }
+
+    public void updateProfile(Profile newProfile) {
+        myProfile = newProfile;
+        if (myProfile.getPicture() != null ) {
+            byte[] imageBytes;
+            imageBytes = Base64.decode(myProfile.getPicture(), Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            lastUri = myProfile.getPicture();
+            Glide.with(getContext()).asBitmap().load(decodedImage).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
+        }
 
         if (myProfile.getHeight() == 0) {
             hideValue(2);
@@ -275,22 +299,21 @@ public class ProfileFragment extends Fragment {
         }
         if (!myProfile.getShowAge()) {
             hideValue(0);
+            date = myProfile.getBirthDate();
         }
         else {
             userAge.setText(myProfile.getBirthDate());
         }
-        if (myProfile.getGender().equals("DO NOT SHOW")) {
-            hideValue(1);
+        if (myProfile.getGender() != null ) {
+            if (myProfile.getGender().equals("DO NOT SHOW")) {
+                hideValue(1);
+            } else {
+                userGender.setSelection(myProfile.getGender().getId()-1);
+            }
         }
-        else {
-            userGender.setSelection(myProfile.getGender().getId());
-        }
+
 
         //TODO: PARA PEPE, MIRAR SI QUIERE UNAS UNIDADES CONCRETAS Y PONERLAS JUNTO A LOS KG POR EJEMPLO
-    }
-
-    public void updateProfile(Profile newProfile) {
-        myProfile = newProfile;
     }
 
     public void getAllGenders(ArrayList<Gender> genders) {
@@ -319,6 +342,7 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == 69){
             Uri imageUri = data.getData();
+            lastUri = imageUri.toString();
             profilePhoto.setImageURI(imageUri);
             //extraemos el drawable en un bitmap
             Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
@@ -326,7 +350,23 @@ public class ProfileFragment extends Fragment {
     }
 
     public void changeTextViewDate (int day, int month, int year) {
-        userAge.setText(year + "-" + month + "-" + day);
+        if ((month+1) < 10) {
+            if (day < 10) {
+                userAge.setText("0" + day + "/0" + (month + 1) + "/" + year);
+                date = year + "-0" + (month + 1) + "-0" + day;
+            } else {
+                userAge.setText(day + "/0" + (month + 1) + "/" + year);
+                date = year + "-0" + (month + 1) + "-" + day;
+            }
+        } else {
+            if (day < 10) {
+                userAge.setText("0" + day + "/" + (month + 1) + "/" + year);
+                date = year + "-" + (month + 1) + "-0" + day;
+            } else {
+                userAge.setText(day + "/" + (month + 1) + "/" + year);
+                date = year + "-" + (month + 1) + "-" + day;
+            }
+        }
     }
 
 }

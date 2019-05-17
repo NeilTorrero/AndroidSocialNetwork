@@ -85,7 +85,7 @@ public class ComunicationServer {
                 if (response.isSuccessful()) {
                     ComunicationServer.getInstance().setTokenUser(response.body());
                     loginActivity.loginCorrect();
-                    getMyProfile();
+                    getMyProfileHere();
                 } else {
                     loginActivity.loginIncorrect();
                 }
@@ -98,7 +98,7 @@ public class ComunicationServer {
         });
     }
 
-    public void getMyProfile() {
+    public void getMyProfileHere() {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
 
@@ -160,12 +160,25 @@ public class ComunicationServer {
         });
     }
 
-    public void updateMyProfile (String birthDate, String gender, int height, String description, final ProfileFragment profileFragment ) {
+    public void updateMyProfile (String birthDate, String gender, int height, String description,String imageUser, final ProfileFragment profileFragment ) {
 
         Profile auxP = profileFragment.getMyProfile();
         auxP.setBirthDate(birthDate);
         auxP.setHeight(height);
         auxP.setAboutMe(description);
+        auxP.setPicture(imageUser);
+       updateGender(gender, profileFragment); // Actualitzem el genere
+
+        getAllGenders(profileFragment);
+
+        Gender gender1 = null;
+
+        for (Gender g: genders) {
+            if (g.getType().equals(gender)) {
+                gender1 = g;
+            }
+        }
+        auxP.setGender(gender1);
         Call<ResponseBody> updateMyProfile = service.updateMyProfile(auxP, "Bearer " + tokenUser.getIdToken());
         updateMyProfile.enqueue(new Callback<ResponseBody>() {
 
@@ -183,8 +196,6 @@ public class ComunicationServer {
                 Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-
-        updateGender(gender, profileFragment); // Actualitzem el genere
     }
 
     public void getAllChatRooms(final ChatListFragment chatListFragment) {
@@ -415,6 +426,7 @@ public class ComunicationServer {
                 if (response.isSuccessful()) {
                     ArrayList<Gender> genders = new ArrayList<>(Arrays.asList(response.body()));
                     profileFragment.getAllGenders(genders);
+                    setGenders(genders);
                 } else {
                 }
             }
@@ -423,6 +435,10 @@ public class ComunicationServer {
                 //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void setGenders(ArrayList<Gender> genders) {
+        this.genders = genders;
     }
 
     private void getAllGendersHere() {
@@ -448,16 +464,19 @@ public class ComunicationServer {
         Gender newGender = null;
         Gender oldGenderToUpdate = null;
         for (Gender g: genders) {
-            if (g.getUsers().contains(userProfile)) {
-                if (g.getType().equals(gender)) {
-                    doUptade = false;
-                } else {
-                    g.getUsers().remove(userProfile);
-                    oldGenderToUpdate = g;
+            if (g.getUsers() != null) {
+
+                if (g.getUsers().contains(userProfile)) {
+                    if (g.getType().equals(gender)) {
+                        doUptade = false;
+                    } else {
+                        g.getUsers().remove(userProfile);
+                        oldGenderToUpdate = g;
+                    }
                 }
-            }
-            if (g.getType().equals(gender)) {
-                newGender = g;
+                if (g.getType().equals(gender)) {
+                    newGender = g;
+                }
             }
         }
 
@@ -497,5 +516,8 @@ public class ComunicationServer {
         }
     }
 
+    public Profile getUserProfile() {
+        return userProfile;
+    }
 }
 

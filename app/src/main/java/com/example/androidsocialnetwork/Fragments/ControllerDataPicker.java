@@ -17,5 +17,6 @@ public class ControllerDataPicker implements DatePickerDialog.OnDateSetListener{
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         profileFragment.changeTextViewDate (dayOfMonth,month,year);
+
     }
 }

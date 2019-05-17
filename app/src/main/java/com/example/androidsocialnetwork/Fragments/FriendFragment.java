@@ -1,6 +1,7 @@
 package com.example.androidsocialnetwork.Fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class FriendFragment extends Fragment {
     public void obtainFriendInformation () {
         //Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
         ComunicationServer.getInstance().getMyProfile(FriendFragment.this);
+
 
         if (userProfile.getHeight() == 0) {
             userHeight.setVisibility(View.GONE);
