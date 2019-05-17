@@ -1,5 +1,6 @@
 package com.example.androidsocialnetwork.Fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -53,13 +54,18 @@ public class ProfileFragment extends Fragment {
     private EditText userWeight;
     private Spinner userGender;
     private ImageView profilePhoto;
+    private DatePickerDialog dataPicker;
+
 
     private boolean textChanged;
     private List<String> genderStrings;
 
     private Profile myProfile;
 
-    public ProfileFragment() {
+
+
+    public void registerController (ControllerDataPicker controllerDataPicker) {
+        dataPicker =  new DatePickerDialog(this.getContext(),controllerDataPicker, 2019, 3, 1);
     }
 
     @Override
@@ -107,6 +113,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        userAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataPicker.show();
             }
         });
 
@@ -311,6 +323,10 @@ public class ProfileFragment extends Fragment {
             //extraemos el drawable en un bitmap
             Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
         }
+    }
+
+    public void changeTextViewDate (int day, int month, int year) {
+        userAge.setText(year + "-" + month + "-" + day);
     }
 
 }
