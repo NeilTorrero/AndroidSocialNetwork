@@ -44,7 +44,10 @@ public interface SocialNetworkService {
     Call<ResponseBody> sendMessage(@Body Chatroom message, @Header("Authorization") String authToken);
 
     @POST("invite/{userId}")
-    Call<ResponseBody> inviteUser(@Path("userId") int id, @Header("Authorization") String authToken);
+    Call<Invitation> inviteUser(@Path("userId") int id, @Header("Authorization") String authToken);
+
+    @POST("invitations")
+    Call<Invitation> invitePeople (@Body Invitation invitation, @Header("Authorization") String authToken);
 
     @GET("users/{login}")
     Call<User> getUserById(@Path("login") String userName, @Header("Authorization") String authToken);

@@ -139,6 +139,27 @@ public class ComunicationServer {
         });
     }
 
+    public void getMyProfileMainActivity(final MainActivity mainActivity) {
+        Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
+        getMyProfile.enqueue(new Callback<Profile>() {
+
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.isSuccessful()) {
+                    mainActivity.setMyProfile(response.body());
+                    userProfile = response.body();
+                } else {
+                    Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Toast.makeText(mainActivity.getBaseContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void getMyProfile(final FriendFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
@@ -288,7 +309,7 @@ public class ComunicationServer {
         return aux[0];
     }
 
-    public ArrayList<User> inviteRandomUser(final MainActivity mainActivity) {
+    public ArrayList<User> inviteRandomUser(final MainActivity mainActivity, final Profile myProfile) {
         final ArrayList<User>[] users = new ArrayList[]{new ArrayList<>()};
         Call<User[]> getAllUsers = service.getAllUsers("Bearer " + tokenUser.getIdToken());
         getAllUsers.enqueue(new Callback<User[]>() {
@@ -296,7 +317,7 @@ public class ComunicationServer {
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
                     users[0] = new ArrayList<>(Arrays.asList(response.body()));
-                    inviteUser(mainActivity,users[0]);
+                    inviteUser(mainActivity,users[0],myProfile);
                 }
 
             }
@@ -309,26 +330,42 @@ public class ComunicationServer {
         return users[0];
     }
 
-    public void inviteUser(final MainActivity mainActivity, final ArrayList <User> users) {
+    public void inviteUser(final MainActivity mainActivity, final ArrayList <User> users, final Profile myProfile) {
         //ArrayList<User> users = getAllUsers();
-        final int randomNumber = Math.abs(new Random().nextInt(users.size()-1));
+        final int randomNumber = (int) Math.abs(Math.random() * (users.size()-1));
         User auxUser = users.get(randomNumber);
-        Call<ResponseBody> sendInvitation = service.inviteUser(auxUser.getId(), "Bearer " + tokenUser.getIdToken());
-        sendInvitation.enqueue(new Callback<ResponseBody>() {
+        Call<Profile> getUserById = service.getUserProfileById(randomNumber,"Bearer " + tokenUser.getIdToken());
+        getUserById.enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(mainActivity.getBaseContext(), "Send to the random user the invitation to connect!!", Toast.LENGTH_LONG).show();
-                    mainActivity.changeChatInformation(users.get(randomNumber));
-                    // profileFragment.updateProfile(response.body());
+                    Invitation invitation = new Invitation();
+                    invitation.setAccepted(true);
+                    invitation.setSent(myProfile);
+                    invitation.setReceived(response.body());
+                    Call<Invitation> sendInvitation = service.invitePeople(invitation, "Bearer " + tokenUser.getIdToken());
+                    sendInvitation.enqueue(new Callback<Invitation>() {
+                        @Override
+                        public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(mainActivity.getBaseContext(), "Send to the random user the invitation to connect!!", Toast.LENGTH_LONG).show();
+                                mainActivity.changeChatInformation(users.get(randomNumber));
+                                // profileFragment.updateProfile(response.body());
+                            } else {
+                                Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Invitation> call, Throwable t) {
+                            Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } else {
-                    Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<Profile> call, Throwable t) {
             }
         });
     }

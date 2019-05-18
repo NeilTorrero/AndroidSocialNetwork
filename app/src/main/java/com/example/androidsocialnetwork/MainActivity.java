@@ -22,12 +22,14 @@ import com.example.androidsocialnetwork.Fragments.FriendFragment;
 import com.example.androidsocialnetwork.Fragments.MenuBarFragment;
 import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
+import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
 public class MainActivity extends FragmentActivity implements Callbacks {
     private TextView mainText;
+    private Profile myProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             fragmentMenuBar = new MenuBarFragment();
             fm.beginTransaction().add(R.id.fragment_menu_bar,fragmentMenuBar).commit();
         }
+        ComunicationServer.getInstance().getMyProfileMainActivity(this);
         mainText = findViewById(R.id.main_text);
         mainText.setText("Chats");
     }
@@ -59,7 +62,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
             case 0:
                 newFragment = new ChatFragment();
                 mainText.setText("Random Chat");
-                ComunicationServer.getInstance().inviteRandomUser(this);
+                ComunicationServer.getInstance().inviteRandomUser(this,myProfile);
                 break;
             case 1:
                 newFragment = new ChatListFragment();
@@ -154,5 +157,9 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         ChatFragment chatFragment = (ChatFragment) fragment;
         chatFragment.changeInformation(user.getLogin(),user.getImageUrl());
+    }
+
+    public void setMyProfile(Profile body) {
+        myProfile = body;
     }
 }
