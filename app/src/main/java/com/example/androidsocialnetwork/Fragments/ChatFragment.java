@@ -23,6 +23,7 @@ import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
 
 public class ChatFragment extends Fragment {
+
     private ImageView backButton;
     private ImageView profilePic;
     private TextView userName;
@@ -33,7 +34,7 @@ public class ChatFragment extends Fragment {
     private EditText chatText;
     private ImageView sendButton;
     private Callbacks mCallbacks;
-
+    private String realusername;
 
 
     @Override
@@ -97,4 +98,17 @@ public class ChatFragment extends Fragment {
         }
         userName.setText(nameUser);
     }
+
+
+    public String getRealusername() {
+        return realusername;
+    }
+
+    public void setRealusername(String realusername) {
+        this.realusername = realusername;
+    }
+
+
+
+
 }

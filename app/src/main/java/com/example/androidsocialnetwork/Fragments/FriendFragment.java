@@ -1,20 +1,30 @@
 package com.example.androidsocialnetwork.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserDTO;
 import com.example.androidsocialnetwork.R;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class FriendFragment extends Fragment {
 
@@ -29,8 +39,9 @@ public class FriendFragment extends Fragment {
     private ImageView blockButton;
     private TextView userWeight;
     private TextView userAge;
-
+    private String hola;
     private Profile userProfile;
+    private String lastUri;
 
     @Override
     public void onAttach(Context context) {
@@ -53,10 +64,11 @@ public class FriendFragment extends Fragment {
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         View v = inflater.inflate(R.layout.friend_profile,container,false);
         usernameFriend = (TextView) v.findViewById(R.id.friend_name);
+        usernameFriend.setText(hola);
         friendPhoto = (ImageView) v.findViewById(R.id.profile_picture_friend);
         userBirthDate = (TextView) v.findViewById(R.id.birth_date_friend);
         userHeight = (TextView) v.findViewById(R.id.height_value_friend);
-        userWeight = (TextView) v.findViewById(R.id.weight_value_prof);
+        userWeight = (TextView) v.findViewById(R.id.weight_value_friend);
         userAge = (TextView) v.findViewById(R.id.age_value_friend);
         userGender = (TextView) v.findViewById(R.id.gender_value_friend);
         userDescription = (TextView) v.findViewById(R.id.description_friend);
@@ -76,41 +88,91 @@ public class FriendFragment extends Fragment {
                 mCallbacks.returnToMainMenu();
             }
         });
+        obtainFriendInformation();
         return v;
     }
 
     public void obtainFriendInformation () {
         //Con este metodo, se seteara la informacion del usuario (supongo que obtendrás la información en formato usuario), la pones en la variable user
-        ComunicationServer.getInstance().getMyProfile(FriendFragment.this);
+        ComunicationServer.getInstance().getUserById(usernameFriend.getText().toString(),this);
+
+    }
+
+    public void updateProfile(UserDTO newProfile) {
+        updateDescription(newProfile.getId());
+    }
+
+    private void updateDescription(int id) {
+        ComunicationServer.getInstance().getProfileById(id,this);
+    }
 
 
-        if (userProfile.getHeight() == 0) {
+    public void getProfileSuccesful(Profile body) {
+        if (body.getDisplayName() != null) {
+            usernameFriend.setText(body.getDisplayName());
+        }
+        if (body.getAboutMe() != null) {
+            userDescription.setText(body.getAboutMe());
+        }
+
+        if (body.getHeight() == null  || body.getHeight() == 0) {
             userHeight.setVisibility(View.GONE);
         }
         else {
-            userHeight.setText("Height:" + userProfile.getHeight());
+            userHeight.setText("Height:" + body.getHeight().toString());
         }
-        if (userProfile.getWeight() == 0) {
+        if (body.getWeight() == null || body.getWeight() == 0) {
             userWeight.setVisibility(View.GONE);
         }
         else {
-            userWeight.setText("Weight:" + userProfile.getWeight());
+            userWeight.setText("Weight:" + body.getWeight().toString());
         }
-        if (!userProfile.getShowAge()) {
+        if (!body.getShowAge()) {
             userAge.setVisibility(View.GONE);
         }
         else {
-            userAge.setText("Age:" + userProfile.getBirthDate());
+            userAge.setText("Age:" + body.getBirthDate());
         }
-        if (userProfile.getGender().equals("DO NOT SHOW")) {
+        if (body.getGender() == null || body.getGender().equals("DO NOT SHOW")) {
             userGender.setVisibility(View.GONE);
         }
         else {
-            userGender.setText("Gender:" + userProfile.getGender());
+            userGender.setText("Gender:" + body.getGender().getType());
+        }
+        if (body.getPicture() != null) {
+            byte[] imageBytes;
+            imageBytes = Base64.decode(body.getPicture(), Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            lastUri = body.getPicture();
+            Glide.with(getContext()).asBitmap().load(decodedImage).apply(RequestOptions.circleCropTransform()).into(friendPhoto);
         }
     }
 
-    public void updateProfile(Profile newProfile) {
-        userProfile = newProfile;
+    public void stablishUsername(String usernameFriend) {
+        hola = usernameFriend;
+    }
+
+    public String getHola() {
+        return hola;
+    }
+
+    public void setHola(String hola) {
+        this.hola = hola;
+    }
+
+    public TextView getUsernameFriend() {
+        return usernameFriend;
+    }
+
+    public void setUsernameFriend(TextView usernameFriend) {
+        this.usernameFriend = usernameFriend;
+    }
+
+    public String getLastUri() {
+        return lastUri;
+    }
+
+    public void setLastUri(String lastUri) {
+        this.lastUri = lastUri;
     }
 }

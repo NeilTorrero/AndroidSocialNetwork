@@ -79,7 +79,7 @@
     </LinearLayout>
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:background="@drawable/corners_background"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
@@ -103,7 +103,7 @@
 
                 <TextView
                     android:id="@+id/birth_date_friend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
@@ -114,7 +114,7 @@
 
                 <TextView
                     android:id="@+id/gender_value_friend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -125,7 +125,7 @@
 
                 <TextView
                     android:id="@+id/height_value_friend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -135,7 +135,7 @@
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/weight_value_friend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -146,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/age_value_friend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -156,7 +156,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_marginTop="10dp"
@@ -168,7 +168,7 @@
                 <TextView
                     android:id="@+id/description_friend"
                     android:textColor="@color/colorWhite"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum dolor sit amet consectetur adipiscing elit nisl nunc, porttitor taciti montes commodo ultricies orci volutpat facilisi semper, turpis tincidunt phasellus mus quis per sapien donec. Etiam arcu penatibus sagittis est duis maecenas montes id interdum, tellus lectus feugiat velit hendrerit libero sociis eleifend, lobortis vivamus sapien odio praesent vestibulum semper luctus. Vel litora suscipit dapibus id vivamus himenaeos mollis, ultricies porttitor volutpat dui tortor primis turpis, suspendisse orci aptent laoreet hac nulla." />
 

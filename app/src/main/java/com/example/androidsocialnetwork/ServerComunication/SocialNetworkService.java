@@ -7,6 +7,7 @@ import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserDTO;
 import com.example.androidsocialnetwork.Model.UserLogin;
 
 import okhttp3.ResponseBody;
@@ -50,7 +51,7 @@ public interface SocialNetworkService {
     Call<Invitation> invitePeople (@Body Invitation invitation, @Header("Authorization") String authToken);
 
     @GET("users/{login}")
-    Call<User> getUserById(@Path("login") String userName, @Header("Authorization") String authToken);
+    Call<UserDTO> getUserById(@Path("login") String userName, @Header("Authorization") String authToken);
 
     @GET("pending-invites")
     Call<Invitation[]> getPendingInvites(@Header("Authorization") String authToken);

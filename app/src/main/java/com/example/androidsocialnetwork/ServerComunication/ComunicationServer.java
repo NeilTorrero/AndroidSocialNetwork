@@ -16,6 +16,7 @@ import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserDTO;
 import com.example.androidsocialnetwork.Model.UserLogin;
 import com.example.androidsocialnetwork.RegisterActivity;
 import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
@@ -160,7 +161,7 @@ public class ComunicationServer {
         });
     }
 
-    public void getMyProfile(final FriendFragment profileFragment) {
+    /*public void getFriendProfile(final FriendFragment profileFragment) {
         Call<Profile> getMyProfile = service.getMyProfile("Bearer " + tokenUser.getIdToken());
         getMyProfile.enqueue(new Callback<Profile>() {
 
@@ -179,7 +180,7 @@ public class ComunicationServer {
                 Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
     public void updateMyProfile (String birthDate, String gender, int height,int weight, String description,String imageUser, final ProfileFragment profileFragment ) {
 
@@ -290,23 +291,24 @@ public class ComunicationServer {
         Chatroom message = new Chatroom();
     }
 
-    public User getUserById(String userName) {
-        Call<User> getUserId = service.getUserById(userName,"Bearer " + tokenUser.getIdToken());
-        final User[] aux = new User[1];
-        getUserId.enqueue(new Callback<User>() {
+    public void getUserById(String userName, final FriendFragment friendFragment) {
+        Call<UserDTO> getUserId = service.getUserById(userName,"Bearer " + tokenUser.getIdToken());
+
+        getUserId.enqueue(new Callback<UserDTO>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
                 if (response.isSuccessful()) {
-                    aux[0] = response.body();
+                    friendFragment.updateProfile((UserDTO) response.body());
                 } else {
+                    System.out.println("hola");
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+                System.out.println("hoalalal");
             }
         });
-        return aux[0];
     }
 
     public ArrayList<User> inviteRandomUser(final MainActivity mainActivity, final Profile myProfile) {
@@ -332,9 +334,9 @@ public class ComunicationServer {
 
     public void inviteUser(final MainActivity mainActivity, final ArrayList <User> users, final Profile myProfile) {
         //ArrayList<User> users = getAllUsers();
-        final int randomNumber = (int) Math.abs(Math.random() * (users.size()-1));
+        final int randomNumber = (int) Math.abs((Math.random() * (users.size()-1))%20);
         User auxUser = users.get(randomNumber);
-        Call<Profile> getUserById = service.getUserProfileById(randomNumber,"Bearer " + tokenUser.getIdToken());
+        Call<Profile> getUserById = service.getUserProfileById(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
         getUserById.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -342,6 +344,7 @@ public class ComunicationServer {
                     Invitation invitation = new Invitation();
                     invitation.setAccepted(true);
                     invitation.setSent(myProfile);
+                    final Profile p = response.body();
                     invitation.setReceived(response.body());
                     Call<Invitation> sendInvitation = service.invitePeople(invitation, "Bearer " + tokenUser.getIdToken());
                     sendInvitation.enqueue(new Callback<Invitation>() {
@@ -349,7 +352,7 @@ public class ComunicationServer {
                         public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                             if (response.isSuccessful()) {
                                 Toast.makeText(mainActivity.getBaseContext(), "Send to the random user the invitation to connect!!", Toast.LENGTH_LONG).show();
-                                mainActivity.changeChatInformation(users.get(randomNumber));
+                                mainActivity.changeChatInformation(users.get(randomNumber),p);
                                 // profileFragment.updateProfile(response.body());
                             } else {
                                 Toast.makeText(mainActivity.getBaseContext(), "Something happened!", Toast.LENGTH_LONG).show();
@@ -370,6 +373,43 @@ public class ComunicationServer {
         });
     }
 
+
+    public void gotoPreviousUser (final MainActivity mainActivity, final String userName) {
+        //ArrayList<User> users = getAllUsers();
+        Call<UserDTO> getUserId = service.getUserById(userName,"Bearer " + tokenUser.getIdToken());
+
+        getUserId.enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                if (response.isSuccessful()) {
+                    final UserDTO u = ((UserDTO)response.body());
+                    Call<Profile> getUserById = service.getUserProfileById(u.getId(),"Bearer " + tokenUser.getIdToken());
+                    getUserById.enqueue(new Callback<Profile>() {
+                        @Override
+                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                            if (response.isSuccessful()) {
+                                mainActivity.reloadChatInformation(u,(Profile)response.body());
+                                // profileFragment.updateProfile(response.body());
+                            } else {
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Profile> call, Throwable t) {
+                        }
+                    });
+                } else {
+                    System.out.println("hola");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+                System.out.println("hoalalal");
+            }
+        });
+
+    }
+
     public TokenUser getTokenUser() {
         return tokenUser;
     }
@@ -384,7 +424,7 @@ public class ComunicationServer {
         block.setId(getBlocks()+1);
         block.setCreatedDate(data.toString());
         block.setSent(userProfile);
-        block.setReceived(getProfileById(blockUserName));
+        //block.setReceived(getProfileById(blockUserName));
 
         Call<ResponseBody> blockUser = service.blockUser(block,"Bearer " + tokenUser.getIdToken());
         blockUser.enqueue(new Callback<ResponseBody>() {
@@ -420,15 +460,14 @@ public class ComunicationServer {
         return ret[0];
     }
 
-    public Profile getProfileById(String userName) {
+    public Profile getProfileById(int id, final FriendFragment friendFragment) {
         final Profile[] retProfile = new Profile[1];
-        User auxU = getUserById(userName);
-        Call<Profile> getUserById = service.getUserProfileById(auxU.getId(),"Bearer " + tokenUser.getIdToken());
+        Call<Profile> getUserById = service.getUserProfileById(id,"Bearer " + tokenUser.getIdToken());
         getUserById.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()) {
-                    retProfile[0] = response.body();
+                    friendFragment.getProfileSuccesful((Profile) response.body());
                 } else {
                 }
             }

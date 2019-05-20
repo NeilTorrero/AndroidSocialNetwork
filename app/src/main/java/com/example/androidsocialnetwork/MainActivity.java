@@ -24,6 +24,7 @@ import com.example.androidsocialnetwork.Fragments.ProfileFragment;
 import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.User;
+import com.example.androidsocialnetwork.Model.UserDTO;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
@@ -94,10 +95,12 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = (Fragment) fm.findFragmentById(R.id.fragment_container);
+        String usernameFriend = ((ChatFragment) f).getRealusername();
         if (f != null) {
             ft.remove(f);
         }
         Fragment newFragment = new FriendFragment();
+        ((FriendFragment) newFragment).stablishUsername(usernameFriend);
         ft.add(R.id.fragment_container,newFragment).commit();
     }
 
@@ -107,11 +110,13 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = (Fragment) fm.findFragmentById(R.id.fragment_container);
+        String nameUser = ((FriendFragment) f).getHola();
         if (f != null) {
             ft.remove(f);
         }
-        Fragment newFragment = new ChatFragment();
+        ChatFragment newFragment = new ChatFragment();
         ft.add(R.id.fragment_container,newFragment).commit();
+        ComunicationServer.getInstance().gotoPreviousUser(this,nameUser);
     }
 
     @Override
@@ -152,14 +157,25 @@ public class MainActivity extends FragmentActivity implements Callbacks {
     }
 
 
-    public void changeChatInformation(User user) {
+    public void changeChatInformation(User user, Profile profile) {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         ChatFragment chatFragment = (ChatFragment) fragment;
-        chatFragment.changeInformation(user.getLogin(),user.getImageUrl());
+        chatFragment.changeInformation(profile.getDisplayName(),profile.getPicture());
+        chatFragment.setRealusername (user.getLogin());
     }
+
+
 
     public void setMyProfile(Profile body) {
         myProfile = body;
+    }
+
+    public void reloadChatInformation(UserDTO u, Profile body) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        ChatFragment chatFragment = (ChatFragment) fragment;
+        chatFragment.changeInformation(body.getDisplayName(),body.getPicture());
+        chatFragment.setRealusername (u.getLogin());
     }
 }
