@@ -2,6 +2,7 @@ package com.example.androidsocialnetwork.ServerComunication;
 
 import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.DirectMessage;
 import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -9,6 +10,8 @@ import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
 import com.example.androidsocialnetwork.Model.UserDTO;
 import com.example.androidsocialnetwork.Model.UserLogin;
+
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,6 +23,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface SocialNetworkService {
 
@@ -82,6 +86,12 @@ public interface SocialNetworkService {
 
     @PUT("genders")
     Call<ResponseBody> updateGender( @Body Gender gender ,@Header("Authorization") String authToken);
+
+    @GET("direct-messages{sender}")
+    Call<Profile[]> getAllMessages(@QueryMap Map<String, String> options, @Header("Authorization") String authToken);
+
+    @POST("direct-messages")
+    Call<ResponseBody> sendMessage(@Body DirectMessage message, @Header("Authorization") String authToken);
 
 
 
