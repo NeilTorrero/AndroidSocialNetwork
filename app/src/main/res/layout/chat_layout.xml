@@ -59,39 +59,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="90"
             android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/chat_left_msg_layout"
-                android:orientation="vertical"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@drawable/outcoming_message_bubble">
-
-                <TextView
-                    android:id="@+id/chat_left_msg_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/chat_right_msg_layout"
-                android:orientation="vertical"
+                android:background="@drawable/outgoing_message_bubble"
+                android:text="Hi how are you?"
+                android:textColor="@color/colorWhite"
+                android:padding="10sp"/>
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/incoming_message_bubble">
-
-                <TextView
-                    android:id="@+id/chat_right_msg_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"/>
-
-            </LinearLayout>
+                android:background="@drawable/incoming_message_bubble"
+                android:text="Fine and you?"
+                android:textColor="@color/colorWhite"
+                android:padding="10sp"/>
         </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
