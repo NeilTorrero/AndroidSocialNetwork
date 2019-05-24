@@ -418,13 +418,14 @@ public class ComunicationServer {
         this.tokenUser = tokenUser;
     }
 
-    public void blockUser(String blockUserName, final FriendFragment friendFragment) {
+    public void blockUser(int blockUserName, final FriendFragment friendFragment) {
         Block block = new Block();
         Date data = new Date();
         block.setId(getBlocks()+1);
         block.setCreatedDate(data.toString());
         block.setSent(userProfile);
-        //block.setReceived(getProfileById(blockUserName));
+
+        block.setReceived(getProfileById(blockUserName, friendFragment));
 
         Call<ResponseBody> blockUser = service.blockUser(block,"Bearer " + tokenUser.getIdToken());
         blockUser.enqueue(new Callback<ResponseBody>() {

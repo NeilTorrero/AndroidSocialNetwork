@@ -84,7 +84,7 @@ public class FriendFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO: Cuando el usuario pulse al boton de bloquear se tiene que bloquear tambien mediante retrofit al usuario
-                ComunicationServer.getInstance().blockUser(usernameFriend.toString(), FriendFragment.this);
+                ComunicationServer.getInstance().blockUser(userProfile.getId(), FriendFragment.this);
                 mCallbacks.returnToMainMenu();
             }
         });
@@ -108,6 +108,7 @@ public class FriendFragment extends Fragment {
 
 
     public void getProfileSuccesful(Profile body) {
+        userProfile = body;
         if (body.getDisplayName() != null) {
             usernameFriend.setText(body.getDisplayName());
         }
