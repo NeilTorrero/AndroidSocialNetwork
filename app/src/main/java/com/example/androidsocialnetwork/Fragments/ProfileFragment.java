@@ -191,6 +191,7 @@ public class ProfileFragment extends Fragment {
         });
 
         btnEdit = (Button) v.findViewById(R.id.btn_edit);
+        final ProfileFragment pf = this;
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,10 +213,10 @@ public class ProfileFragment extends Fragment {
                    profilePhoto.setClickable(true);
                } else {
                    if (userGender.getSelectedItem() == null) {
-                       ComunicationServer.getInstance().updateMyProfile(date, "", Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(), lastUri,ProfileFragment.this);
+                       ComunicationServer.getInstance().updateMyProfile(date, "", Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(), lastUri,pf);
                    }
                    else {
-                       ComunicationServer.getInstance().updateMyProfile(date, userGender.getSelectedItem().toString(), Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(),lastUri, ProfileFragment.this);
+                       ComunicationServer.getInstance().updateMyProfile(date, userGender.getSelectedItem().toString(), Integer.parseInt(userHeight.getText().toString()),Integer.parseInt(userWeight.getText().toString()), userDescription.getText().toString(),lastUri, pf);
                    }
                        userDescription.setFocusable(false);
                        userAge.setFocusable(false);

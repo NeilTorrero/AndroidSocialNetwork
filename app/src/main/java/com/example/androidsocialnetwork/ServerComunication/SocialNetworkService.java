@@ -76,7 +76,7 @@ public interface SocialNetworkService {
     Call<User[]> getAllUsers(@Header("Authorization") String authToken);
 
     @POST("blocks")
-    Call<ResponseBody> blockUser(Block block, @Header("Authorization") String authToken);
+    Call<ResponseBody> blockUser(@Body Block block, @Header("Authorization") String authToken);
 
     @GET("blocks/count")
     Call<Integer> getBlocks(@Header("Authorization") String authToken);
