@@ -23,6 +23,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface SocialNetworkService {
@@ -87,8 +88,13 @@ public interface SocialNetworkService {
     @PUT("genders")
     Call<ResponseBody> updateGender( @Body Gender gender ,@Header("Authorization") String authToken);
 
-    @GET("direct-messages{sender}")
-    Call<DirectMessage[]> getAllMessages(@QueryMap Map<String, String> options, @Header("Authorization") String authToken);
+    //@GET("direct-messages{sender}")
+    //Call<DirectMessage[]> getAllMessages(@QueryMap Map<String, Integer> options, @Header("Authorization") String authToken);
+
+
+    @GET("direct-messages")
+    Call<DirectMessage[]> getAllMessages_2(@Query("senderId.equals") Integer senderId, @Query("recipientId.equals") Integer recipientId, @Header("Authorization") String authToken);
+
 
     @POST("direct-messages")
     Call<ResponseBody> sendMessage(@Body DirectMessage message, @Header("Authorization") String authToken);

@@ -1,5 +1,9 @@
 package com.example.androidsocialnetwork.Model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DirectMessage {
     private String createdDate;
     private int id;
@@ -83,5 +87,18 @@ public class DirectMessage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+
+    public int compareTo(DirectMessage o) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            Date d1 = simpleDateFormat.parse(createdDate);
+            Date d2 = simpleDateFormat.parse(o.getCreatedDate());
+            return d1.compareTo(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

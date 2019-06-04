@@ -45,7 +45,7 @@ public class ComunicationServer {
     private TokenUser tokenUser;
     private Profile userProfile;
     private ArrayList<Gender> genders;
-    private ArrayList<DirectMessage> messages;
+
 
     private static ComunicationServer comunicationServer;
 
@@ -612,29 +612,113 @@ public class ComunicationServer {
         return userProfile;
     }
 
-    public void getAllMessages() {
+    /*public void getAllMessages() {
         Map<String, String> dataSender = new HashMap<>();
         dataSender.put("senderId.equals", "Marcus");
         getMessages(dataSender);  // We as the sender
         Map<String, String> dataReceiver = new HashMap<>();
         dataReceiver.put("senderId.equals", "Marcus");
         getMessages(dataReceiver);  // We as the receiver
-    }
+    }*/
 
-    private void getMessages(Map<String, String> data) {
+    /*private void getMessages(final ChatFragment chatFragment, Integer id_friend) {
         //data.put("recipientId.equals", "Marcus");
-        Call<DirectMessage[]> getAllMessages = service.getAllMessages(data ,"Bearer " + tokenUser.getIdToken());
+        Map<String, Integer> dataSender = new HashMap<>();
+        dataSender.put("senderId.equals", userProfile.getId());
+        Call<DirectMessage[]> getAllMessages = service.getAllMessages(dataSender ,"Bearer " + tokenUser.getIdToken());
         getAllMessages.enqueue(new Callback<DirectMessage[]>() {
             @Override
             public void onResponse(Call<DirectMessage[]> call, Response<DirectMessage[]> response) {
                 if (response.isSuccessful()) {
-                    messages = new ArrayList<>(Arrays.asList(response.body()));
+                    final ArrayList<DirectMessage> messages;
+                    messages =  new ArrayList<>(Arrays.asList(response.body()));
+                    Map<String, Integer> dataFriend = new HashMap<>();
+                    dataFriend.put("recipientId.equals", userProfile.getId());
+                    Call<DirectMessage[]> getAllMessages = service.getAllMessages(dataFriend ,"Bearer " + tokenUser.getIdToken());
+                    getAllMessages.enqueue(new Callback<DirectMessage[]>() {
+                        @Override
+                        public void onResponse(Call<DirectMessage[]> call, Response<DirectMessage[]> response) {
+                            if (response.isSuccessful()) {
+                                ArrayList<DirectMessage> messages_2;
+                                messages_2 = new ArrayList<>(Arrays.asList(response.body()));
+                                int i = 0;
+                                if (messages_2.size() > 0) {
+                                    while (i < messages_2.size()) {
+                                        messages.add(messages_2.get(i));
+                                    }
+                                    chatFragment.includeChats(messages);
+                                }
+                                else {
+                                    chatFragment.includeChats (messages);
+                                }
+                            } else {
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<DirectMessage[]> call, Throwable t) {
+                            //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } else {
                 }
             }
             @Override
             public void onFailure(Call<DirectMessage[]> call, Throwable t) {
                 //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }*/
+
+    public void getMessagesYouAndFriend(final ChatFragment chatFragment, final Integer id_friend) {
+        //data.put("recipientId.equals", "Marcus");
+        final Map<String, Integer> dataSender = new HashMap<>();
+        //dataSender.put("senderId.equals", userProfile.getId());
+        //dataSender.put("recipientId.equals", id_friend);
+        //Call<DirectMessage[]> getAllMessages = service.getAllMessages(dataSender ,"Bearer " + tokenUser.getIdToken());
+        Call<DirectMessage[]> getAllMessages = service.getAllMessages_2(userProfile.getId(),id_friend ,"Bearer " + tokenUser.getIdToken());
+        getAllMessages.enqueue(new Callback<DirectMessage[]>() {
+            @Override
+            public void onResponse(Call<DirectMessage[]> call, Response<DirectMessage[]> response) {
+                if (response.isSuccessful()) {
+                    final ArrayList<DirectMessage> messages;
+                    messages =  new ArrayList<>(Arrays.asList(response.body()));
+                    Map<String, Integer> dataFriend = new HashMap<>();
+                    //dataFriend.put("senderId.equals", id_friend);
+                    //dataFriend.put("recipientId.equals", userProfile.getId());
+                    //Call<DirectMessage[]> getAllMessages = service.getAllMessages(dataFriend ,"Bearer " + tokenUser.getIdToken());
+                    Call<DirectMessage[]> getAllMessages = service.getAllMessages_2(id_friend,userProfile.getId() ,"Bearer " + tokenUser.getIdToken());
+                    getAllMessages.enqueue(new Callback<DirectMessage[]>() {
+                        @Override
+                        public void onResponse(Call<DirectMessage[]> call, Response<DirectMessage[]> response) {
+                            if (response.isSuccessful()) {
+                                ArrayList<DirectMessage> messages_2;
+                                messages_2 = new ArrayList<>(Arrays.asList(response.body()));
+                                int i = 0;
+                                if (messages_2.size() > 0) {
+                                    while (i < messages_2.size()) {
+                                        messages.add(messages_2.get(i));
+                                    }
+                                    chatFragment.includeChats(messages);
+                                }
+                                else {
+                                    chatFragment.includeChats (messages);
+                                }
+                            } else {
+                                Toast.makeText(chatFragment.getContext(), "3!!!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<DirectMessage[]> call, Throwable t) {
+                            Toast.makeText(chatFragment.getContext(), "1!!!" + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(chatFragment.getContext(), "4!!!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<DirectMessage[]> call, Throwable t) {
+                Toast.makeText(chatFragment.getContext(), "2!!! " + t.getMessage() , Toast.LENGTH_LONG).show();
             }
         });
     }

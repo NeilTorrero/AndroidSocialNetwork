@@ -161,7 +161,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         ChatFragment chatFragment = (ChatFragment) fragment;
-        chatFragment.changeInformation(profile.getDisplayName(),profile.getPicture());
+        chatFragment.changeInformation(profile.getDisplayName(),profile.getPicture(),profile.getId());
         chatFragment.setRealusername (user.getLogin());
     }
 
@@ -175,7 +175,7 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         ChatFragment chatFragment = (ChatFragment) fragment;
-        chatFragment.changeInformation(body.getDisplayName(),body.getPicture());
+        chatFragment.changeInformation(body.getDisplayName(),body.getPicture(),body.getId());
         chatFragment.setRealusername (u.getLogin());
     }
 }
