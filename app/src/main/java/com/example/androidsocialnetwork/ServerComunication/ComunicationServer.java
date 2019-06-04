@@ -11,6 +11,7 @@ import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.MainActivity;
 import com.example.androidsocialnetwork.Model.Block;
 import com.example.androidsocialnetwork.Model.Chatroom;
+import com.example.androidsocialnetwork.Model.DirectMessage;
 import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
 import com.example.androidsocialnetwork.Model.Profile;
@@ -24,6 +25,8 @@ import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
@@ -39,6 +42,7 @@ public class ComunicationServer {
     private TokenUser tokenUser;
     private Profile userProfile;
     private ArrayList<Gender> genders;
+    private ArrayList<DirectMessage> messages;
 
     private static ComunicationServer comunicationServer;
 
@@ -602,6 +606,33 @@ public class ComunicationServer {
 
     public Profile getUserProfile() {
         return userProfile;
+    }
+
+    public void getAllMessages() {
+        Map<String, String> dataSender = new HashMap<>();
+        dataSender.put("senderId.equals", "Marcus");
+        getMessages(dataSender);  // We as the sender
+        Map<String, String> dataReceiver = new HashMap<>();
+        dataReceiver.put("senderId.equals", "Marcus");
+        getMessages(dataReceiver);  // We as the receiver
+    }
+
+    private void getMessages(Map<String, String> data) {
+        //data.put("recipientId.equals", "Marcus");
+        Call<DirectMessage[]> getAllMessages = service.getAllMessages(data ,"Bearer " + tokenUser.getIdToken());
+        getAllMessages.enqueue(new Callback<DirectMessage[]>() {
+            @Override
+            public void onResponse(Call<DirectMessage[]> call, Response<DirectMessage[]> response) {
+                if (response.isSuccessful()) {
+                    messages = new ArrayList<>(Arrays.asList(response.body()));
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<DirectMessage[]> call, Throwable t) {
+                //Toast.makeText(profileFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
 

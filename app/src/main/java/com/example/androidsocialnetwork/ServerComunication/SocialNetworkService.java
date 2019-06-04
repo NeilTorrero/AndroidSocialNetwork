@@ -88,7 +88,7 @@ public interface SocialNetworkService {
     Call<ResponseBody> updateGender( @Body Gender gender ,@Header("Authorization") String authToken);
 
     @GET("direct-messages{sender}")
-    Call<Profile[]> getAllMessages(@QueryMap Map<String, String> options, @Header("Authorization") String authToken);
+    Call<DirectMessage[]> getAllMessages(@QueryMap Map<String, String> options, @Header("Authorization") String authToken);
 
     @POST("direct-messages")
     Call<ResponseBody> sendMessage(@Body DirectMessage message, @Header("Authorization") String authToken);
