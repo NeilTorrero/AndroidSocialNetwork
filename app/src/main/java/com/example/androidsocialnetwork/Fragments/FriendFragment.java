@@ -43,6 +43,7 @@ public class FriendFragment extends Fragment {
     private Profile userProfile;
     private String lastUri;
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -80,11 +81,12 @@ public class FriendFragment extends Fragment {
             }
         });
         blockButton = v.findViewById(R.id.block_button);
+        final Context context = this.getContext();
         blockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Cuando el usuario pulse al boton de bloquear se tiene que bloquear tambien mediante retrofit al usuario
-                ComunicationServer.getInstance().blockUser(userProfile.getId(), FriendFragment.this);
+                ComunicationServer.getInstance().blockUser(userProfile, context);
                 mCallbacks.returnToMainMenu();
             }
         });
@@ -128,7 +130,7 @@ public class FriendFragment extends Fragment {
         else {
             userWeight.setText("Weight:" + body.getWeight().toString());
         }
-        if (!body.getShowAge()) {
+        if (body.getShowAge() == null || !body.getShowAge()) {
             userAge.setVisibility(View.GONE);
         }
         else {

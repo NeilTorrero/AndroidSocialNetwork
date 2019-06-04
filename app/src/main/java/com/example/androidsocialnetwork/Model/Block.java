@@ -3,15 +3,13 @@ package com.example.androidsocialnetwork.Model;
 public class Block {
 
     private String createdDate;
-    private Integer id;
-    private Profile received;
-    private Profile sent;
+    private BlockProfile received;
+    private BlockProfile sent;
 
     public Block() {}
 
-    public Block(String createdDate, Integer id, Profile received, Profile sent) {
+    public Block(String createdDate, Integer id, BlockProfile received, BlockProfile sent) {
         this.createdDate = createdDate;
-        this.id = id;
         this.received = received;
         this.sent = sent;
     }
@@ -24,27 +22,20 @@ public class Block {
         this.createdDate = createdDate;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Profile getReceived() {
+    public BlockProfile getReceived() {
         return received;
     }
 
     public void setReceived(Profile received) {
-        this.received = received;
+        this.received = new BlockProfile(received.getId());
     }
 
-    public Profile getSent() {
+    public BlockProfile getSent() {
         return sent;
     }
 
     public void setSent(Profile sent) {
-        this.sent = sent;
+        this.sent = new BlockProfile(sent.getId());
     }
 }

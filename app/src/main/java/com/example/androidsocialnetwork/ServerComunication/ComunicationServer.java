@@ -1,5 +1,6 @@
 package com.example.androidsocialnetwork.ServerComunication;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.example.androidsocialnetwork.Fragments.ChatFragment;
@@ -21,6 +22,8 @@ import com.example.androidsocialnetwork.Model.UserLogin;
 import com.example.androidsocialnetwork.RegisterActivity;
 import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -51,7 +54,7 @@ public class ComunicationServer {
 
     public ComunicationServer() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://android2.byted.xyz/api/")
+                .baseUrl("http://android3.byted.xyz/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(SocialNetworkService.class);
@@ -208,7 +211,7 @@ public class ComunicationServer {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(profileFragment.getContext(), "Correct update!!!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(profileFragment.getContext(), "Correct update!!!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(profileFragment.getContext(), "Any of the parameters entered is not correct!!", Toast.LENGTH_LONG).show();
                 }
@@ -418,23 +421,23 @@ public class ComunicationServer {
         this.tokenUser = tokenUser;
     }
 
-    public void blockUser(int blockUserName, final FriendFragment friendFragment) {
+    public void blockUser(Profile blockUserName, final Context friendFragment) {
         Block block = new Block();
         Date data = new Date();
-        block.setId(getBlocks()+1);
-        block.setCreatedDate(data.toString());
-        block.setSent(userProfile);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-        block.setReceived(getProfileById(blockUserName, friendFragment));
+        block.setCreatedDate(simpleDateFormat.format(data).toString());
+        block.setSent(userProfile);
+        block.setReceived(blockUserName);
 
         Call<ResponseBody> blockUser = service.blockUser(block,"Bearer " + tokenUser.getIdToken());
         blockUser.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(friendFragment.getContext(), "User Blocked!!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(friendFragment, "User Blocked!!!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(friendFragment.getContext(), "Something happened!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(friendFragment, "Something happened!", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -443,14 +446,15 @@ public class ComunicationServer {
         });
     }
 
-    public int getBlocks() {
+    /*public int getBlocks(final String blockUserName, final FriendFragment friendFragment) {
         final Integer[] ret = new Integer[1];
-        Call<Integer> blocksCount = service.getBlocks("Bearer " + tokenUser.getIdToken());
+        final Call<Integer> blocksCount = service.getBlocks("Bearer " + tokenUser.getIdToken());
         blocksCount.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if (response.isSuccessful()) {
                     ret[0] = response.body();
+                    ComunicationServer.getInstance().blockUser(blockUserName,friendFragment,ret);
                 } else {
                 }
             }
@@ -459,7 +463,7 @@ public class ComunicationServer {
             }
         });
         return ret[0];
-    }
+    }*/
 
     public Profile getProfileById(int id, final FriendFragment friendFragment) {
         final Profile[] retProfile = new Profile[1];
