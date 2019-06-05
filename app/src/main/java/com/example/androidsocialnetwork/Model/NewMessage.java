@@ -6,7 +6,7 @@ public class NewMessage {
     private String picture;
     private BlockProfile recipient;
     private String url;
-
+    private String pictureContentType;
     public NewMessage () {
 
     }
@@ -48,5 +48,13 @@ public class NewMessage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getPictureContentType() {
+        return pictureContentType;
+    }
+
+    public void setPictureContentType(String pictureContentType) {
+        this.pictureContentType = pictureContentType;
     }
 }

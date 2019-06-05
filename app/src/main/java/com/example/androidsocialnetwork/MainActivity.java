@@ -76,6 +76,9 @@ public class MainActivity extends FragmentActivity implements Callbacks {
 
         }
         if (oldFragment != null) {
+            if (oldFragment instanceof ChatFragment) {
+                ((ChatFragment)oldFragment).disconnectThread();
+            }
             ft.remove(oldFragment);
         }
         ft.add(R.id.fragment_container,newFragment);

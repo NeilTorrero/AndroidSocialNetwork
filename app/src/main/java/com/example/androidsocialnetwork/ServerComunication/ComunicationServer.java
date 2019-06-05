@@ -695,6 +695,7 @@ public class ComunicationServer {
                                 if (messages_2.size() > 0) {
                                     while (i < messages_2.size()) {
                                         messages.add(messages_2.get(i));
+                                        i++;
                                     }
                                     chatFragment.includeChats(messages);
                                 }
@@ -737,6 +738,34 @@ public class ComunicationServer {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(chatFragment.getContext(),"Success!!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(chatFragment.getContext(),"Failed!!",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(chatFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void sendImages (final ChatFragment chatFragment, final String url, String type, Integer recipient) {
+        NewMessage dm = new NewMessage();
+        //Date data = new Date();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        //dm.setId(idMessage);
+        //dm.setCreatedDate(simpleDateFormat.format(data).toString());
+        dm.setMessage("");
+        dm.setRecipient(new BlockProfile(recipient));
+        dm.setPicture("");
+        dm.setUrl(url);
+        dm.setPictureContentType(type);
+        Call<ResponseBody> sendMessage = service.sendMessage(dm,"Bearer " + tokenUser.getIdToken());
+        sendMessage.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(chatFragment.getContext(),"Success!!",Toast.LENGTH_SHORT).show();
+                    chatFragment.mostrarImagenDespuesEnvio(url);
                 } else {
                     Toast.makeText(chatFragment.getContext(),"Failed!!",Toast.LENGTH_SHORT).show();
                 }

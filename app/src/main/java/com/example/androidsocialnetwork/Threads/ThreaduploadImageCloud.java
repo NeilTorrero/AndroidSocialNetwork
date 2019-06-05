@@ -2,6 +2,7 @@ package com.example.androidsocialnetwork.Threads;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.androidsocialnetwork.Fragments.ChatFragment;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,9 +10,10 @@ import java.util.Map;
 
 public class ThreaduploadImageCloud extends Thread{
     private String result;
-
-    public ThreaduploadImageCloud (String s) {
+    private ChatFragment chatFragment;
+    public ThreaduploadImageCloud (String s, ChatFragment chatFragment) {
         result = s;
+        this.chatFragment = chatFragment;
     }
 
     @Override
@@ -25,6 +27,8 @@ public class ThreaduploadImageCloud extends Thread{
             Cloudinary cloudinary = new Cloudinary(config);
             Map uploadResult  = cloudinary.uploader().upload(result, ObjectUtils.emptyMap());
             String url = uploadResult.get("url").toString();
+            String type  = uploadResult.get("format").toString();
+            chatFragment.sendImage(url,type);
             //We have now the url of the image uploaded
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.example.androidsocialnetwork.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,12 +34,16 @@ import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.DirectMessage;
 import com.example.androidsocialnetwork.R;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
+import com.example.androidsocialnetwork.Threads.ThreadPutImage;
+import com.example.androidsocialnetwork.Threads.ThreadUpdateChat;
 import com.example.androidsocialnetwork.Threads.ThreaduploadImageCloud;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,11 +74,15 @@ public class ChatFragment extends Fragment {
     private LinearLayout relativeLayout;
     private Integer idUser;
     private final int PERMISSIONS_REQUEST = 1;
+    private Activity activity;
+    private boolean hePuestoImage;
+    private ThreadUpdateChat threadUpdateChat;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mCallbacks = (Callbacks) context;
+        activity = getActivity();
     }
 
     @Override
@@ -107,6 +117,9 @@ public class ChatFragment extends Fragment {
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (threadUpdateChat.isAlive()) {
+                    threadUpdateChat.interrupt();
+                }
                 mCallbacks.obtainFriendInformation();
             }
         });
@@ -151,7 +164,6 @@ public class ChatFragment extends Fragment {
 
 
 
-
         return v;
     }
 
@@ -165,6 +177,7 @@ public class ChatFragment extends Fragment {
         userName.setText(nameUser);
         idUser = id;
         ComunicationServer.getInstance().getMessagesYouAndFriend(this,idUser);
+
     }
 
 
@@ -178,6 +191,7 @@ public class ChatFragment extends Fragment {
 
 
     public void includeChats (ArrayList <DirectMessage> messages) {
+        relativeLayout.removeAllViews();
         //Toast.makeText(this.getContext(),"Messages loaded", Toast.LENGTH_SHORT).show();
         Collections.sort(messages, new Comparator<DirectMessage>() {
             @Override
@@ -185,15 +199,43 @@ public class ChatFragment extends Fragment {
                 return o1.compareTo(o2);
             }
         });
-        for (DirectMessage dm: messages) {
-            if (!dm.getSender().getDisplayName().equals(userName)) {
-                includeMyMessages(dm.getMessage());
+        int i = 0;
+        recorrido (0,messages);
+
+    }
+
+    public void recorrido (int i,ArrayList <DirectMessage> messages) {
+        while (i < messages.size()) {
+
+            if (!messages.get(i).getSender().getDisplayName().equals(userName)) {
+                if (!messages.get(i).getUrl().equals("")) {
+                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true);
+                    hePuestoImage = false;
+                    threadPutImage.start();
+                    break;
+                }
+                else {
+                    includeMyMessages(messages.get(i).getMessage());
+                }
             }
             else {
-                includeMessageFriend(dm.getMessage());
+                if (!messages.get(i).getUrl().equals("")) {
+                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true);
+                    hePuestoImage =false;
+                    threadPutImage.start();
+                    break;
+                }
+                else {
+                    includeMessageFriend(messages.get(i).getMessage());
+                }
             }
-        }
+            i++;
 
+        }
+        if (i == messages.size()) {
+            threadUpdateChat = new ThreadUpdateChat(this, idUser);
+            threadUpdateChat.start();
+        }
     }
 
     private void includeMessageFriend (String message) {
@@ -215,7 +257,7 @@ public class ChatFragment extends Fragment {
     private void includeMyMessages (String message) {
         ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView tv = new TextView(this.getContext());
+        TextView tv = new TextView(getContext());
         tv.setLayoutParams(lparams);
         tv.setBackgroundResource(R.drawable.outgoing_message_bubble);
         tv.setText(message);
@@ -252,7 +294,7 @@ public class ChatFragment extends Fragment {
             }
 
 
-            ThreaduploadImageCloud threaduploadImageCloud = new ThreaduploadImageCloud(result);
+            ThreaduploadImageCloud threaduploadImageCloud = new ThreaduploadImageCloud(result,this);
 
             threaduploadImageCloud.start();
 
@@ -260,16 +302,58 @@ public class ChatFragment extends Fragment {
             //extraemos el drawable en un bitmap
             //Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
         }
-        else {
-            if (resultCode == RESULT_CANCELED) {
-            }
-        }
     }
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
     }
 
+    public void sendImage (String url,String type) {
+        ComunicationServer.getInstance().sendImages (this,url,type,idUser);
+    }
+
+    public void loadImage (Bitmap bmp,ArrayList <DirectMessage> messages,int i,boolean b) {
+        ImageView tv = new ImageView(getContext());
+        ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tv.setLayoutParams(lparams);
+        tv.setBackgroundResource(R.drawable.outgoing_message_bubble);
+        tv.setImageBitmap(bmp);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.gravity = Gravity.RIGHT;
+        tv.setLayoutParams(params);
+        tv.getLayoutParams().height =300;
+        tv.getLayoutParams().width = 300;
+
+        tv.setPadding(20,30,55,30);
+        relativeLayout.addView(tv);
+        if (b) {
+            recorrido(i, messages);
+        }
+    }
+
+
+    public boolean isHePuestoImage() {
+        return hePuestoImage;
+    }
+
+    public void setHePuestoImage(boolean hePuestoImage) {
+        this.hePuestoImage = hePuestoImage;
+    }
+
+    public void mostrarImagenDespuesEnvio (String url) {
+        ThreadPutImage threadPutImage = new ThreadPutImage(url,this,activity,0,new ArrayList<DirectMessage>(),false);
+        threadPutImage.start();
+    }
+    public void disconnectThread() {
+        if (threadUpdateChat != null) {
+            if (threadUpdateChat.isAlive()) {
+                threadUpdateChat.interrupt();
+            }
+        }
+        else {
+            Toast.makeText(getContext(),"Estava en NULL",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

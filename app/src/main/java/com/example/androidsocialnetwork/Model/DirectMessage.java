@@ -93,6 +93,8 @@ public class DirectMessage {
     }
 
 
+
+
     public int compareTo(DirectMessage o) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
@@ -104,4 +106,6 @@ public class DirectMessage {
         }
         return 0;
     }
+
+
 }
