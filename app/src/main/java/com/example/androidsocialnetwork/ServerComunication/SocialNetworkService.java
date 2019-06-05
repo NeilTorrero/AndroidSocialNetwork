@@ -66,7 +66,7 @@ public interface SocialNetworkService {
     Call<ResponseBody> changeInvitationState(@Path("id") int id, @Path("state") boolean state ,@Header("Authorization") String authToken);
 
     @GET("accepted-invites")
-    Call<Invitation[]> getAcceptedInvites(@Header("Authorization") String authToken);
+    Call<Invitation[]> getAcceptedInvites(@Query("size") Integer size ,@Header("Authorization") String authToken);
 
     @GET("profiles")
     Call<Profile[]> getAllProfiles(@Header("Authorization") String authToken);
