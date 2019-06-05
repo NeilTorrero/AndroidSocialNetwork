@@ -779,7 +779,7 @@ public class ComunicationServer {
 
     public void getAllAcceptedInvites (final ChatListFragment chatListFragment) {
         final ArrayList<Invitation> chats = new ArrayList<>();
-        Call<Invitation[]> getAllInvites = service.getAcceptedInvites("Bearer " + tokenUser.getIdToken());
+        Call<Invitation[]> getAllInvites = service.getAcceptedInvites(500,"Bearer " + tokenUser.getIdToken());
         getAllInvites.enqueue(new Callback<Invitation[]>() {
             @Override
             public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
