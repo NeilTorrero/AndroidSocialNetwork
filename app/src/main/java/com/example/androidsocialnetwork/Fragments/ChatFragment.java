@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,21 +14,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Base64;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,12 +30,13 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.DirectMessage;
-import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.R;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
+import com.example.androidsocialnetwork.Threads.ThreaduploadImageCloud;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +47,7 @@ import java.util.Map;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -70,7 +67,6 @@ public class ChatFragment extends Fragment {
     private String realusername;
     private LinearLayout relativeLayout;
     private Integer idUser;
-    private File image;
     private final int PERMISSIONS_REQUEST = 1;
 
     @Override
@@ -126,7 +122,6 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                gallery.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 startActivityForResult(gallery, 79);
             }
         });
@@ -241,20 +236,33 @@ public class ChatFragment extends Fragment {
             Uri imageUri = data.getData();
             //lastUri = imageUri.toString();
             //profilePhoto.setImageURI(imageUri);
-            try {
-                Map config = new HashMap();
-                config.put("cloud_name", "di9vxufjy");
-                config.put("api_key", "239948647138554");
-                config.put("api_secret", "xmfnQH8n_TKcAKhlp2nc2pH3GoE");
 
-                Cloudinary cloudinary = new Cloudinary(config);
-                cloudinary.uploader().upload(image.getAbsolutePath(), ObjectUtils.emptyMap());
-            } catch (IOException e) {
-                e.printStackTrace();
+
+
+            String[] proj = { MediaStore.Images.Media.DATA };
+
+            String result = null;
+            Cursor cursor = getContext().getContentResolver().query(imageUri, proj, null, null, null );
+            if(cursor != null){
+                if (cursor.moveToFirst()) {
+                    int column_index = cursor.getColumnIndexOrThrow(proj[0]);
+                    result = cursor.getString( column_index );
+                }
+                cursor.close();
             }
+
+
+            ThreaduploadImageCloud threaduploadImageCloud = new ThreaduploadImageCloud(result);
+
+            threaduploadImageCloud.start();
+
 
             //extraemos el drawable en un bitmap
             //Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
+        }
+        else {
+            if (resultCode == RESULT_CANCELED) {
+            }
         }
     }
 
@@ -262,33 +270,6 @@ public class ChatFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-                    try {
-                        image = File.createTempFile(
-                                "photo",  /* prefix */
-                                ".jpg",         /* suffix */
-                                storageDir/* directory */
-                        );
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                } else {
-
-                    //Pues vaya no se cargaran fotos
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
 }
