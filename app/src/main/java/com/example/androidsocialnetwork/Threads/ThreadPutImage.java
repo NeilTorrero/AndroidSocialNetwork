@@ -26,13 +26,15 @@ public class ThreadPutImage extends Thread{
     private Integer contador;
     private ArrayList <DirectMessage> messages;
     private boolean b;
-    public  ThreadPutImage (String url, ChatFragment chatFragment, Activity activity, Integer contador, ArrayList <DirectMessage> messages,boolean b) {
+    private boolean sender;
+    public  ThreadPutImage (String url, ChatFragment chatFragment, Activity activity, Integer contador, ArrayList <DirectMessage> messages,boolean b, boolean sender) {
         this.url_2 = url;
         this.chatFragment = chatFragment;
         this.activity = activity;
         this.contador =contador;
         this.messages = messages;
         this.b = b;
+        this.sender = sender;
     }
 
     public void run () {
@@ -43,7 +45,7 @@ public class ThreadPutImage extends Thread{
             activity.runOnUiThread(new Runnable() {
                                        @Override
                                        public void run() {
-                                           chatFragment.loadImage(bmp,messages,contador,b);
+                                           chatFragment.loadImage(bmp,messages,contador,b,sender);
                                        }
                                    }
             );

@@ -181,4 +181,5 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         chatFragment.changeInformation(body.getDisplayName(),body.getPicture(),body.getId());
         chatFragment.setRealusername (u.getLogin());
     }
+
 }

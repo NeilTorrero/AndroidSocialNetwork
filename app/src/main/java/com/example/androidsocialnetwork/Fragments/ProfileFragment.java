@@ -295,27 +295,33 @@ public class ProfileFragment extends Fragment {
 
         username.setText(myProfile.getDisplayName());
 
-        if (myProfile.getUnitSystem().equals("METRIC")) {
-            unitHeight.setText("cm");
-            unitWeight.setText("kg");
-        }
-        else {
-            unitHeight.setText("ft");
-            unitWeight.setText("lb");
-        }
-        if (myProfile.getHeight() == 0) {
+
+        if (myProfile.getHeight() == null || myProfile.getHeight() == 0) {
             hideValue(2);
         }
         else {
+            if (myProfile.getUnitSystem().equals("METRIC")) {
+                unitHeight.setText("cm");
+            }
+            else {
+                unitHeight.setText("ft");
+
+            }
             userHeight.setText(""+myProfile.getHeight());
         }
-        if (myProfile.getWeight() == 0) {
+        if (myProfile.getWeight() == null || myProfile.getWeight() == 0) {
             hideValue(3);
         }
         else {
+            if (myProfile.getUnitSystem().equals("METRIC")) {
+                unitWeight.setText("kg");
+            }
+            else {
+                unitWeight.setText("lb");
+            }
             userWeight.setText("" + myProfile.getWeight());
         }
-        if (!myProfile.getShowAge()) {
+        if (myProfile.getShowAge() == null || !myProfile.getShowAge()) {
             hideValue(0);
             date = myProfile.getBirthDate();
         }

@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +71,7 @@ public class ChatFragment extends Fragment {
     private ImageView emojiButton;
     private EmojiconEditText chatText;
     private ImageView sendButton;
+    private ScrollView scroll;
     private Callbacks mCallbacks;
     private String realusername;
     private LinearLayout relativeLayout;
@@ -77,7 +80,7 @@ public class ChatFragment extends Fragment {
     private Activity activity;
     private boolean hePuestoImage;
     private ThreadUpdateChat threadUpdateChat;
-
+    private String nameUser;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -108,6 +111,9 @@ public class ChatFragment extends Fragment {
                 mCallbacks.returnToMainMenu();
             }
         });
+
+        scroll = v.findViewById(R.id.scroll_view_chat);
+
 
         profilePic = v.findViewById(R.id.profile_pic);
 
@@ -177,7 +183,8 @@ public class ChatFragment extends Fragment {
         userName.setText(nameUser);
         idUser = id;
         ComunicationServer.getInstance().getMessagesYouAndFriend(this,idUser);
-
+        scroll.setScrollY(View.FOCUS_DOWN);
+        this.nameUser = nameUser;
     }
 
 
@@ -207,9 +214,9 @@ public class ChatFragment extends Fragment {
     public void recorrido (int i,ArrayList <DirectMessage> messages) {
         while (i < messages.size()) {
 
-            if (!messages.get(i).getSender().getDisplayName().equals(userName)) {
+            if (!messages.get(i).getSender().getDisplayName().equals(nameUser)) {
                 if (!messages.get(i).getUrl().equals("")) {
-                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true);
+                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true, true);
                     hePuestoImage = false;
                     threadPutImage.start();
                     break;
@@ -220,7 +227,7 @@ public class ChatFragment extends Fragment {
             }
             else {
                 if (!messages.get(i).getUrl().equals("")) {
-                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true);
+                    ThreadPutImage threadPutImage = new ThreadPutImage(messages.get(i).getUrl(),this,activity,i+1,messages,true,false);
                     hePuestoImage =false;
                     threadPutImage.start();
                     break;
@@ -248,10 +255,9 @@ public class ChatFragment extends Fragment {
         tv.setTextColor(Color.WHITE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        params.gravity = Gravity.RIGHT;
         tv.setLayoutParams(params);
 
-        tv.setPadding(20,30,55,30);
+        tv.setPadding(55,30,20,30);
         relativeLayout.addView(tv);
     }
     private void includeMyMessages (String message) {
@@ -313,15 +319,22 @@ public class ChatFragment extends Fragment {
         ComunicationServer.getInstance().sendImages (this,url,type,idUser);
     }
 
-    public void loadImage (Bitmap bmp,ArrayList <DirectMessage> messages,int i,boolean b) {
+    public void loadImage (Bitmap bmp,ArrayList <DirectMessage> messages,int i,boolean b, boolean sender) {
         ImageView tv = new ImageView(getContext());
         ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(lparams);
-        tv.setBackgroundResource(R.drawable.outgoing_message_bubble);
+        if (sender) {
+            tv.setBackgroundResource(R.drawable.outgoing_message_bubble);
+        }
+        else {
+            tv.setBackgroundResource(R.drawable.incoming_message_bubble);
+        }
         tv.setImageBitmap(bmp);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        params.gravity = Gravity.RIGHT;
+        if (sender) {
+            params.gravity = Gravity.RIGHT;
+        }
         tv.setLayoutParams(params);
         tv.getLayoutParams().height =300;
         tv.getLayoutParams().width = 300;
@@ -343,7 +356,7 @@ public class ChatFragment extends Fragment {
     }
 
     public void mostrarImagenDespuesEnvio (String url) {
-        ThreadPutImage threadPutImage = new ThreadPutImage(url,this,activity,0,new ArrayList<DirectMessage>(),false);
+        ThreadPutImage threadPutImage = new ThreadPutImage(url,this,activity,0,new ArrayList<DirectMessage>(),false,true);
         threadPutImage.start();
     }
     public void disconnectThread() {
