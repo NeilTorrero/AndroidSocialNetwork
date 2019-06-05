@@ -230,7 +230,7 @@ public class ComunicationServer {
         });
     }
 
-    public void getAllChatRooms(final ChatListFragment chatListFragment) {
+    /*public void getAllChatRooms(final ChatListFragment chatListFragment) {
         final ArrayList<Chatroom> chats = new ArrayList<>();
         Call<Chatroom[]> getAllChatRooms = service.getAllChatRooms("Bearer " + tokenUser.getIdToken());
         getAllChatRooms.enqueue(new Callback<Chatroom[]>() {
@@ -249,7 +249,7 @@ public class ComunicationServer {
                 Toast.makeText(chatListFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
     public void getPendingInvites(final UserSolicitudes userSolicitudes) {
         Call<Invitation[]> getPendingInvites = service.getPendingInvites("Bearer " + tokenUser.getIdToken());
@@ -773,6 +773,27 @@ public class ComunicationServer {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(chatFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getAllAcceptedInvites (final ChatListFragment chatListFragment) {
+        final ArrayList<Invitation> chats = new ArrayList<>();
+        Call<Invitation[]> getAllInvites = service.getAcceptedInvites("Bearer " + tokenUser.getIdToken());
+        getAllInvites.enqueue(new Callback<Invitation[]>() {
+            @Override
+            public void onResponse(Call<Invitation[]> call, Response<Invitation[]> response) {
+                if (response.isSuccessful()) {
+                    chats.addAll(Arrays.asList(response.body()));
+                    chatListFragment.setAllChatRooms(chats);
+                    Toast.makeText(chatListFragment.getContext(),"Success!!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(chatListFragment.getContext(),"Failed!!",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Invitation[]> call, Throwable t) {
+                Toast.makeText(chatListFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }
