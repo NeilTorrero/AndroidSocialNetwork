@@ -71,6 +71,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/galleryButton"
+                android:layout_width="38dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/emoji_1f5bc" />
             <ImageView
                 android:id="@+id/emoji_btn"
                 android:layout_width="40dp"

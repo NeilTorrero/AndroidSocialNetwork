@@ -11,10 +11,12 @@ import com.example.androidsocialnetwork.Fragments.UserSolicitudes;
 import com.example.androidsocialnetwork.LoginActivity;
 import com.example.androidsocialnetwork.MainActivity;
 import com.example.androidsocialnetwork.Model.Block;
+import com.example.androidsocialnetwork.Model.BlockProfile;
 import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.DirectMessage;
 import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
+import com.example.androidsocialnetwork.Model.NewMessage;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
@@ -293,10 +295,6 @@ public class ComunicationServer {
         });
     }
 
-    // No se segur si es el chatFragment qui l'utilitzara o no
-    public void sendMessage(String messageIn, String receiver, String sender, final ChatFragment fragment) {
-        Chatroom message = new Chatroom();
-    }
 
     public void getUserById(String userName, final FriendFragment friendFragment) {
         Call<UserDTO> getUserId = service.getUserById(userName,"Bearer " + tokenUser.getIdToken());
@@ -719,6 +717,33 @@ public class ComunicationServer {
             @Override
             public void onFailure(Call<DirectMessage[]> call, Throwable t) {
                 Toast.makeText(chatFragment.getContext(), "2!!! " + t.getMessage() , Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void sendMessage (final ChatFragment chatFragment,String message, Integer recipient) {
+        NewMessage dm = new NewMessage();
+        //Date data = new Date();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        //dm.setId(idMessage);
+        //dm.setCreatedDate(simpleDateFormat.format(data).toString());
+        dm.setMessage(message);
+        dm.setRecipient(new BlockProfile(recipient));
+        dm.setPicture("");
+        dm.setUrl("");
+        Call<ResponseBody> sendMessage = service.sendMessage(dm,"Bearer " + tokenUser.getIdToken());
+        sendMessage.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(chatFragment.getContext(),"Success!!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(chatFragment.getContext(),"Failed!!",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(chatFragment.getContext(), "Fatal Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }

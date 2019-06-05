@@ -14,6 +14,9 @@ public class DirectMessage {
     private Profile sender;
     private String url;
 
+    public DirectMessage () {
+    }
+
     public DirectMessage(String createdDate, int id, String message, String picture, String pictureContentType, Profile recipient, Profile sender, String url) {
         this.createdDate = createdDate;
         this.id = id;

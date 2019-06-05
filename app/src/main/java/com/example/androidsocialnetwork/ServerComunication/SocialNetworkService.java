@@ -5,6 +5,7 @@ import com.example.androidsocialnetwork.Model.Chatroom;
 import com.example.androidsocialnetwork.Model.DirectMessage;
 import com.example.androidsocialnetwork.Model.Gender;
 import com.example.androidsocialnetwork.Model.Invitation;
+import com.example.androidsocialnetwork.Model.NewMessage;
 import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.Model.TokenUser;
 import com.example.androidsocialnetwork.Model.User;
@@ -97,7 +98,7 @@ public interface SocialNetworkService {
 
 
     @POST("direct-messages")
-    Call<ResponseBody> sendMessage(@Body DirectMessage message, @Header("Authorization") String authToken);
+    Call<ResponseBody> sendMessage(@Body NewMessage message, @Header("Authorization") String authToken);
 
 
 

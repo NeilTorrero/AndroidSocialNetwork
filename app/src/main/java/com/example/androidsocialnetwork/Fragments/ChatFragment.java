@@ -1,10 +1,19 @@
 package com.example.androidsocialnetwork.Fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
 import android.util.Base64;
@@ -22,17 +31,27 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
 import com.example.androidsocialnetwork.Model.DirectMessage;
+import com.example.androidsocialnetwork.Model.Profile;
 import com.example.androidsocialnetwork.R;
 import com.example.androidsocialnetwork.ServerComunication.ComunicationServer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class ChatFragment extends Fragment {
@@ -43,6 +62,7 @@ public class ChatFragment extends Fragment {
     private ImageView infoButton;
     private ImageView settingsButton;
     private TextView chatView;
+    private ImageView galleryButton;
     private ImageView emojiButton;
     private EmojiconEditText chatText;
     private ImageView sendButton;
@@ -50,7 +70,8 @@ public class ChatFragment extends Fragment {
     private String realusername;
     private LinearLayout relativeLayout;
     private Integer idUser;
-
+    private File image;
+    private final int PERMISSIONS_REQUEST = 1;
 
     @Override
     public void onAttach(Context context) {
@@ -69,6 +90,7 @@ public class ChatFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.chat_layout, container, false);
@@ -93,14 +115,29 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        final Context context = this.getContext();
+
+
+        final ChatFragment chatFragment = this;
 
         chatText = v.findViewById(R.id.emojicon_edit_text);
+
+        galleryButton = v.findViewById(R.id.galleryButton);
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                gallery.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+                startActivityForResult(gallery, 79);
+            }
+        });
+
+
         sendButton = v.findViewById(R.id.submit_btn);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 includeMyMessages(chatText.getText().toString());
+                ComunicationServer.getInstance().sendMessage(chatFragment,chatText.getText().toString(),idUser);
                 chatText.setText("");
             }
         });
@@ -111,6 +148,11 @@ public class ChatFragment extends Fragment {
         View root = (View) v.findViewById(R.id.root_view);
         EmojIconActions emojIconActions = new EmojIconActions(getContext(),root,emojiconEditText,emoticono,"#F44336","#e8e8e8","#f4f4f4");
         emojIconActions.ShowEmojIcon();
+
+
+
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                PERMISSIONS_REQUEST);
 
 
 
@@ -156,6 +198,7 @@ public class ChatFragment extends Fragment {
                 includeMessageFriend(dm.getMessage());
             }
         }
+
     }
 
     private void includeMessageFriend (String message) {
@@ -192,5 +235,60 @@ public class ChatFragment extends Fragment {
         relativeLayout.addView(tv);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == 79){
+            Uri imageUri = data.getData();
+            //lastUri = imageUri.toString();
+            //profilePhoto.setImageURI(imageUri);
+            try {
+                Map config = new HashMap();
+                config.put("cloud_name", "di9vxufjy");
+                config.put("api_key", "239948647138554");
+                config.put("api_secret", "xmfnQH8n_TKcAKhlp2nc2pH3GoE");
+
+                Cloudinary cloudinary = new Cloudinary(config);
+                cloudinary.uploader().upload(image.getAbsolutePath(), ObjectUtils.emptyMap());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //extraemos el drawable en un bitmap
+            //Glide.with(getContext()).load(imageUri).apply(RequestOptions.circleCropTransform()).into(profilePhoto);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+                    try {
+                        image = File.createTempFile(
+                                "photo",  /* prefix */
+                                ".jpg",         /* suffix */
+                                storageDir/* directory */
+                        );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } else {
+
+                    //Pues vaya no se cargaran fotos
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
 
 }
