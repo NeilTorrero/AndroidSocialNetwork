@@ -316,7 +316,7 @@ public class ComunicationServer {
         });
     }
 
-    public ArrayList<User> inviteRandomUser(final MainActivity mainActivity, final Profile myProfile) {
+    public ArrayList<User> inviteRandomUser(final MainActivity mainActivity, final Profile myProfile, final boolean random, final int id) {
         final ArrayList<User>[] users = new ArrayList[]{new ArrayList<>()};
         Call<User[]> getAllUsers = service.getAllUsers("Bearer " + tokenUser.getIdToken());
         getAllUsers.enqueue(new Callback<User[]>() {
@@ -324,7 +324,12 @@ public class ComunicationServer {
             public void onResponse(Call<User[]> call, Response<User[]> response) {
                 if (response.isSuccessful()) {
                     users[0] = new ArrayList<>(Arrays.asList(response.body()));
-                    inviteUser(mainActivity,users[0],myProfile);
+                    if (random) {
+                        inviteUser(mainActivity, users[0], myProfile);
+                    }
+                    else {
+                        inviteSpecifiedUser(mainActivity,users[0],myProfile,id);
+                    }
                 }
 
             }
@@ -377,7 +382,47 @@ public class ComunicationServer {
             }
         });
     }
+    public void inviteSpecifiedUser(final MainActivity mainActivity, final ArrayList <User> users, final Profile myProfile, final int id) {
+        //ArrayList<User> users = getAllUsers();
 
+
+        User auxUser= null;
+        int i = 0;
+        while (i < users.size()) {
+            if (users.get(i).getId() == id) {
+                auxUser = users.get(i);
+            }
+            i++;
+        }
+        Call<Profile> getUserById = service.getUserProfileById(auxUser.getId(),"Bearer " + tokenUser.getIdToken());
+        getUserById.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.isSuccessful()) {
+
+                    final Profile p = response.body();
+                    User auxUser_2 = null;
+                    int i = 0;
+                    while (i < users.size()) {
+                        if (users.get(i).getId() == id) {
+                            auxUser_2 = users.get(i);
+                        }
+                        i++;
+                    }
+                    Toast.makeText(mainActivity.getBaseContext(), "Send to the specific user the invitation to connect!!", Toast.LENGTH_LONG).show();
+                    mainActivity.changeChatInformation(auxUser_2,p);
+                    // profileFragment.updateProfile(response.body());
+
+
+
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+            }
+        });
+    }
 
     public void gotoPreviousUser (final MainActivity mainActivity, final String userName) {
         //ArrayList<User> users = getAllUsers();

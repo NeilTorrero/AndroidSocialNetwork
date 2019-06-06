@@ -39,6 +39,9 @@ public class ChatAdapter extends ArrayAdapter<Invitation> {
             Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             Glide.with(getContext()).asBitmap().load(decodedImage).apply(RequestOptions.circleCropTransform()).override(220, 220).into(imageView);
         }
+        else {
+            imageView.setImageResource(R.drawable.group_torrente);
+        }
         TextView tv = converterView.findViewById(R.id.chat_name);
         tv.setText(chat.getReceived().getDisplayName());
         TextView tv2 = converterView.findViewById(R.id.last_message);

@@ -81,6 +81,7 @@ public class ChatFragment extends Fragment {
     private boolean hePuestoImage;
     private ThreadUpdateChat threadUpdateChat;
     private String nameUser;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -116,6 +117,7 @@ public class ChatFragment extends Fragment {
 
 
         profilePic = v.findViewById(R.id.profile_pic);
+
 
         userName = v.findViewById(R.id.userName);
 

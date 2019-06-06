@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.androidsocialnetwork.Callbacks.Callbacks;
@@ -31,17 +33,20 @@ import com.example.androidsocialnetwork.ThreadNotifications.ThreadNotification;
 public class MainActivity extends FragmentActivity implements Callbacks {
     private TextView mainText;
     private Profile myProfile;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Thread thread = new ThreadNotification(this);
         thread.start();
+        progressBar = findViewById(R.id.progress_bar_n);
+        progressBar.setVisibility(View.VISIBLE);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
             fragment = new ChatListFragment();
+            ((ChatListFragment) fragment).passActivity(this);
             fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
         Fragment fragmentMenuBar = fm.findFragmentById(R.id.fragment_menu_bar);
@@ -61,15 +66,19 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         Fragment newFragment = null;
         switch (option){
             case 0:
+                progressBar.setVisibility(View.GONE);
                 newFragment = new ChatFragment();
                 mainText.setText("Random Chat");
-                ComunicationServer.getInstance().inviteRandomUser(this,myProfile);
+                ComunicationServer.getInstance().inviteRandomUser(this,myProfile,true,0);
                 break;
             case 1:
+                progressBar.setVisibility(View.VISIBLE);
                 newFragment = new ChatListFragment();
+                ((ChatListFragment) newFragment).passActivity(this);
                 mainText.setText("Chats");
                 break;
             case 2:
+                progressBar.setVisibility(View.GONE);
                 newFragment = new ProfileFragment();
                 mainText.setText("My Profile");
                 break;
@@ -181,5 +190,31 @@ public class MainActivity extends FragmentActivity implements Callbacks {
         chatFragment.changeInformation(body.getDisplayName(),body.getPicture(),body.getId());
         chatFragment.setRealusername (u.getLogin());
     }
+    public void disableProgressBar () {
+        progressBar.setVisibility(View.GONE);
+    }
+
+
+    public void getNewFriendChat (Profile profileFriend) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment oldFragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment newFragment = null;
+        progressBar.setVisibility(View.GONE);
+        newFragment = new ChatFragment();
+        mainText.setText("Friend Chat");
+        ComunicationServer.getInstance().inviteRandomUser(this,myProfile,false,profileFriend.getId());
+        if (oldFragment != null) {
+            if (oldFragment instanceof ChatFragment) {
+                ((ChatFragment)oldFragment).disconnectThread();
+            }
+            ft.remove(oldFragment);
+        }
+        ft.add(R.id.fragment_container,newFragment);
+        ft.commit();
+
+
+    }
+
 
 }
